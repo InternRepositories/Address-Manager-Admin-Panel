@@ -1,0 +1,74 @@
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>Users</c-card-header>
+      <c-card-body>
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          align="middle"
+          cTable
+          class="mb-0 border"
+        >
+          <thead cTableColor="light">
+            <tr>
+              <th class="text-center">
+                <svg cIcon name="cilPeople"></svg>
+              </th>
+              <th>Name</th>
+              <th>Mobile Number</th>
+              <th>Home Number</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <td class="text-center">
+                <c-avatar
+                  size="md"
+                  src="{{ user.profile_image }}"
+                  status="{{ user.status ? true : false }}"
+                ></c-avatar>
+              </td>
+              <td>
+                <div>{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="small text-medium-emphasis text-nowrap">
+                  <span>
+                    {{ user.email }}
+                  </span>
+                </div>
+              </td>
+              <td class="text-left">{{ user.mobile_number }}</td>
+              <td class="text-left">{{ user.home_number }}</td>
+              <td class="text-left">{{ user.role }}</td>
+              <td class="text-left">{{ user.status }}</td>
+              <td class="text-center d-flex align-items-center">
+                <div class="d-flex justify-content-evenly align-items-center">
+                  <p class="">
+                    <svg
+                      cIcon
+                      name="cilPen"
+                      size="xl"
+                      title="Numbered List Icon"
+                    ></svg>
+                  </p>
+                  <p class="">
+                    <svg
+                      cIcon
+                      name="cilTrash"
+                      size="xl"
+                      title="Numbered List Icon"
+                    ></svg>
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
