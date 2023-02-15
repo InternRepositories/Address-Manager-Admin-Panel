@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    recaptcha: {
+        siteKey: '6Ld-MYAkAAAAAMCDBBblEUy2_Yp_A487GDuPitXt',
+    },
 };
 
 /*
@@ -13,4 +16,5 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
+
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
