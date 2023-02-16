@@ -6,11 +6,11 @@
       </div>
       <h2>Login</h2>
       <form action="" *ngIf="loginForm" [formGroup]="loginForm" (submit)="onSubmit()">
-        <mat-form-field hideRequiredMarker class="form-field" appearance="outline">
+        <mat-form-field style=" padding-top: 5px" hideRequiredMarker class="form-field" appearance="outline">
           <mat-label>Email</mat-label>
-          <input type="email" formControlName="email" name="email" matInput placeholder="Placeholder">
+          <input type="email" style="padding-top: 10px" formControlName="email" name="email" matInput>
           <!-- <mat-hint>Enter Email Address</mat-hint> -->
-          <mat-error *ngIf=" loginForm.get('email')?.touched">
+          <mat-error class="error" *ngIf=" loginForm.get('email')?.touched || submitted">
             <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
               Please Enter your Email Address</mat-error>
             <mat-error *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
@@ -18,25 +18,25 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field hideRequiredMarker appearance="outline" class="form-field">
+        <mat-form-field style=" padding-top: 5px" hideRequiredMarker appearance="outline" class="form-field">
           <mat-label>Password</mat-label>
-          <input formControlName="password" class="input" matInput placeholder="Placeholder">
-          <mat-error *ngIf="loginForm.get('password')?.touched || submitted">
+          <input formControlName="password" style="padding-top: 10px" class="input" type="password" matInput>
+          <mat-error class="error" *ngIf="loginForm.get('password')?.touched || submitted">
             <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
           </mat-error>
         </mat-form-field>
-        <button [disabled]="!captchaResolved" class="submit-btn bg-amber text-white p-3">Login</button>
-        <re-captcha formControlName="recaptchaReactive" siteKey="6LflY4AkAAAAAAvaLdJjmsALUBvp0pDT6peWYtM0">
+        <button class="submit-btn bg-amber text-white p-3">Login</button>
+        <re-captcha formControlName="recaptchaReactive" (resolved)="checkCaptcha($event)" siteKey="6LflY4AkAAAAAAvaLdJjmsALUBvp0pDT6peWYtM0">
         </re-captcha>
         <a class="forget" href="">Forget Password?</a>
 
       </form>
     </div>
-    <div class="address-con shadow-md">
+    <div class="address-con">
       <div class="blueline"></div>
       <div class="address-book">
         <h2>Address Book</h2>
-        <div class="img-background mx-auto mb-5">
+        <div class="img-background">
 
         </div>
         <p>Locate addresses you added with ease with our address book</p>

@@ -23,8 +23,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
+import { AuthInterceptor } from './interceptors/auth.interceptor'
 
 // Import containers
 import {
@@ -67,7 +68,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent,AdminLoginComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, AdminLoginComponent, ...APP_CONTAINERS],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -100,7 +101,8 @@ const APP_CONTAINERS = [
     MatFormFieldModule,
     FormsModule,
     RecaptchaFormsModule,
-    RecaptchaModule
+    RecaptchaModule,
+    HttpClientModule
   ],
   providers: [
     {
@@ -117,9 +119,13 @@ const APP_CONTAINERS = [
         siteKey: environment.recaptcha.siteKey,
       } as RecaptchaSettings,
     },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
+
+    },
     IconSetService,
     Title,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
