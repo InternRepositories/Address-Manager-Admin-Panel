@@ -1,6 +1,28 @@
 <c-row>
+  <c-row>
+    <c-input-group class="mb-3">
+      <input
+        [(ngModel)]="search"
+        aria-label="Text input with dropdown button"
+        cFormControl
+      />
+      <c-dropdown alignment="end">
+        <button cButton cDropdownToggle color="secondary" variant="outline">
+          Filter
+        </button>
+        <div cDropdownMenu>
+          <a [routerLink] cDropdownItem>Action</a>
+          <a [routerLink] cDropdownItem>Another action</a>
+          <a [routerLink] cDropdownItem>Something else here</a>
+          <hr cDropdownDivider />
+          <a [routerLink] cDropdownItem>Separated link</a>
+        </div>
+      </c-dropdown>
+    </c-input-group>
+  </c-row>
   <c-col xs>
-    <c-card class="mb-4">
+    <div></div>
+    <c-card class="mb-4" *ngIf="users.length >= 1">
       <c-card-header>Users</c-card-header>
       <c-card-body>
         <table
@@ -21,11 +43,11 @@
               <th>Home Number</th>
               <th>Role</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of users; index as i">
+            <tr *ngFor="let user of users | searchFilter : search; index as i">
               <td class="text-center">
                 <c-avatar
                   size="md"
@@ -45,17 +67,20 @@
               <td class="text-left">{{ user.home_number }}</td>
               <td class="text-left">{{ user.role }}</td>
               <td class="text-left">{{ user.status }}</td>
-              <td class="text-center d-flex align-items-center">
-                <div class="d-flex justify-content-evenly align-items-center">
-                  <p class="">
+              <td class="text-center">
+                <div class="d-flex justify-content-around align-items-center">
+                  <a
+                    class="mb-0 action-btn"
+                    [routerLink]="['/users', 'update', user._id]"
+                  >
                     <svg
                       cIcon
                       name="cilPen"
                       size="xl"
                       title="Numbered List Icon"
                     ></svg>
-                  </p>
-                  <p class="">
+                  </a>
+                  <p class="mb-0 action-btn">
                     <svg
                       cIcon
                       name="cilTrash"

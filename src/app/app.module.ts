@@ -20,11 +20,15 @@ import { AppComponent } from './app.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import {
+  RECAPTCHA_SETTINGS,
+  RecaptchaFormsModule,
+  RecaptchaModule,
+  RecaptchaSettings,
+} from 'ng-recaptcha';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
-
 
 // Import containers
 import {
@@ -67,7 +71,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent,AdminLoginComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, AdminLoginComponent, ...APP_CONTAINERS],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -100,7 +104,7 @@ const APP_CONTAINERS = [
     MatFormFieldModule,
     FormsModule,
     RecaptchaFormsModule,
-    RecaptchaModule
+    RecaptchaModule,
   ],
   providers: [
     {
@@ -120,6 +124,6 @@ const APP_CONTAINERS = [
     IconSetService,
     Title,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
