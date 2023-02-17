@@ -1,0 +1,39 @@
+<c-row>
+  <c-col xs>
+    <c-card class=" mb-4" style="width: 45rem;">
+      <c-card-header>Address Form</c-card-header>
+      <c-card-body>
+        <form cForm>
+          <div class="field-con">
+            <div class="form-field" style="margin-right: 2rem;">
+              <label cLabel for="">Address Line 1</label>
+              <input cFormControl name="Address_1" placeholder="123 Riverdale Ave" type="text" />
+            </div>
+            <div class="form-field">
+              <label cLabel for="">Address Line 2</label>
+              <input cFormControl name="Address_2" placeholder="Kingston 12" type="text" />
+            </div>
+          </div>
+          <div>
+            <label cLabel for="">Select Parish</label>
+            <select class="parish-select" aria-label="Default select example" name="parish" cSelect>
+              <!-- <option *ngFor="let parish of parishes">{{parish}}</option> -->
+            </select>
+          </div>
+          <div>
+            <label cLabel for="">Select City</label>
+            <select class="parish-select" aria-label="Default select example" name="city" cSelect>
+              <!-- <option *ngFor="let city of cities">{{city}}</option> -->
+            </select>
+          </div>
+
+          <div class="button-flex">
+            <button type="submit" routerLink="/address/view" class="mb-2 cancel-btn">Cancel</button>
+            <button type="submit" routerLink="/" class="mb-2 add-btn">update Address</button>
+          </div>
+        </form>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

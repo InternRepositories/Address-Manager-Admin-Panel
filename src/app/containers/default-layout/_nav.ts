@@ -28,11 +28,12 @@ export const navItems: INavData[] = [
   { title: true, name: 'Address Management' },
   {
     name: 'Address',
-    url: '/adresses',
-    children: [
-      { name: 'View', url: '/address/view' },
-      { name: 'Create', url: '/address/create' },
-    ],
+    url: '/address/view',
+    iconComponent: { name: 'cil-envelope-letter' }
+    // children: [
+    //   { name: 'View', url: '/address/view' },
+    //   { name: 'Create', url: '/address/create' },
+    // ],
   },
   // {
   //   name: 'Dashboard',
