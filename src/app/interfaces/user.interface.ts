@@ -11,8 +11,8 @@ export interface User {
   mobile_number: string;
   home_number: string;
   role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
   status: UserStatus;
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string;
 }

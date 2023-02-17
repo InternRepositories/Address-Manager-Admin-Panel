@@ -24,7 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgetsModule } from '../widgets/widgets.module';
 import { UserCreateComponent } from './user-create/user-create.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -48,7 +48,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     TableModule,
     WidgetsModule,
     DropdownModule,
-    MatDialogModule,
+    MatPaginatorModule,
   ],
   declarations: [
     UsersComponent,

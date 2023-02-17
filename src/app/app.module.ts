@@ -29,6 +29,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 // Import containers
 import {
@@ -59,6 +60,10 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -71,11 +76,17 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, AdminLoginComponent, ...APP_CONTAINERS],
+  declarations: [
+    AppComponent,
+    AdminLoginComponent,
+    ConfirmDialogComponent,
+    ...APP_CONTAINERS,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     AvatarModule,
     BreadcrumbModule,
     FooterModule,
@@ -105,6 +116,8 @@ const APP_CONTAINERS = [
     FormsModule,
     RecaptchaFormsModule,
     RecaptchaModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
     {
