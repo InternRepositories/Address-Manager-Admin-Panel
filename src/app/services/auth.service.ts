@@ -72,7 +72,7 @@ export class AuthService {
           console.log(this.authToken);
           this.saveToken(this.authToken);
           alert('Admin logged in successfully')
-          this.router.navigate(['/#/dashboard']);
+          this.router.navigate(['/dashboard']);
         } else if (res.status === 200 && res.data.user.role === 'USER') {
           alert('Only Admins are Authorized to login here')
           this.router.navigate(['/login']);

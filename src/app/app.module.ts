@@ -57,6 +57,7 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -68,7 +69,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, AdminLoginComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, AdminLoginComponent, ...APP_CONTAINERS,],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
