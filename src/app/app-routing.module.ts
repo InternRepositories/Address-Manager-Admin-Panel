@@ -119,6 +119,11 @@ const routes: Routes = [
       title: 'Register Page',
     },
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./views/admin/admin.module').then((m) => m.AdminModule),
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];
 
