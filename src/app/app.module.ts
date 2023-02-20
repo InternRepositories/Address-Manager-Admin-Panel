@@ -30,8 +30,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { AuthInterceptor } from './interceptors/auth.interceptor'
-import { HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 // Import containers
 import {
@@ -66,7 +65,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -119,7 +117,6 @@ const APP_CONTAINERS = [
     FormsModule,
     RecaptchaFormsModule,
     RecaptchaModule,
-    HttpClientModule
     MatDialogModule,
     MatButtonModule,
   ],
@@ -139,12 +136,13 @@ const APP_CONTAINERS = [
       } as RecaptchaSettings,
     },
     {
-      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true,
-
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
     },
     IconSetService,
     Title,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
