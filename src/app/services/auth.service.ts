@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private API_URL = `${environment.API_SERVER}/common`;
+  private API_URL = environment.api.commonBaseUrl + environment.api.loginRoute;
   isLoggedIn: boolean = false;
   authToken: string = ''
 
@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   loginUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/login?platform=admin`, user).pipe(catchError(this.getErrorHandler),
+    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler),
       tap((res) => {
         if (res.status === 200 && res.data.user.role === 'ADMIN') {
           this.authToken = res.data.token;

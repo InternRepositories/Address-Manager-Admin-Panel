@@ -6,9 +6,9 @@
       </div>
       <h2>Login</h2>
       <form action="" *ngIf="loginForm" [formGroup]="loginForm" (submit)="onSubmit()">
-        <mat-form-field style=" padding-top: 5px" hideRequiredMarker class="form-field" appearance="outline">
+        <mat-form-field hideRequiredMarker class="form-field" appearance="outline">
           <mat-label>Email</mat-label>
-          <input type="email" style="padding-top: 10px" formControlName="email" name="email" matInput>
+          <input type="email" formControlName="email" name="email" matInput>
           <!-- <mat-hint>Enter Email Address</mat-hint> -->
           <mat-error class="error" *ngIf=" loginForm.get('email')?.touched || submitted">
             <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
@@ -18,9 +18,9 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field style=" padding-top: 5px" hideRequiredMarker appearance="outline" class="form-field">
+        <mat-form-field hideRequiredMarker appearance="outline" class="form-field">
           <mat-label>Password</mat-label>
-          <input formControlName="password" style="padding-top: 10px" class="input" type="password" matInput>
+          <input formControlName="password" class="input" type="password" matInput>
           <mat-error class="error" *ngIf="loginForm.get('password')?.touched || submitted">
             <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
           </mat-error>
