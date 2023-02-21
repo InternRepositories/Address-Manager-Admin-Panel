@@ -1,13 +1,14 @@
+const _baseUrl = 'http://localhost:5000/api/v1';
+
 export const environment = {
-	API_SERVER: 'http://localhost:5000/api/v1',
-	production: false,
-	recaptcha: {
-		siteKey: '6Ld-MYAkAAAAAMCDBBblEUy2_Yp_A487GDuPitXt',
-	},
-	api: {
-		commonBaseUrl: 'http://localhost:5000/api/v1/common',
-		usersRoute: '/users/',
-		adminRoute: '/admin/',
-		loginRoute: '/login/',
-	},
-}
+  production: false,
+  recaptcha: {
+    siteKey: '6Ld-MYAkAAAAAMCDBBblEUy2_Yp_A487GDuPitXt',
+  },
+  API_SERVER: 'http://localhost:5000/api/v1',
+  api: {
+    commonUrl: `${_baseUrl}/common`,
+    webUrl: `${_baseUrl}/web`,
+    adminUrl: `${_baseUrl}/admin`,
+  },
+};
