@@ -8,8 +8,8 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
-  users: User[] = [];
+export class AdminService {
+  admins: User[] = [];
   private apiUrl = environment.api.adminUrl + '/users/';
 
   constructor(private http: HttpClient) {}
@@ -18,25 +18,27 @@ export class UserService {
     return this.http.get<IApiResponse<{ users: User[] }>>(this.apiUrl);
   }
 
-  getOne(id: string): Observable<IApiResponse<{ user: User }>> {
-    return this.http.get<IApiResponse<{ user: User }>>(this.apiUrl + id);
+  getOne(id: string): Observable<IApiResponse<{ users: User }>> {
+    return this.http.get<IApiResponse<{ users: User }>>(this.apiUrl + id);
   }
 
-  createOne(userData: Partial<User>): Observable<IApiResponse<{ user: User }>> {
-    return this.http.post<IApiResponse<{ user: User }>>(this.apiUrl, userData);
+  createOne(
+    userData: Partial<User>
+  ): Observable<IApiResponse<{ users: User }>> {
+    return this.http.post<IApiResponse<{ users: User }>>(this.apiUrl, userData);
   }
 
   updateOne(
     id: string,
     userData: Partial<User>
-  ): Observable<IApiResponse<{ user: User }>> {
-    return this.http.patch<IApiResponse<{ user: User }>>(
+  ): Observable<IApiResponse<{ users: User }>> {
+    return this.http.patch<IApiResponse<{ users: User }>>(
       this.apiUrl + id,
       userData
     );
   }
 
-  deleteOne(id: string): Observable<IApiResponse<{ user: User }>> {
-    return this.http.delete<IApiResponse<{ user: User }>>(this.apiUrl + id);
+  deleteOne(id: string): Observable<IApiResponse<{ users: User }>> {
+    return this.http.delete<IApiResponse<{ users: User }>>(this.apiUrl + id);
   }
 }

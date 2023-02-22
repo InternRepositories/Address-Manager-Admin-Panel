@@ -7,7 +7,7 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
-import { AuthGuard } from './guards/auth.guard'
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -29,7 +29,6 @@ const routes: Routes = [
           import('./views/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
-
       },
       {
         path: 'users',
@@ -37,10 +36,16 @@ const routes: Routes = [
           import('./views/users/users.module').then((m) => m.UsersModule),
       },
       {
+        path: 'admins',
+        loadChildren: () =>
+          import('./views/admin/admin.module').then((m) => m.AdminModule),
+      },
+      {
         path: 'address',
         loadChildren: () =>
-          import('./modules/address/address/address.module').then(m => m.AddressModule),
-
+          import('./modules/address/address/address.module').then(
+            (m) => m.AddressModule
+          ),
       },
       {
         path: 'theme',
@@ -119,11 +124,6 @@ const routes: Routes = [
       title: 'Register Page',
     },
   },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./views/admin/admin.module').then((m) => m.AdminModule),
-  },
   { path: '**', redirectTo: 'dashboard' },
 ];
 
@@ -138,4 +138,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
