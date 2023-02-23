@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IUser } from 'src/app/interfaces/user';
+import { User } from 'src/app/interfaces/user.interface';
 import { Users } from 'src/app/models/userModel'
 import { AuthService } from 'src/app/services/auth.service'
 
@@ -16,6 +17,9 @@ export class AdminLoginComponent implements OnInit {
   submitted = false;
   loginForm!: FormGroup;
 
+  isLoggedIn: boolean = false;
+  authToken: string = ''
+
 
   constructor(private router: Router, private authService: AuthService) {
     this.token = undefined;
@@ -26,12 +30,28 @@ export class AdminLoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const formData = this.loginForm.value as unknown as Partial<Users>
+    const formData = this.loginForm.value as Partial<Users>
     this.submitted = true;
     console.log(formData.email);
     console.log(formData.password);
     if (this.loginForm.valid) {
-      this.authService.loginUser(formData).subscribe()
+      this.authService.loginUser(formData).subscribe(
+        {
+          next: (res) => {
+            if (res.status === 200) {
+              console.log('in respomnse')
+              this.authToken = res.data.token;
+              this.authService.isLoggedIn = true;
+              this.authService.saveToken(this.authToken);
+              alert('Admin logged in successfully')
+              this.router.navigate(['/dashboard']);
+            } else {
+              alert('something went wrong')
+            }
+          },
+          error: (err) => console.error(err),
+        }
+      )
     } else {
       alert('\t invalid login form submission\n \tPlease remember to do our recaptcha challenge')
     }
@@ -39,10 +59,11 @@ export class AdminLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.decodeToken()
     this.loginForm = new FormGroup({
       'email': new FormControl('', [Validators.required, Validators.email]),
       'password': new FormControl('', [Validators.required]),
-      'recaptchaReactive': new FormControl('', [Validators.required]),
+      'recaptchaReactive': new FormControl('',),
     })
   }
 

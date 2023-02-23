@@ -3,9 +3,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { IApiResponse } from '../interfaces/apiResponse'
 import { IAuthResponse } from '../interfaces/authResponse'
-import { Users } from '../models/userModel'
+import { User } from '../interfaces/user.interface';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { Users } from '../models/userModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private API_URL = environment.api.commonBaseUrl + environment.api.loginRoute;
   isLoggedIn: boolean = false;
-  authToken: string = ''
+  authToken!: string
+  decodedToken: any
 
 
   private _handleHttpErrors(retVal: any) {
@@ -48,6 +50,8 @@ export class AuthService {
 
   private autoLogin(): void {
     let authToken = localStorage.getItem('authToken');
+    console.log(authToken);
+
     if (authToken) {
       this.isLoggedIn = true
       this.authToken = authToken;
@@ -55,7 +59,11 @@ export class AuthService {
 
   }
 
-  private saveToken(token: string): void {
+  private autoLogout() {
+    // if the token expires
+  }
+
+  saveToken(token: string): void {
     localStorage.setItem('authToken', token);
   }
 
@@ -64,26 +72,24 @@ export class AuthService {
   }
 
   loginUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler),
-      tap((res) => {
-        if (res.status === 200 && res.data.user.role === 'ADMIN') {
-          this.authToken = res.data.token;
-          this.isLoggedIn = true;
-          console.log(this.authToken);
-          this.saveToken(this.authToken);
-          alert('Admin logged in successfully')
-          this.router.navigate(['/dashboard']);
-        } else if (res.status === 200 && res.data.user.role === 'USER') {
-          alert('Only Admins are Authorized to login here')
-          this.router.navigate(['/login']);
-        }
-      }))
+    console.log('inside auth login');
+    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  }
+
+
+  decodeToken() {
+    let authToken: string | null = localStorage.getItem('authToken');
+    if (authToken) {
+      this.decodeToken = JSON.parse(atob(authToken.split('.')[1]));
+    }
+    console.log(authToken);
+
   }
 
 
 
-  createUser(user: Partial<Users>): Observable<IApiResponse<Users>> {
-    return this.http.post<IApiResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this._handleHttpErrors(new Users())),)
+  createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
+    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this.getErrorHandler))
   }
 
 

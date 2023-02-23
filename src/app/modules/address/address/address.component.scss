@@ -5,7 +5,7 @@
     margin-top: .3rem;
 
     img{
-        width: 30px;
+        width: 25px;
     }
 }
 .button-flex{
@@ -25,10 +25,7 @@
 }
 
 .pending{
-    background-color: rgb(252, 73, 73);
-    color: white;
-    padding: 12px;
-    width: 8rem
+    color: red;
 
 }
 
@@ -38,4 +35,18 @@
     padding: 12px;
     width: 8rem
 
+}
+
+.form-group{
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-flex{
+    display: flex;
+    justify-content: center;
+
+    button{
+        margin-left: 1rem;
+    }
 }

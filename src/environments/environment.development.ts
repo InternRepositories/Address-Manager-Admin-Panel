@@ -6,8 +6,9 @@ export const environment = {
 	},
 	api: {
 		commonBaseUrl: 'http://localhost:5000/api/v1/common',
+		adminBaseUrl: 'http://localhost:5000/api/v1/admin',
 		usersRoute: '/users/',
-		adminRoute: '/admin/',
 		loginRoute: '/login/',
+		addressRoute: '/addresses',
 	},
 }

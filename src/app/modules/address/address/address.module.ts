@@ -15,12 +15,12 @@ import {
   TableModule,
   TabsModule,
   WidgetModule,
-  PaginationModule
+  PaginationModule,
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 import { WidgetsModule } from '../../../views/widgets/widgets.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
 
@@ -50,7 +50,10 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
     TableModule,
     WidgetsModule,
     PaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    WidgetModule,
+    FormsModule
+
 
 
   ]

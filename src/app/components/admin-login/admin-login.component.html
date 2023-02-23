@@ -25,9 +25,9 @@
             <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
           </mat-error>
         </mat-form-field>
-        <button class="submit-btn bg-amber text-white p-3">Login</button>
         <re-captcha formControlName="recaptchaReactive" (resolved)="checkCaptcha($event)" siteKey="6LflY4AkAAAAAAvaLdJjmsALUBvp0pDT6peWYtM0">
         </re-captcha>
+        <button class="submit-btn bg-amber text-white p-3">Login</button>
         <a class="forget" href="">Forget Password?</a>
 
       </form>
