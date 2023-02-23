@@ -8,9 +8,9 @@ export class Users {
     role: string;
     mobile_number: string;
     home_number: string;
-    status: string;
+    status: number;
 
-    constructor(_id?: string, first_name?: string, last_name?: string, email?: string, password?: string, profile_image?: string, role?: string, mobile_number?: string, home_number?: string, status?: string,) {
+    constructor(_id?: string, first_name?: string, last_name?: string, email?: string, password?: string, profile_image?: string, role?: string, mobile_number?: string, home_number?: string, status?: number,) {
         this._id = _id!;
         this.first_name = first_name!;
         this.last_name = last_name!;

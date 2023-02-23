@@ -15,7 +15,7 @@ export const navItems: INavData[] = [
     ],
   },
   {
-    name: 'Address',
+    name: 'Address Management',
     url: '/address/view',
     iconComponent: { name: 'cil-envelope-letter' },
     // children: [

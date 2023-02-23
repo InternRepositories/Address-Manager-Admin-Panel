@@ -66,6 +66,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from './services/auth.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -140,10 +141,12 @@ const APP_CONTAINERS = [
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+
+
     },
     IconSetService,
     Title,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

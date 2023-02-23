@@ -6,13 +6,14 @@
 
 
 .form-field{
-    width: 25rem;
+    width: 80rem;
+    
    
    
 
 
     input{
-        padding: 15px;
+      
 
     }
 }
@@ -21,8 +22,7 @@
 
 .parish-select{
   
-    padding: 10px;
-    height: 4rem;
+
    
    
 }
@@ -34,23 +34,7 @@
     margin-top: .8rem;
 }
 
-.add-btn{
-  
-    background-color: rgb(3, 97, 197);
-    border-radius: .3rem;
-    width: 8rem;
-    color: white;
-    border: none;
-    padding: 10px;
-   
-
-}
-
 .cancel-btn{
-    background-color: rgb(255, 64, 64);
-    color: white;
-    border-radius: .3rem;
-    border: none;
     width: 8rem;
     margin-right: .4rem;
 }

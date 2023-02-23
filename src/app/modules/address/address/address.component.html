@@ -1,7 +1,41 @@
 <c-row>
   <c-col xs>
 
-    <div class="button-flex"><button routerLink="/address/add" class="mb-2 add-btn">Add Address</button></div>
+    <c-card class="mb-4">
+      <c-card-header>Search filter</c-card-header>
+      <c-card-body>
+        <div class="form-group mb-4">
+          <div class="form-field">
+            <label cLabel for="first_name">Address Name</label>
+            <input cFormControl id="address" [(ngModel)]="Address_1" placeholder="Filter by name of address" type="text" />
+          </div>
+          <div class="form-field">
+            <label cLabel for="first_name">City</label>
+            <input cFormControl id="address" [(ngModel)]="city" placeholder="Filter by city" type="text" />
+          </div>
+          <div class="form-field">
+            <label cLabel for="first_name">Parish</label>
+            <input cFormControl id="address" [(ngModel)]="parish" placeholder="Filter by parish" type="text" />
+          </div>
+          <div class="form-field">
+            <label cLabel for="first_name">Status</label>
+            <input cFormControl id="address" [(ngModel)]="status" placeholder="Filter by status" type="text" />
+          </div>
+        </div>
+
+        <div class="filter-flex">
+          <button (click)="searchedItems()" cButton color="success">Filter Search</button>
+          <button cButton color="secondary">Reset</button>
+        </div>
+
+
+      </c-card-body>
+
+
+
+    </c-card>
+
+    <div class="button-flex"><button cButton color="primary" routerLink="/address/add" class="mb-2">Add Address</button></div>
 
     <c-card class=" mb-4">
       <c-card-header>Addresses</c-card-header>

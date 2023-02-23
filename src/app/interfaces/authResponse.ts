@@ -1,8 +1,12 @@
-export interface IAuthResponse<Type = any> {
+
+import { Users } from "../models/userModel";
+import { User } from "./user.interface";
+export interface IAuthResponse<Type = Users> {
     status: number;
     message: string;
     data: {
-        user: any;
+        user: Type;
         token: string;
+
     }
 }

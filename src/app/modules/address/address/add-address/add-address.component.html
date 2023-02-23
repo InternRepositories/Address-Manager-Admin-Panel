@@ -1,6 +1,6 @@
 <c-row>
   <c-col xs>
-    <c-card class=" mb-4" style="width: 45rem;">
+    <c-card class=" mb-4">
       <c-card-header>Address Form</c-card-header>
       <c-card-body>
         <form cForm [formGroup]="addressForm" (submit)="onSubmit()">
@@ -20,6 +20,7 @@
           <div>
             <label class="select-label" cLabel for="">Select Parish</label>
             <select class="parish-select" formControlName="parish" aria-label="Default select example" name="parish" cSelect>
+              <option [disabled]="true" [selected]="true">Select Parish</option>
               <option *ngFor="let parish of parishes">{{parish}}</option>
             </select>
             <div class="error-con" *ngIf="addressForm.get('parish')?.touched || submitted">
@@ -29,6 +30,7 @@
           <div>
             <label class="select-label" cLabel for="">Select City</label>
             <select class="parish-select" aria-label="Default select example" name="city" cSelect>
+              <option [disabled]="true" [selected]="true">Select City</option>
               <option *ngFor="let city of cities">{{city}}</option>
             </select>
             <div class="error-con" *ngIf="addressForm.get('city')?.touched || submitted">
@@ -37,8 +39,8 @@
           </div>
 
           <div class="button-flex">
-            <button type="submit" routerLink="/address/view" class="mb-2 cancel-btn">Cancel</button>
-            <button type="submit" routerLink="/address/add" class="mb-2 add-btn">Add Address</button>
+            <button type="submit" routerLink="/address/view" class="mb-2 cancel-btn" cButton color="secondary">Cancel</button>
+            <button type="submit" routerLink="/address/add" class="mb-2 add-btn" cButton color="primary">save</button>
           </div>
         </form>
 
