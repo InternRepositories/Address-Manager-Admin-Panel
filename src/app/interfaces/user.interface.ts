@@ -2,7 +2,7 @@ import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status.enum';
 
 export interface User {
-  _id?: string;
+  _id: string;
   first_name: string;
   last_name: string;
   email: string;
