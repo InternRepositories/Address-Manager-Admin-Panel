@@ -23,6 +23,8 @@ import { WidgetsModule } from '../../../views/widgets/widgets.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -52,10 +54,12 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
     PaginationModule,
     ReactiveFormsModule,
     WidgetModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
 
 
 
-  ]
+  ],
+  providers: [AuthService]
 })
 export class AddressModule { }

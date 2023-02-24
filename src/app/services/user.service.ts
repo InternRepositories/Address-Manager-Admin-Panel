@@ -10,9 +10,9 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   users: User[] = [];
-  private apiUrl = environment.api.commonBaseUrl + environment.api.usersRoute;
+  private apiUrl = environment.api.adminBaseUrl + environment.api.usersRoute;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<IApiResponse<{ users: User[] }>> {
     return this.http.get<IApiResponse<{ users: User[] }>>(this.apiUrl);

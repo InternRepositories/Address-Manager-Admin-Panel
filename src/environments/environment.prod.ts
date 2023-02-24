@@ -6,5 +6,6 @@ export const environment = {
     usersRoute: '/users/',
     loginRoute: '/login/',
     addressRoute: '/addresses',
+    parishRoute: '/parishes'
   },
 };

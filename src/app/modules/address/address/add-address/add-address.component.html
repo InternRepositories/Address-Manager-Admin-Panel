@@ -1,27 +1,37 @@
 <c-row>
   <c-col xs>
     <c-card class=" mb-4">
-      <c-card-header>Address Form</c-card-header>
+      <c-card-header>address Form</c-card-header>
       <c-card-body>
         <form cForm [formGroup]="addressForm" (submit)="onSubmit()">
           <div class="field-con">
             <div class="form-field" style="margin-right: 2rem;">
-              <label cLabel for="">Address Line 1</label>
-              <input cFormControl formControlName="Address_1" name="Address_1" placeholder="123 Riverdale Ave" type="text" />
-              <div class="error-con" *ngIf="addressForm.get('Address_1')?.touched || submitted">
-                <span *ngIf="addressForm.get('Address_1')?.hasError('required')" class="error">Address 1 required</span>
+              <label cLabel for="">address Line 1</label>
+              <input cFormControl formControlName="address_1" name="address_1" placeholder="123 Riverdale Ave" type="text" />
+              <div class="error-con" *ngIf="addressForm.get('address_1')?.touched || submitted">
+                <span *ngIf="addressForm.get('address_1')?.hasError('required')" class="error">address 1 required</span>
               </div>
             </div>
             <div class="form-field">
-              <label cLabel for="">Address Line 2</label>
-              <input cFormControl name="Address_2" placeholder="Kingston 12" type="text" />
+              <label cLabel for="">address Line 2</label>
+              <input cFormControl name="address_2" formControlName="address_2" placeholder="Kingston 12" type="text" />
+            </div>
+          </div>
+          <div>
+            <label class="select-label" cLabel for="">Select User for address</label>
+            <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="user_id" cSelect>
+              <option [disabled]="true" [selected]="true">Select User</option>
+              <option *ngFor="let user of users">{{user.first_name}}</option>
+            </select>
+            <div class="error-con" *ngIf="addressForm.get('user_id')?.touched || submitted">
+              <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select A parish</span>
             </div>
           </div>
           <div>
             <label class="select-label" cLabel for="">Select Parish</label>
             <select class="parish-select" formControlName="parish" aria-label="Default select example" name="parish" cSelect>
               <option [disabled]="true" [selected]="true">Select Parish</option>
-              <option *ngFor="let parish of parishes">{{parish}}</option>
+              <option *ngFor="let parish of parishes" value="{{parish._id}}">{{parish.parishName}}</option>
             </select>
             <div class="error-con" *ngIf="addressForm.get('parish')?.touched || submitted">
               <span *ngIf="addressForm.get('parish')?.hasError('required')" class="error">Please Select A parish</span>
@@ -31,7 +41,7 @@
             <label class="select-label" cLabel for="">Select City</label>
             <select class="parish-select" aria-label="Default select example" name="city" cSelect>
               <option [disabled]="true" [selected]="true">Select City</option>
-              <option *ngFor="let city of cities">{{city}}</option>
+              <option value="{{city._id}}" *ngFor="let city of cities">{{city.cityName}}</option>
             </select>
             <div class="error-con" *ngIf="addressForm.get('city')?.touched || submitted">
               <span *ngIf="addressForm.get('city')?.hasError('required')" class="error">Please Select a city</span>

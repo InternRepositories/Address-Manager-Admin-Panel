@@ -7,40 +7,40 @@ import { Address } from '../../../models/addressModel';
 
 export const Addresses: Address[] = [
     {
-        Address_1: '123 lindows Road',
-        Address_2: 'Kingston 11',
+        address_1: '123 lindows Road',
+        address_2: 'Kingston 11',
         user_id: '1283839393390202',
         city: 'Weed city',
         parish: 'St Andress',
         status: AddressStatus.PENDING
     },
     {
-        Address_1: 'Grants Pend',
-        Address_2: 'Kingston 14',
+        address_1: 'Grants Pend',
+        address_2: 'Kingston 14',
         user_id: '128383939339020dd2',
         city: 'Sunshine Avenue',
         parish: 'Kingston',
         status: AddressStatus.PENDING
     },
     {
-        Address_1: 'Maeverly Place',
-        Address_2: 'Kingston 18',
+        address_1: 'Maeverly Place',
+        address_2: 'Kingston 18',
         user_id: '128383939339020dd2',
         city: 'Rainford Avenue',
         parish: 'Kingston',
         status: AddressStatus.PENDING
     },
     {
-        Address_1: 'Maeverly Place',
-        Address_2: 'Kingston 18',
+        address_1: 'Maeverly Place',
+        address_2: 'Kingston 18',
         user_id: '128383939339020dd2',
         city: 'Rainford Avenue',
         parish: 'Kingston',
         status: AddressStatus.PENDING
     },
     {
-        Address_1: 'Maeverly Place',
-        Address_2: 'Kingston 18',
+        address_1: 'Maeverly Place',
+        address_2: 'Kingston 18',
         user_id: '128383939339020dd2',
         city: 'Rainford Avenue',
         parish: 'Kingston',
@@ -55,7 +55,66 @@ export const Parishes = [
     'Hanover', 'Westmoreland', 'St. James', 'Trelawny', 'St. Elizabeth'
 ]
 
-export const Cities = ['Kingston', 'Montego Bay', 'Spanish Town', 'Portmore', 'May-Pen', 'Mandeville', 'Half Way Tree', 'Old Harbor', 'Savanna-la-Mar', 'Linstead', 'Port Antonio', 'Constant Spring', 'St. Anse Bay', 'Morant Bay', 'God-Wolf', 'Evarton', 'Hayes', 'Stony Hill', 'Ocho Rios', 'Santa Cruz', 'Port Maria', 'Falmouth', 'Christian', 'Yallas', 'Browns Town', 'Grange Hill', 'Luse', 'Runaway Bay', 'Annotto Bay', 'Highgate', 'Old Harbour Bay', 'Porus', 'Lionel Town', 'Black River', 'Port Royal']
+export const Cities = [{
+    _id: '1',
+    cityName: 'Kingston',
+},
+{
+    _id: '2',
+    cityName: 'Motego Bay',
+
+},
+{
+    _id: '3',
+    cityName: 'Motego Bay',
+
+},
+{
+    _id: '4',
+    cityName: 'Spanish Town',
+},
+{
+    _id: '5',
+    cityName: 'Portmore'
+},
+{
+    _id: '6',
+    cityName: 'Mandeville'
+},
+
+{
+    _id: '7',
+    cityName: 'Halfway Tree'
+
+},
+
+{
+    _id: '8',
+    cityName: 'old Harbour'
+
+},
+{
+    _id: '9',
+    cityName: 'Savanna-La-Mar'
+
+},
+{
+    _id: '10',
+    cityName: 'Linstead'
+
+},
+{
+    _id: '11',
+    cityName: 'Port Antonio'
+
+},
+{
+    _id: '12',
+    cityName: 'Constant Spring'
+
+}
+
+];
 
 
 

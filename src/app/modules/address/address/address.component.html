@@ -7,7 +7,7 @@
         <div class="form-group mb-4">
           <div class="form-field">
             <label cLabel for="first_name">Address Name</label>
-            <input cFormControl id="address" [(ngModel)]="Address_1" placeholder="Filter by name of address" type="text" />
+            <input cFormControl id="address" [(ngModel)]="address_1" placeholder="Filter by name of address" type="text" />
           </div>
           <div class="form-field">
             <label cLabel for="first_name">City</label>
@@ -51,11 +51,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let address of addresses; index as i">
+            <tr *ngFor="let address of addresses | paginate:
+            {
+            itemsPerPage:4,
+            currentPage:pagination,
+            totalItems: totalAddresses
+            }">
               <td>
                 <div>
-                  {{ address.Address_1 }}
-                  {{ address.Address_2 }}
+                  {{ address.address_1 }}
+                  {{ address.address_2 }}
                 </div>
               </td>
               <td>
@@ -65,8 +70,8 @@
                   </span>
                 </div>
               </td>
-              <td class="text-left">
-                {{ address.parish }}
+              <td class=" text-left">
+                {{ address.parish.parishName}}
               </td>
               <td>
                 <div [ngClass]="approved ? 'pending' : 'approved'">
@@ -76,13 +81,21 @@
               </td>
               <td>
                 <div class="manage-icon">
-                  <p>
-                    <img src='../../../../assets/images/check.png' alt="">
-                  </p>
+                  <form [formGroup]="statusChange">
+                    <button (click)="approveAddress(address._id)" type="submit" class="check-btn">
+                      <input type="hidden" name="status" formControlName="status">
+                      <p>
+                        <img src='../../../../assets/images/check.png' alt="">
+                      </p>
+                    </button>
+
+
+                  </form>
+
                   <p class="">
-                    <a routerLink="/address/edit"><img src='../../../../assets/images/edit.png' alt=""></a>
+                    <a routerLink="/address/edit/{{address._id}}"><img src='../../../../assets/images/edit.png' alt=""></a>
                   </p>
-                  <p class="">
+                  <p (click)="deleteAddress(address._id)" class="">
                     <img src="../../../../assets/images/delete.png" alt="">
                   </p>
                 </div>
@@ -96,20 +109,11 @@
 </c-row>
 
 
-<c-pagination aria-label="Page navigation example">
-  <li cPageItem>
-    <a cPageLink aria-label="Previous" [routerLink]><span aria-hidden="true">&laquo;</span></a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>1</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>2</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>3</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink aria-label="Next" [routerLink]><span aria-hidden="true">&raquo;</span></a>
-  </li>
-</c-pagination>
+<div class="d-flex justify-content-end mb-4">
+  <c-card style="height: 4rem;">
+    <c-card-body>
+      <pagination-controls (pageChange)="renderPage($event)"></pagination-controls>
+    </c-card-body>
+
+  </c-card>
+</div>

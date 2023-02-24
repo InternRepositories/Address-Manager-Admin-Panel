@@ -19,7 +19,6 @@ const routes: Routes = [
           title: 'All addresses',
         },
       },
-      { path: '', pathMatch: 'full', redirectTo: 'view' },
       {
         path: 'add',
         component: AddAddressComponent,
@@ -27,9 +26,8 @@ const routes: Routes = [
           title: 'create address',
         },
       },
-      { path: '', pathMatch: 'full', redirectTo: 'view' },
       {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditAddressComponent,
         data: {
           title: 'edit address',

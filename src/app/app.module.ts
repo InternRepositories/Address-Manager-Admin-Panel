@@ -122,6 +122,7 @@ const APP_CONTAINERS = [
     MatButtonModule,
   ],
   providers: [
+    AuthService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

@@ -16,6 +16,7 @@ export class AuthService {
   isLoggedIn: boolean = false;
   authToken!: string
   decodedToken: any
+  expiresAt?: Date
 
 
   private _handleHttpErrors(retVal: any) {
@@ -72,7 +73,6 @@ export class AuthService {
   }
 
   loginUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    console.log('inside auth login');
     return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
   }
 
