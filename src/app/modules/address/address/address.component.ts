@@ -5,6 +5,7 @@ import { AddressService } from './../../../services/address.service'
 import { IParish } from './../../../interfaces/parish.interface'
 import { ParishService } from './../../../services/parish.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-address',
@@ -13,6 +14,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AddressComponent implements OnInit {
   addresses: Address[] = []
+  _addresses: any[] = []
+
   allAddresses: number = 0
   pagination: number = 1
   totalAddresses: number = 0
@@ -49,15 +52,25 @@ export class AddressComponent implements OnInit {
   getAllAddress() {
     this.addressService.getAllAddresses().subscribe(res => {
       this.addresses = res.data
-      this.filteredItems = this.addresses
-      console.log(res.data);
+      this._addresses = res.data
+      for (let i = 0; i < this._addresses.length; i++) {
+        // const parishName = this.mapParishes(this._addresses[i]['parish'])
+        console.log("Parish", this.addresses[i].parish);
+        console.log("Parish ID", this.parishes[i]._id);
 
+        const parishName = this.parishes.find((parish) => this.addresses[i].parish === parish._id)?.parishName || 'Parish not found'
+        console.log(parishName);
+
+        // this._addresses[i]['parishName'] = parishName;
+
+      }
     })
   }
 
   getAllParish() {
     this.ParishService.getAllParishes().subscribe(res => {
       this.parishes = res.data
+
       console.log(this.parishes);
 
 
@@ -65,11 +78,38 @@ export class AddressComponent implements OnInit {
     })
   }
 
-  deleteAddress(id: any): void {
-    this.addressService.deleteAddress(id).subscribe(res => {
-      alert('Address deleted successfully')
-      this.getAllAddress();
+  mapParishes(id: string | undefined) {
+    const matchParishes = this.parishes.filter((parish) => {
+      return parish._id === id
     })
+    return matchParishes[0]?.parishName
+  }
+
+
+
+  deleteAddress(id: any): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        this.addressService.deleteAddress(id).subscribe(res => {
+          Swal.fire('Address deleted successfully')
+          this.getAllAddress();
+        })
+      }
+    })
+
   }
 
   statusChange = new FormGroup({
@@ -79,7 +119,7 @@ export class AddressComponent implements OnInit {
   approveAddress(id: any): void {
     const formData = this.statusChange.value as Partial<Address>
     this.addressService.updateAddress(id, formData).subscribe(res => {
-      alert('check Successful')
+      Swal.fire('check Successful')
     })
 
   }
@@ -96,7 +136,7 @@ export class AddressComponent implements OnInit {
   }
 
 
-
+  // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous
 
   ngOnInit() {
     this.getAllAddress()

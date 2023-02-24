@@ -51,9 +51,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let address of addresses | paginate:
+            <tr *ngFor="let address of _addresses | paginate:
             {
-            itemsPerPage:4,
+            itemsPerPage:10,
             currentPage:pagination,
             totalItems: totalAddresses
             }">
@@ -71,7 +71,7 @@
                 </div>
               </td>
               <td class=" text-left">
-                {{ address.parish.parishName}}
+                {{ address.parishName}}
               </td>
               <td>
                 <div [ngClass]="approved ? 'pending' : 'approved'">
@@ -110,7 +110,7 @@
 
 
 <div class="d-flex justify-content-end mb-4">
-  <c-card style="height: 4rem;">
+  <c-card style="height: 4rem; ">
     <c-card-body>
       <pagination-controls (pageChange)="renderPage($event)"></pagination-controls>
     </c-card-body>

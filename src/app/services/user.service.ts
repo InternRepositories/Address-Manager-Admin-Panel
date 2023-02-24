@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IApiResponse } from '../interfaces/api-response';
+import { IApiResponse } from '../interfaces/apiResponse';
 import { environment } from '../../environments/environment';
 
 @Injectable({

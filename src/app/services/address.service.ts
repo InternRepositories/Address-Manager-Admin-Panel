@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Address } from '../../app/models/addressModel'
 import { IApiResponse } from '../interfaces/apiResponse'
 import { AuthService } from './auth.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +25,18 @@ export class AddressService {
 
   private _tokenHandler(res: HttpErrorResponse): Observable<IApiResponse> {
     if (res.error.error === 'jwt expired') {
-      window.alert('Your session has expired')
-      this.router.navigate(['/login']);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Token as Expired',
+      })
+
       localStorage.removeItem('authToken');
+      setTimeout(() => {
+        location.href = "/dashboard";
+      }, 5000)
     }
-    return of(res.error)
+    return of(res.error.error)
 
   }
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
@@ -42,11 +50,11 @@ export class AddressService {
   }
 
   createAddress(address: Partial<Address>): Observable<IApiResponse<Address>> {
-    return this.http.post<IApiResponse<Address>>(`${this.API_URL}/?platform=admin`, address).pipe(catchError(this._tokenHandler));
+    return this.http.post<IApiResponse<Address>>(`${this.COMMON_URL}?platform=admin`, address).pipe(catchError(this._tokenHandler));
   }
 
   updateAddress(_id: any, address: Partial<Address>): Observable<IApiResponse<Address>> {
-    return this.http.patch<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}?platform=admin`, address).pipe(catchError(this._tokenHandler));
+    return this.http.put<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}?platform=admin`, address).pipe(catchError(this._tokenHandler));
   }
 
   deleteAddress(_id: string): Observable<IApiResponse<Address>> {

@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+// import { PipesModule } from 'src/app/modules/pipes/pipes.module';
 
 // Import containers
 import {

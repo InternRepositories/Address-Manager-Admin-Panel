@@ -33,13 +33,17 @@ export class EditAddressComponent implements OnInit {
   }
   getAllUsers() {
     this.userService.getAll().subscribe(res => {
-      this.users = res.data;
+      this.users = res.data.users;
+
+
     })
 
   }
 
   updateAddress() {
     this.submitted = true
+    console.log(this.addressForm.value);
+
     this.addressService.updateAddress(this.address._id, this.addressForm.value).subscribe(res => {
       alert('address updated successfully')
       this.router.navigate(['/address/view'])

@@ -9,6 +9,8 @@ import { AddressService } from 'src/app/services/address.service';
 import { ParishService } from 'src/app/services/parish.service';
 import { UserService } from 'src/app/services/user.service';
 import { Cities, Parishes } from '../addresses';
+import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-address',
@@ -32,14 +34,14 @@ export class AddAddressComponent implements OnInit {
 
   })
 
-  constructor(private userService: UserService, private parishService: ParishService, private addressService: AddressService) { }
+  constructor(private userService: UserService, private parishService: ParishService, private addressService: AddressService, private router: Router) { }
 
 
 
   getAllUSers() {
     this.userService.getAll().subscribe(res => {
-      this.users = res.data
-      console.log(res.data);
+      this.users = res.data.users
+      console.log(this.users);
 
 
     })
@@ -55,14 +57,23 @@ export class AddAddressComponent implements OnInit {
 
 
   onSubmit() {
-    const fromData = this.addressForm.value as Partial<Address>
+    const formData = this.addressForm.value as Partial<Address>
+    console.log(formData);
+
     this.submitted = true
-    this.addressService.createAddress(fromData).subscribe({
+    this.addressService.createAddress(formData).subscribe({
       next: (res) => {
-        alert('address Submitted Successfully')
+        console.log(res);
+
+        // Swal.fire('address Submitted Successfully'),
+        this.router.navigate(['/address/view'])
       },
       error: (err) => {
-        alert(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err,
+        })
       }
     }
     )

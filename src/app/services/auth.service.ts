@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { IApiResponse } from '../interfaces/apiResponse'
 import { IAuthResponse } from '../interfaces/authResponse'
 import { User } from '../interfaces/user.interface';
+import Swal from 'sweetalert2';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Users } from '../models/userModel';
@@ -28,15 +29,33 @@ export class AuthService {
 
   getErrorHandler(res: HttpErrorResponse): Observable<IAuthResponse> {
     if (res.error.error === 'Invalid password') {
-      window.alert(res.error.error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
       console.log(res.error.error)
     }
     else if (res.error.error === 'No user matches this email') {
-      window.alert(res.error.error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
       console.log(res.error.error)
     }
     else {
-      window.alert(res.error.error)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
       console.log(res.error.error);
     }
     return of(res.error.error)
@@ -46,6 +65,13 @@ export class AuthService {
     this.isLoggedIn = false;
     this.authToken = ''
     localStorage.removeItem('authToken');
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'User Sccessfully logged Out',
+      showConfirmButton: false,
+      timer: 1500
+    })
     this.router.navigate(['/login'])
   }
 

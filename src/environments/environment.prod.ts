@@ -1,7 +1,7 @@
 const _baseUrl = 'http://localhost:5000/api/v1';
 
 export const environment = {
-  production: true,
+  production: false,
   recaptcha: {
     siteKey: '6Ld-MYAkAAAAAMCDBBblEUy2_Yp_A487GDuPitXt',
   },
@@ -13,10 +13,8 @@ export const environment = {
     loginRoute: '/login/',
     addressRoute: '/addresses',
     parishRoute: '/parishes',
-
     commonUrl: `${_baseUrl}/common`,
     webUrl: `${_baseUrl}/web`,
     adminUrl: `${_baseUrl}/admin`,
-
   },
 };

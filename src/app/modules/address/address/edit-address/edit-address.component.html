@@ -32,16 +32,15 @@
               <span *ngIf="addressForm.get('city')?.hasError('required')" class="error">Please Select status</span>
             </div>
           </div>
-          <!-- <div>
-              <label class="select-label" cLabel for="">Select User for address</label>
-              <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="parish" cSelect>
-                <option [disabled]="true" [selected]="true">Select User</option>
-                <option *ngFor="let user of users" value="{{user._id}}">{{user.first_name}}</option>
-              </select>
-              <div class="error-con" *ngIf="addressForm.get('user_id')?.touched || submitted">
-                <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select A parish</span>
-              </div>
-            </div> -->
+          <div>
+            <label class="select-label" cLabel for="">Select User for address</label>
+            <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="parish" cSelect>
+              <option *ngFor="let user of users" value="{{user._id}}">{{user.first_name}} {{user.last_name}}</option>
+            </select>
+            <div class="error-con" *ngIf="addressForm.get('user_id')?.touched || submitted">
+              <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select A parish</span>
+            </div>
+          </div>
           <div>
             <label class="select-label" cLabel for="">Select Parish</label>
             <select class="parish-select" formControlName="parish" aria-label="Default select example" name="parish" cSelect>
@@ -51,16 +50,7 @@
               <span *ngIf="addressForm.get('parish')?.hasError('required')" class="error">Please Select A parish</span>
             </div>
           </div>
-          <!-- <div>
-            <label class="select-label" cLabel for="">Select City</label>
-            <select class="parish-select" aria-label="Default select example" name="city" cSelect>
-              <option [disabled]="true" [selected]="true">Select City</option>
-              <option *ngFor="let city of cities" value="{{city._id}}">{{city.cityName}}</option>
-            </select>
-            <div class="error-con" *ngIf="addressForm.get('city')?.touched || submitted">
-              <span *ngIf="addressForm.get('city')?.hasError('required')" class="error">Please Select a city</span>
-            </div>
-          </div> -->
+
 
           <div class="button-flex">
             <button routerLink="/address/view" class="mb-2 cancel-btn" cButton color="secondary">Cancel</button>

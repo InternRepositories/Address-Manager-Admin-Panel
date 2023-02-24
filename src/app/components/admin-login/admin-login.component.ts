@@ -5,6 +5,7 @@ import { IUser } from 'src/app/interfaces/user';
 import { User } from 'src/app/interfaces/user.interface';
 import { Users } from 'src/app/models/userModel'
 import { AuthService } from 'src/app/services/auth.service'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-login',
@@ -39,21 +40,31 @@ export class AdminLoginComponent implements OnInit {
         {
           next: (res) => {
             if (res.status === 200) {
-              console.log('in respomnse')
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'User Sccessfully logged in',
+                showConfirmButton: false,
+                timer: 2500
+              })
               this.authToken = res.data.token;
               this.authService.isLoggedIn = true;
               this.authService.saveToken(this.authToken);
-              alert('Admin logged in successfully')
-              this.router.navigate(['/dashboard']);
-            } else {
-              alert('something went wrong')
+              setTimeout(() => {
+                location.href = "/dashboard";
+              }, 1000)
             }
           },
           error: (err) => console.error(err),
         }
       )
     } else {
-      alert('\t invalid login form submission\n \tPlease remember to do our recaptcha challenge')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '\t invalid login form submission\n \tPlease remember to do our recaptcha challenge',
+
+      })
     }
 
   }

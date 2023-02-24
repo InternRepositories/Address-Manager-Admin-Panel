@@ -12,11 +12,9 @@ export const environment = {
     usersRoute: '/users/',
     loginRoute: '/login/',
     addressRoute: '/addresses',
-    parishRoute: '/parishes'
+    parishRoute: '/parishes',
+    commonUrl: `${_baseUrl}/common`,
+    webUrl: `${_baseUrl}/web`,
+    adminUrl: `${_baseUrl}/admin`,
   },
-
-  commonUrl: `${_baseUrl}/common`,
-  webUrl: `${_baseUrl}/web`,
-  adminUrl: `${_baseUrl}/admin`,
-
-}
+};

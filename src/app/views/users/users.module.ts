@@ -16,7 +16,7 @@ import {
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
-import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
+// import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
@@ -54,7 +54,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     UsersComponent,
     UserCreateComponent,
     UserUpdateComponent,
-    SearchFilterPipe,
+    // SearchFilterPipe,
   ],
 })
-export class UsersModule {}
+export class UsersModule { }
