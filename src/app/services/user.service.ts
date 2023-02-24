@@ -10,7 +10,10 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   users: User[] = [];
-  private apiUrl = environment.api.adminBaseUrl + environment.api.usersRoute;
+
+  // private apiUrl = environment.api.adminBaseUrl + environment.api.usersRoute;
+  private apiUrl = environment.api.adminUrl + '/users/';
+
 
   constructor(private http: HttpClient) { }
 
