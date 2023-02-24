@@ -22,7 +22,7 @@ export class UserService {
     return this.http.get<IApiResponse<{ user: User }>>(this.apiUrl + id);
   }
 
-  createOne(userData: Partial<User>): Observable<IApiResponse<{ user: User }>> {
+  createOne(userData: any): Observable<IApiResponse<{ user: User }>> {
     return this.http.post<IApiResponse<{ user: User }>>(this.apiUrl, userData);
   }
 

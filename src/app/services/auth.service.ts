@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { IApiResponse } from '../interfaces/apiResponse'
-import { IAuthResponse } from '../interfaces/authResponse'
+import { IApiResponse } from '../interfaces/apiResponse';
+import { IAuthResponse } from '../interfaces/authResponse';
 import { User } from '../interfaces/user.interface';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Users } from '../models/userModel';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private API_URL = environment.api.commonBaseUrl + environment.api.loginRoute;
   isLoggedIn: boolean = false;
-  authToken!: string
-  decodedToken: any
-
+  authToken!: string;
+  decodedToken: any;
 
   private _handleHttpErrors(retVal: any) {
     return (err: any) => {
@@ -27,25 +26,23 @@ export class AuthService {
 
   getErrorHandler(res: HttpErrorResponse): Observable<IAuthResponse> {
     if (res.error.error === 'Invalid password') {
-      window.alert(res.error.error)
-      console.log(res.error.error)
-    }
-    else if (res.error.error === 'No user matches this email') {
-      window.alert(res.error.error)
-      console.log(res.error.error)
-    }
-    else {
-      window.alert(res.error.error)
+      window.alert(res.error.error);
+      console.log(res.error.error);
+    } else if (res.error.error === 'No user matches this email') {
+      window.alert(res.error.error);
+      console.log(res.error.error);
+    } else {
+      window.alert(res.error.error);
       console.log(res.error.error);
     }
-    return of(res.error.error)
+    return of(res.error.error);
   }
 
   logOut() {
     this.isLoggedIn = false;
-    this.authToken = ''
+    this.authToken = '';
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login'])
+    this.router.navigate(['/login']);
   }
 
   private autoLogin(): void {
@@ -53,10 +50,9 @@ export class AuthService {
     console.log(authToken);
 
     if (authToken) {
-      this.isLoggedIn = true
+      this.isLoggedIn = true;
       this.authToken = authToken;
     }
-
   }
 
   private autoLogout() {
@@ -68,14 +64,15 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient, private router: Router) {
-    this.autoLogin()
+    this.autoLogin();
   }
 
   loginUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
     console.log('inside auth login');
-    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+    return this.http
+      .post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user)
+      .pipe(catchError(this.getErrorHandler));
   }
-
 
   decodeToken() {
     let authToken: string | null = localStorage.getItem('authToken');
@@ -83,14 +80,11 @@ export class AuthService {
       this.decodeToken = JSON.parse(atob(authToken.split('.')[1]));
     }
     console.log(authToken);
-
   }
-
-
 
   createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+    return this.http
+      .post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user)
+      .pipe(catchError(this.getErrorHandler));
   }
-
-
 }

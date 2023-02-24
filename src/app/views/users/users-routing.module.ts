@@ -11,9 +11,9 @@ const routes: Routes = [
       title: 'Users',
     },
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'view' },
       {
-        path: 'view',
+        path: '',
+        pathMatch: 'full',
         component: UsersComponent,
         data: {
           title: 'All Users',
