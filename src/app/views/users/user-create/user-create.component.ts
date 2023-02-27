@@ -1,9 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { UserRole } from 'src/app/enums/user-role.enum';
 import { UserStatus } from 'src/app/enums/user-status.enum';
+import { IApiResponse } from 'src/app/interfaces/api-response';
+import { UserService } from 'src/app/services/user.service';
 import { User } from '../../../interfaces/user.interface';
-import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-user-create',
@@ -11,18 +15,111 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./user-create.component.scss'],
 })
 export class UserCreateComponent {
-  private userService!: UserService;
+  constructor(
+    private userService: UserService,
+    private snackbar: MatSnackBar,
+    private router: Router
+  ) {}
 
-  createForm = <User>{};
-  userStatuses: string[] = Object.values(UserStatus);
-  userRoles: string[] = Object.values(UserRole);
+  createForm: FormGroup = new FormGroup({
+    first_name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(20),
+    ]),
+    last_name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(25),
+    ]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+      Validators.maxLength(18),
+    ]),
+    profile_image: new FormControl('', []),
+    mobile_number: new FormControl('', [Validators.required]),
+    home_number: new FormControl('', [Validators.required]),
+    status: new FormControl('', []),
+    role: new FormControl(UserRole.USER, []),
+  });
 
-  createUser(userData: Partial<User>) {
-    this.userService.createOne(userData).subscribe({
-      next: (resp: any) => {
-        console.log(resp);
+  get first_name() {
+    return this.createForm.controls['first_name'];
+  }
+
+  get last_name() {
+    return this.createForm.controls['last_name'];
+  }
+
+  get email() {
+    return this.createForm.controls['email'];
+  }
+
+  get password() {
+    return this.createForm.controls['password'];
+  }
+
+  get profile_image() {
+    return this.createForm.controls['profile_image'];
+  }
+
+  get mobile_number() {
+    return this.createForm.controls['mobile_number'];
+  }
+
+  get home_number() {
+    return this.createForm.controls['home_number'];
+  }
+
+  get status() {
+    return this.createForm.controls['status'];
+  }
+
+  get role() {
+    return this.createForm.controls['role'];
+  }
+
+  userStatuses: string[] = Object.keys(UserStatus);
+  userRoles: string[] = Object.keys(UserRole);
+  previewImgUrl: string = '/assets/images/default_profile_image.png';
+  confirm_password: string = '';
+
+  previewImage(event: any) {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      this.createForm.patchValue({ profile_image: file });
+
+      var check = new FileReader();
+      check.readAsDataURL(file);
+      check.onload = (change: any) => {
+        this.previewImgUrl = change.target.result;
+      };
+    }
+  }
+
+  createUser() {
+    this.userService.createOne(this.createForm).subscribe({
+      next: (resp: IApiResponse<any>) => {
+        const timeout: number = 2000; // timeout in milliseconds
+        if (resp.status === 201) {
+          this.snackbar.open('User created successfully', undefined, {
+            duration: timeout,
+            panelClass: ['text-light', 'bg-success'],
+          });
+
+          setTimeout(() => {
+            this.router.navigate(['/users']);
+          }, timeout);
+        } else {
+          this.snackbar.open('There was an error creating user', undefined, {
+            duration: timeout * 1.5,
+          });
+          console.error(resp.error);
+        }
       },
-      error: (err: HttpErrorResponse) => {},
+      error: (error: HttpErrorResponse) => console.error(error),
     });
   }
 }

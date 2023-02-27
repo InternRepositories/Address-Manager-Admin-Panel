@@ -1,92 +1,270 @@
-<div>
-  <div class="row">
-    <div class="col">
-      <div [cFormFloating]="true" class="mb-3">
-        <input
-          [(ngModel)]="createForm.first_name"
-          cFormControl
-          id="first_name"
-          placeholder="Enter first name"
-          type="text"
-        />
-        <label cLabel for="first_name">First Name</label>
+<c-card class="mb-4">
+  <c-card-header>Create New Admin User</c-card-header>
+  <c-card-body>
+    <form [formGroup]="createForm" (ngSubmit)="createAdmin()">
+      <div class="mb-4">
+        <div
+          class="col d-flex flex-column justify-content-center align-items-center"
+        >
+          <img
+            [src]="previewImgUrl"
+            style="width: 160px; height: 160px"
+            class="rounded-circle mb-3"
+            alt="New Admin Profile Image Preview"
+          />
+          <label
+            class="btn btn-success text-light mb-0"
+            cLabel
+            for="profile_image"
+          >
+            Upload Profile Image
+          </label>
+          <input
+            (change)="previewImage($event)"
+            hidden
+            cFormControl
+            id="profile_image"
+            type="file"
+          />
+        </div>
       </div>
-    </div>
-    <div class="col">
-      <div [cFormFloating]="true" class="mb-3">
-        <input
-          [(ngModel)]="createForm.last_name"
-          cFormControl
-          id="lastName"
-          placeholder="Enter last name"
-          type="text"
-        />
-        <label cLabel for="last_name">Last Name</label>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="first_name">First Name</label>
+            <input
+              formControlName="first_name"
+              cFormControl
+              id="first_name"
+              placeholder="Enter first name"
+              type="text"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="first_name?.errors?.['required'] && first_name?.dirty && first_name?.touched"
+            >
+              First name is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="first_name?.errors?.['minLength'] && first_name?.dirty && first_name?.touched"
+            >
+              First name must be atleast x characters long
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="last_name">Last Name</label>
+            <input
+              formControlName="last_name"
+              cFormControl
+              id="lastName"
+              placeholder="Enter last name"
+              type="text"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="last_name?.errors?.['required'] && last_name?.dirty && last_name?.touched"
+            >
+              Last name is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="last_name?.errors?.['minLength'] && last_name?.dirty && last_name?.touched"
+            >
+              Last name must be atleast x characters long
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div [cFormFloating]="true" class="mb-3">
-        <input
-          [(ngModel)]="createForm.email"
-          cFormControl
-          id="email"
-          placeholder="Enter email address"
-          type="email"
-        />
-        <label cLabel for="email">Email</label>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="email">Email</label>
+            <input
+              formControlName="email"
+              cFormControl
+              id="email"
+              placeholder="Enter email address"
+              type="email"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="email?.errors?.['required'] && email?.dirty && email?.touched"
+            >
+              Email is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="email?.errors?.['minLength'] && email?.dirty && email?.touched"
+            >
+              Email must be atleast x characters long
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col">
-      <div [cFormFloating]="true" class="mb-3">
-        <input
-          [(ngModel)]="createForm.mobile_number"
-          cFormControl
-          id="mobile_number"
-          placeholder="Enter mobile number"
-          type="text"
-        />
-        <label cLabel for="mobile_number">Mobile Number</label>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="password">Password</label>
+            <input
+              formControlName="password"
+              cFormControl
+              id="password"
+              placeholder="Enter password"
+              type="password"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="password?.errors?.['required'] && password?.dirty && password?.touched"
+            >
+              Password is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="password?.errors?.['minLength'] && password?.dirty && password?.touched"
+            >
+              Password must be atleast x characters long
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="password?.errors?.['maxLength'] && password?.dirty && password?.touched"
+            >
+              Password must be no longer that x characters long
+            </p>
+            <p class="text-danger my-2" *ngIf="password?.errors?.['match']">
+              Passwords don't match
+            </p>
+          </div>
+        </div>
+        <!-- <div class="col">
+          <div class="mb-3">
+            <label cLabel for="confirm_password">Confirm Password</label>
+            <input
+              [(ngModel)]="confirm_password"
+              [ngModelOptions]="{ standalone: true }"
+              cFormControl
+              id="confirm_password"
+              placeholder="Confirm your password"
+              type="password"
+            />
+            TODO Create validation to confirm password 
+            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['required'] && confirm_password?.dirty && confirm_password?.touched">
+              Confirm password is a required field
+            </p>
+            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['minLength'] && confirm_password?.dirty && confirm_password?.touched">
+              Confirm password must be atleast x characters long
+            </p>
+            <p class="text-danger my-2" *ngIf="password?.errors?.['match']">
+              Passwords don't match
+            </p> 
+          </div>
+        </div> -->
       </div>
-    </div>
-    <div class="row"></div>
-    <div class="col">
-      <div [cFormFloating]="true" class="mb-3">
-        <input
-          [(ngModel)]="createForm.home_number"
-          cFormControl
-          id="home_number"
-          placeholder="Enter home number"
-          type="text"
-        />
-        <label cLabel for="home_number">Home Number</label>
+      <div class="row">
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="home_number">Home Number</label>
+            <input
+              formControlName="home_number"
+              cFormControl
+              id="home_number"
+              placeholder="Enter home number"
+              type="text"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="home_number?.errors?.['required'] && home_number?.dirty && home_number?.touched"
+            >
+              Home Number is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="home_number?.errors?.['minLength'] && home_number?.dirty && home_number?.touched"
+            >
+              Home Number must be atleast x characters long
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="home_number?.errors?.['maxLength'] && home_number?.dirty && home_number?.touched"
+            >
+              Home Number must be no longer that x characters long
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="mb-3">
+            <label cLabel for="mobile_number">Mobile Number</label>
+            <input
+              formControlName="mobile_number"
+              cFormControl
+              id="mobile_number"
+              placeholder="Enter mobile number"
+              type="text"
+            />
+            <p
+              class="text-danger my-2"
+              *ngIf="mobile_number?.errors?.['required'] && mobile_number?.dirty && mobile_number?.touched"
+            >
+              Mobile Number is a required field
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="mobile_number?.errors?.['minLength'] && mobile_number?.dirty && mobile_number?.touched"
+            >
+              Mobile Number must be atleast x characters long
+            </p>
+            <p
+              class="text-danger my-2"
+              *ngIf="mobile_number?.errors?.['maxLength'] && mobile_number?.dirty && mobile_number?.touched"
+            >
+              Mobile Number must be no longer that x characters long
+            </p>
+          </div>
+        </div>
+        <div class="col">
+          <div>
+            <label cLabel for="floatingSelect">User Status</label>
+            <select formControlName="status" cSelect id="floatingSelect">
+              <option value="default" disabled>-- Select User Status --</option>
+              <option *ngFor="let status of userStatuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
+            <p
+              class="text-danger my-2"
+              *ngIf="status?.errors?.['required'] && status?.dirty && status?.touched"
+            >
+              Status is a required field
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <label cLabel for="profile_image">Profile Image</label>
-      <input cFormControl id="profile_image" type="file" />
-    </div>
-    <div class="col">
-      <div cFormFloating>
-        <select cSelect id="floatingSelect">
-          <option *ngFor="let status of userStatuses" [value]="status">
-            {{ status }}
-          </option>
-        </select>
-        <label cLabel for="floatingSelect">User Status</label>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              cButton
+              type="button"
+              color="secondary"
+              class="me-md-2 text-light"
+              [routerLink]="['/admins']"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="createForm.invalid"
+              type="submit"
+              cButton
+              color="primary"
+              class="me-md-2"
+            >
+              Create Admin
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col">
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button (click)="createAdmin()" cButton color="primary" class="me-md-2">
-          Create Admin
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+    </form>
+  </c-card-body>
+</c-card>
