@@ -101,29 +101,26 @@
                 <th>Email</th>
                 <th>Mobile Number</th>
                 <th>Home Number</th>
-                <th>Role</th>
+                <!-- <th>Role</th> -->
                 <th>Status</th>
                 <th class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <!-- <tr
-                *ngFor="
-                  let admin of _admins | searchFilter : search : searchFields
-                "
-              > -->
               <tr *ngFor="let admin of _admins">
                 <td class="text-center">
-                  <c-avatar
-                    size="md"
-                    src="{{ admin.profile_image }}"
-                  ></c-avatar>
+                  <c-avatar size="md" class="avatar avatar-md">
+                    <img
+                      [src]="'http://localhost:5000/' + admin.profile_image"
+                      class="avatar-img"
+                    />
+                  </c-avatar>
                 </td>
                 <td>{{ admin.first_name }} {{ admin.last_name }}</td>
                 <td class="text-left">{{ admin.email }}</td>
                 <td class="text-left">{{ admin.mobile_number }}</td>
                 <td class="text-left">{{ admin.home_number }}</td>
-                <td class="text-left">{{ admin.role }}</td>
+                <!-- <td class="text-left">{{ admin.role }}</td> -->
                 <td class="text-left">{{ admin.status }}</td>
                 <td class="text-center">
                   <div class="d-flex justify-content-around align-items-center">

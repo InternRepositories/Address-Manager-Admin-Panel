@@ -8,6 +8,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { AdminService } from 'src/app/services/admin.service';
 import { IApiResponse } from 'src/app/interfaces/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AdminComponent {
   public admins: Admin[] = [];
-  public _admins: Admin[] = this.admins.slice(0, 5);
+  public _admins: Admin[] = [];
   public search: string = '';
   public searchFields: string[] = [];
   public searchForm: Partial<Admin> = <Admin>{
@@ -31,13 +32,15 @@ export class AdminComponent {
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private snackbar: MatSnackBar
   ) {
     this.adminService.getAll().subscribe({
       next: (
         resp: IApiResponse<{ limit: number; page: number; users: Admin[] }>
       ) => {
         this.admins = resp.data.users;
+        this._admins = this.admins.slice(0, 5);
       },
       error: (error: HttpErrorResponse) => console.error(error),
       complete: () => {},
@@ -45,10 +48,10 @@ export class AdminComponent {
   }
 
   onPageChange(event: PageEvent) {
+    // console.log(event);
     const startIndex = event.pageIndex * event.pageSize;
     let endIndex = startIndex + event.pageSize;
     if (endIndex > this.admins.length) endIndex = this.admins.length;
-
     this._admins = this.admins.slice(startIndex, endIndex);
   }
 
@@ -80,7 +83,20 @@ export class AdminComponent {
     this.dialog.open(ConfirmDialogComponent, { data: this.dialogConfig });
   }
 
-  deleteAdmin(user: Admin): void {
-    // TODO implement logic for delete
+  deleteAdmin(): void {
+    this.adminService
+      .deleteOne(this.admins[this.adminIndexForDelete]._id)
+      .subscribe({
+        next: (resp: IApiResponse<Admin>) => {
+          if (resp.status === 200) {
+            this.snackbar.open('Admin Deleted!', 'ok', { duration: 2500 });
+          } else {
+            this.snackbar.open('Error Deleting Admin!', 'ok', {
+              duration: 2500,
+            });
+          }
+        },
+        error: (error: HttpErrorResponse) => console.error(error.message),
+      });
   }
 }

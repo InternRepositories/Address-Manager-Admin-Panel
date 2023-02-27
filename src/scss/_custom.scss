@@ -50,3 +50,13 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.success-snackbar {
+  color: white;
+  background-color: mediumseagreen;
+}
+
+.error-snackbar {
+  color: white;
+  background-color: crimson;
+}
