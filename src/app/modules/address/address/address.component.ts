@@ -16,6 +16,9 @@ export class AddressComponent implements OnInit {
   addresses: Address[] = []
   _addresses: any[] = []
 
+  limit: number | undefined
+  page!: number;
+
   allAddresses: number = 0
   pagination: number = 1
   totalAddresses: number = 0
@@ -43,25 +46,30 @@ export class AddressComponent implements OnInit {
 
 
   renderPage(event: number) {
-    this.pagination = event
+    this.page = event
     this.getAllAddress();
 
 
   }
 
   getAllAddress() {
-    this.addressService.getAllAddresses().subscribe(res => {
-      this.addresses = res.data
-      this._addresses = res.data
-      for (let i = 0; i < this._addresses.length; i++) {
-        // const parishName = this.mapParishes(this._addresses[i]['parish'])
-        console.log("Parish", this.addresses[i].parish);
-        console.log("Parish ID", this.parishes[i]._id);
+    // this.ParishService.getAllParishes().subscribe(res => {
+    //   this.parishes = res.data
+    // })
+    this.addressService.getAllAddresses(this.page).subscribe(res => {
+      this.addresses = res.data.addresses
+      this.limit = res.data.limit
+      this.page = res.data.page
+      console.log(this.limit);
+      console.log(this.page);
+      console.log(this.addresses);
 
+
+
+      for (let i = 0; i < this.addresses.length; i++) {
         const parishName = this.parishes.find((parish) => this.addresses[i].parish === parish._id)?.parishName || 'Parish not found'
-        console.log(parishName);
 
-        // this._addresses[i]['parishName'] = parishName;
+        this.addresses[i]['parish'] = parishName;
 
       }
     })
@@ -71,7 +79,6 @@ export class AddressComponent implements OnInit {
     this.ParishService.getAllParishes().subscribe(res => {
       this.parishes = res.data
 
-      console.log(this.parishes);
 
 
 
@@ -113,12 +120,15 @@ export class AddressComponent implements OnInit {
   }
 
   statusChange = new FormGroup({
-    'status': new FormControl('1', [Validators.required]),
+    'status': new FormControl('APPROVED', [Validators.required]),
   })
 
   approveAddress(id: any): void {
     const formData = this.statusChange.value as Partial<Address>
+    console.log(formData);
+
     this.addressService.updateAddress(id, formData).subscribe(res => {
+      this.getAllAddress()
       Swal.fire('check Successful')
     })
 
@@ -139,8 +149,9 @@ export class AddressComponent implements OnInit {
   // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous
 
   ngOnInit() {
-    this.getAllAddress()
     this.getAllParish()
+    this.getAllAddress()
+
 
 
 

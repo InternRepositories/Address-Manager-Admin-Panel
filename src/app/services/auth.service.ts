@@ -77,7 +77,7 @@ export class AuthService {
 
   private autoLogin(): void {
     let authToken = localStorage.getItem('authToken');
-    console.log(authToken);
+
 
     if (authToken) {
       this.isLoggedIn = true

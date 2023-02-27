@@ -51,11 +51,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let address of _addresses | paginate:
+            <tr *ngFor="let address of addresses | paginate:
             {
+              id: 'npxpaginate',
             itemsPerPage:10,
-            currentPage:pagination,
-            totalItems: totalAddresses
+            currentPage:page,
+            totalItems: 40
             }">
               <td>
                 <div>
@@ -71,10 +72,10 @@
                 </div>
               </td>
               <td class=" text-left">
-                {{ address.parishName}}
+                {{ address.parish}}
               </td>
               <td>
-                <div [ngClass]="approved ? 'pending' : 'approved'">
+                <div [ngClass]="address.status == 'PENDING'? 'pending' : 'approved'">
                   {{ address.status }}
                 </div>
 
@@ -112,7 +113,7 @@
 <div class="d-flex justify-content-end mb-4">
   <c-card style="height: 4rem; ">
     <c-card-body>
-      <pagination-controls (pageChange)="renderPage($event)"></pagination-controls>
+      <pagination-controls id="npxpaginate" (pageChange)="renderPage($event)"></pagination-controls>
     </c-card-body>
 
   </c-card>

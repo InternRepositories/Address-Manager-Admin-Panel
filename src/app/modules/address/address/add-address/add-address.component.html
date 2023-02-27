@@ -12,21 +12,33 @@
                 <span *ngIf="addressForm.get('address_1')?.hasError('required')" class="error">address 1 required</span>
               </div>
             </div>
-            <div class="form-field">
+            <div class="form-field" style="margin-right: 2rem;">
               <label cLabel for="">address Line 2</label>
               <input cFormControl name="address_2" formControlName="address_2" placeholder="Kingston 12" type="text" />
             </div>
-          </div>
-          <div>
 
-            <div>
-              <label class="select-label" cLabel for="">Select City</label>
+            <div class="form-field">
+              <label cLabel for="">Select City</label>
               <input cFormControl name="city" formControlName="city" placeholder="example city" type="text" />
 
               <div class="error-con" *ngIf="addressForm.get('city')?.touched || submitted">
                 <span *ngIf="addressForm.get('city')?.hasError('required')" class="error">Please Select a city</span>
               </div>
             </div>
+          </div>
+
+          <div>
+            <label class="select-label" cLabel for="">Select Status</label>
+            <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
+              <option value="" selected disabled>--Select Status--</option>
+              <option *ngFor="let status of statuses" value="{{status._id}}">{{status.statusName}}</option>
+            </select>
+            <div class="error-con" *ngIf="addressForm.get('user_id')?.touched || submitted">
+              <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select A parish</span>
+            </div>
+          </div>
+
+          <div>
             <label class="select-label" cLabel for="">Select User for address</label>
             <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="user_id" cSelect>
               <option value="" selected disabled>--Select User--</option>

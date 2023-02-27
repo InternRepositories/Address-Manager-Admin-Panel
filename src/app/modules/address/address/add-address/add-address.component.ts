@@ -24,13 +24,27 @@ export class AddAddressComponent implements OnInit {
   parishes: IParish[] = []
   users: any;
   cities: ICity[] = Cities
+  statuses: any[] = [
+    {
+      _id: 0,
+      statusName: "PENDING"
+
+    },
+    {
+      _id: 1,
+      statusName: "APPROVED"
+
+    },
+  ]
 
   addressForm = new FormGroup({
     'address_1': new FormControl('', [Validators.required]),
     'address_2': new FormControl('',),
     'parish': new FormControl('', [Validators.required]),
     'city': new FormControl('', [Validators.required]),
-    'user_id': new FormControl('', [Validators.required])
+    'user_id': new FormControl('', [Validators.required]),
+    'status': new FormControl(''),
+
 
   })
 
@@ -64,9 +78,8 @@ export class AddAddressComponent implements OnInit {
     this.addressService.createAddress(formData).subscribe({
       next: (res) => {
         console.log(res);
-
-        // Swal.fire('address Submitted Successfully'),
-        this.router.navigate(['/address/view'])
+        Swal.fire('address Submitted Successfully'),
+          this.router.navigate(['/address/view'])
       },
       error: (err) => {
         Swal.fire({

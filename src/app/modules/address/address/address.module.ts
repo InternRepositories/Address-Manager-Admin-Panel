@@ -25,6 +25,7 @@ import { AddAddressComponent } from './add-address/add-address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     WidgetModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatPaginatorModule
+
 
 
 

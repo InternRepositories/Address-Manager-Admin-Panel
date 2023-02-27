@@ -14,14 +14,12 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log("intercepted request ... ");
-    console.log(this.authService.authToken);
 
     if (this.authService.authToken) {
       const clonedRequest = request.clone({
         headers: request.headers.set('Authorization', 'Bearer ' + this.authService.authToken)
       })
-      console.log("intercepted request ... ");
+
       return next.handle(clonedRequest);
 
     }

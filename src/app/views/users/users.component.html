@@ -1,65 +1,31 @@
-<!-- <c-row>
+<c-row>
   <div class="d-flex justify-content-end">
-    <button
-      cButton
-      color="primary"
-      class="mx-1"
-      [routerLink]="['/users', 'create']"
-    >
+    <button cButton color="primary" class="mx-1" [routerLink]="['/users', 'create']">
       New User
     </button>
   </div>
   <div class="row d-flex flex-row mb-3">
     <div class="col">
       <label cLabel for="first_name">First Name</label>
-      <input
-        cFormControl
-        id="first_name"
-        placeholder="Filter by first name"
-        type="text"
-        [(ngModel)]="searchForm.first_name"
-      />
+      <input cFormControl id="first_name" placeholder="Filter by first name" type="text" [(ngModel)]="searchForm.first_name" />
     </div>
     <div class="col">
       <label cLabel for="last_name">Last Name</label>
-      <input
-        cFormControl
-        id="last_name"
-        placeholder="Filter by last name"
-        type="text"
-        [(ngModel)]="searchForm.last_name"
-      />
+      <input cFormControl id="last_name" placeholder="Filter by last name" type="text" [(ngModel)]="searchForm.last_name" />
     </div>
     <div class="col">
       <label cLabel for="email">Email</label>
-      <input
-        cFormControl
-        id="email"
-        placeholder="Filter by email"
-        type="text"
-        [(ngModel)]="searchForm.email"
-      />
+      <input cFormControl id="email" placeholder="Filter by email" type="text" [(ngModel)]="searchForm.email" />
     </div>
   </div>
   <c-row class="mb-3">
     <c-col>
       <label cLabel for="email">Global Search</label>
-      <input
-        cFormControl
-        [(ngModel)]="search"
-        id="global"
-        placeholder="Filter by all fields"
-        type="text"
-      />
+      <input cFormControl [(ngModel)]="search" id="global" placeholder="Filter by all fields" type="text" />
     </c-col>
   </c-row>
   <div class="d-flex justify-content-center mb-3">
-    <button
-      cButton
-      color="success"
-      class="text-light mx-1"
-      (click)="searchUserHandler()"
-    >
+    <button cButton color="success" class="text-light mx-1" (click)="searchUserHandler()">
       Filter Search
     </button>
     <button cButton color="secondary" class="mx-1">Reset</button>
@@ -68,14 +34,7 @@
     <c-card class="mb-4">
       <c-card-header>Users</c-card-header>
       <c-card-body>
-        <table
-          [hover]="true"
-          [responsive]="true"
-          [striped]="true"
-          align="middle"
-          cTable
-          class="mb-0 border"
-        >
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead cTableColor="light">
             <tr>
               <th class="text-center">
@@ -91,54 +50,44 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let user of _users | searchFilter : search : searchFields"
-            >
+            <tr *ngFor="let user of _users">
               <td class="text-center">
                 <c-avatar size="md" src="{{ user.profile_image }}"></c-avatar>
               </td>
-              <td>{{ user.first_name }} {{ user.last_name }}</td>
-              <td class="text-left">{{ user.email }}</td>
-              <td class="text-left">{{ user.mobile_number }}</td>
-              <td class="text-left">{{ user.home_number }}</td>
-              <td class="text-left">{{ user.role }}</td>
-              <td class="text-left">{{ user.status }}</td>
+              <td>
+                {{ user.first_name }}
+                {{ user.last_name }}
+              </td>
+              <td class="text-left">
+                {{ user.email }}
+              </td>
+              <td class="text-left">
+                {{ user.mobile_number }}
+              </td>
+              <td class="text-left">
+                {{ user.home_number }}
+              </td>
+              <td class="text-left">
+                {{ user.role }}
+              </td>
+              <td class="text-left">
+                {{ user.status }}
+              </td>
               <td class="text-center">
                 <div class="d-flex justify-content-around align-items-center">
-                  <p
-                    class="mb-0 action-btn"
-                    [routerLink]="['/users', 'update', user._id]"
-                  >
-                    <svg
-                      cIcon
-                      name="cilPen"
-                      size="xl"
-                      title="Numbered List Icon"
-                    ></svg>
+                  <p class="mb-0 action-btn" [routerLink]="['/users', 'update', user._id]">
+                    <svg cIcon name="cilPen" size="xl" title="Numbered List Icon"></svg>
                   </p>
-                  <p
-                    class="mb-0 action-btn"
-                    (click)="deleteUserHandler(user._id)"
-                  >
-                    <svg
-                      cIcon
-                      name="cilTrash"
-                      size="xl"
-                      title="Numbered List Icon"
-                    ></svg>
+                  <p class="mb-0 action-btn" (click)="deleteUserHandler(user._id)">
+                    <svg cIcon name="cilTrash" size="xl" title="Numbered List Icon"></svg>
                   </p>
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
-        <mat-paginator
-          [length]="users.length"
-          [pageSize]="5"
-          [pageSizeOptions]="[5, 10, 15, 20]"
-          (page)="onPageChange($event)"
-        ></mat-paginator>
+        <mat-paginator [length]="users.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20]" (page)="onPageChange($event)"></mat-paginator>
       </c-card-body>
     </c-card>
   </c-col>
-</c-row> -->
+</c-row>

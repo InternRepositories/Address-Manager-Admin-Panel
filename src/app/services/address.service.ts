@@ -41,8 +41,8 @@ export class AddressService {
   }
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
-  getAllAddresses(): Observable<IApiResponse<Address[]>> {
-    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin`).pipe(catchError(this._tokenHandler));
+  getAllAddresses(page = 1, limit = 10): Observable<IApiResponse<Address[]>> {
+    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&${limit}`).pipe(catchError(this._tokenHandler));
   }
 
   getAddressById(_id: string): Observable<IApiResponse<Address>> {

@@ -8,6 +8,7 @@ import { AddressService } from 'src/app/services/address.service';
 import { ParishService } from 'src/app/services/parish.service';
 import { UserService } from 'src/app/services/user.service';
 import { Cities } from '../addresses';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-edit-address',
@@ -21,6 +22,18 @@ export class EditAddressComponent implements OnInit {
   users: any;
   address!: Address
   addressForm!: FormGroup;
+  statuses: any[] = [
+    {
+      _id: 0,
+      statusName: "PENDING"
+
+    },
+    {
+      _id: 1,
+      statusName: "APPROVED"
+
+    },
+  ]
 
   constructor(private addressService: AddressService, private parishService: ParishService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
@@ -45,7 +58,7 @@ export class EditAddressComponent implements OnInit {
     console.log(this.addressForm.value);
 
     this.addressService.updateAddress(this.address._id, this.addressForm.value).subscribe(res => {
-      alert('address updated successfully')
+      Swal.fire('address updated successfully')
       this.router.navigate(['/address/view'])
 
 
