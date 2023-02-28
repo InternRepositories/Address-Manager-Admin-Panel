@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 // Import containers
 import {
@@ -141,12 +141,10 @@ const APP_CONTAINERS = [
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-
-
     },
     IconSetService,
     Title,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

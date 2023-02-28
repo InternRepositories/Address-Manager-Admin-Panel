@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
+import { FilterService } from '../services/filter.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { IApiResponse } from '../interfaces/api-response';
@@ -11,8 +12,8 @@ import { environment } from '../../environments/environment';
 export class AdminService {
   admins: User[] = [];
   private apiUrl = environment.api.adminUrl + '/users/';
-  private platformQuery = '?platform=admin';
-  private createUrl = environment.api.commonUrl + '/users';
+  private urlQueries = '?platform=admin&role=ADMIN';
+  private commonUsersUrl = environment.api.commonUrl + '/users/';
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +22,7 @@ export class AdminService {
   > {
     return this.http
       .get<IApiResponse<{ limit: number; page: number; users: User[] }>>(
-        this.apiUrl + this.platformQuery
+        this.apiUrl + this.urlQueries
       )
       .pipe(
         tap(
@@ -36,30 +37,27 @@ export class AdminService {
 
   getOne(id: string): Observable<IApiResponse<User>> {
     return this.http.get<IApiResponse<User>>(
-      this.apiUrl + id + this.platformQuery
+      this.commonUsersUrl + id + this.urlQueries
     );
   }
 
   createOne(userData: any): Observable<IApiResponse<User>> {
     return this.http.post<IApiResponse<User>>(
-      this.createUrl + this.platformQuery,
+      this.commonUsersUrl + this.urlQueries,
       userData
     );
   }
 
-  updateOne(
-    id: string,
-    userData: Partial<User>
-  ): Observable<IApiResponse<User>> {
+  updateOne(id: string, userData: any): Observable<IApiResponse<User>> {
     return this.http.patch<IApiResponse<User>>(
-      this.apiUrl + id + this.platformQuery,
+      this.commonUsersUrl + id + this.urlQueries,
       userData
     );
   }
 
   deleteOne(id: string): Observable<IApiResponse<User>> {
     return this.http.delete<IApiResponse<User>>(
-      this.apiUrl + id + this.platformQuery
+      this.apiUrl + id + this.urlQueries
     );
   }
 }

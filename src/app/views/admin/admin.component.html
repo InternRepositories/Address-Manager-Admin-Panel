@@ -12,7 +12,7 @@
                 id="first_name"
                 placeholder="Filter by first name"
                 type="text"
-                [(ngModel)]="searchForm.first_name"
+                [ngModel]="searchForm.first_name"
               />
             </div>
             <div class="col">
@@ -22,7 +22,7 @@
                 id="last_name"
                 placeholder="Filter by last name"
                 type="text"
-                [(ngModel)]="searchForm.last_name"
+                [ngModel]="searchForm.last_name"
               />
             </div>
             <div class="col">
@@ -32,7 +32,7 @@
                 id="email"
                 placeholder="Filter by email"
                 type="text"
-                [(ngModel)]="searchForm.email"
+                [ngModel]="searchForm.email"
               />
             </div>
           </div>
@@ -41,7 +41,7 @@
               <label cLabel for="email">Global Search</label>
               <input
                 cFormControl
-                [(ngModel)]="search"
+                [ngModel]="search"
                 id="global"
                 placeholder="Filter by all fields"
                 type="text"
@@ -107,12 +107,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let admin of _admins">
+              <tr
+                *ngFor="
+                  let admin of _admins
+                    | searchFilter
+                      : search
+                      : ['first_name', 'last_name', 'email']
+                "
+              >
                 <td class="text-center">
                   <c-avatar size="md" class="avatar avatar-md">
                     <img
+                      class="rounded-circle"
+                      width="40"
+                      height="40"
                       [src]="'http://localhost:5000/' + admin.profile_image"
-                      class="avatar-img"
                     />
                   </c-avatar>
                 </td>
@@ -121,7 +130,17 @@
                 <td class="text-left">{{ admin.mobile_number }}</td>
                 <td class="text-left">{{ admin.home_number }}</td>
                 <!-- <td class="text-left">{{ admin.role }}</td> -->
-                <td class="text-left">{{ admin.status }}</td>
+                <td
+                  class="text-left font-weight-bold"
+                  [ngClass]="{
+                    'text-warning': admin.status == status.PENDING,
+                    'text-success': admin.status == status.ACTIVE,
+                    'text-primary': admin.status == status.APPROVED,
+                    'text-danger': admin.status == status.INACTIVE
+                  }"
+                >
+                  {{ admin.status }}
+                </td>
                 <td class="text-center">
                   <div class="d-flex justify-content-around align-items-center">
                     <p

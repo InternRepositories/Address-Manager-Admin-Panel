@@ -7,6 +7,7 @@ import { UserRole } from 'src/app/enums/user-role.enum';
 import { UserStatus } from 'src/app/enums/user-status.enum';
 import { IApiResponse } from 'src/app/interfaces/api-response';
 import { AdminService } from 'src/app/services/admin.service';
+import { environment } from 'src/environments/environment';
 import { User as Admin } from '../../../interfaces/user.interface';
 
 @Component({
@@ -15,33 +16,9 @@ import { User as Admin } from '../../../interfaces/user.interface';
   styleUrls: ['./admin-user-update.component.scss'],
 })
 export class AdminUserUpdateComponent {
-  constructor(
-    private adminService: AdminService,
-    private snackbar: MatSnackBar,
-    private router: ActivatedRoute
-  ) {
-    this.router.params.subscribe((res) => {
-      this.adminService.getOne(res['id']).subscribe({
-        next: (resp: IApiResponse<Admin>) => {
-          if (resp.status === 200) {
-            console.log('User loaded');
-          } else {
-            console.error(resp.error);
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          // TODO continue implement the integration for admin and user module
-          if (error.status === 404)
-            this.snackbar.open('User not found!', 'ok', { duration: 3000 });
-          console.error('Error Getting One Admin', error.message);
-        },
-      });
-    });
-  }
-
   user: Admin = <Admin>{};
 
-  createForm: FormGroup = new FormGroup({
+  updateForm: FormGroup = new FormGroup({
     first_name: new FormControl(this.user.first_name, [
       Validators.required,
       Validators.minLength(3),
@@ -71,52 +48,91 @@ export class AdminUserUpdateComponent {
   });
 
   get first_name() {
-    return this.createForm.get('first_name');
+    return this.updateForm.get('first_name');
   }
 
   get last_name() {
-    return this.createForm.get('last_name');
+    return this.updateForm.get('last_name');
   }
 
   get email() {
-    return this.createForm.get('email');
+    return this.updateForm.get('email');
   }
 
   get password() {
-    return this.createForm.get('password');
+    return this.updateForm.get('password');
   }
 
   get profile_image() {
-    return this.createForm.get('profile_image');
+    return this.updateForm.get('profile_image');
   }
 
   get mobile_number() {
-    return this.createForm.get('mobile_number');
+    return this.updateForm.get('mobile_number');
   }
 
   get home_number() {
-    return this.createForm.get('home_number');
+    return this.updateForm.get('home_number');
   }
 
   get status() {
-    return this.createForm.get('status');
+    return this.updateForm.get('status');
   }
 
   get role() {
-    return this.createForm.get('role');
+    return this.updateForm.get('role');
   }
 
   userStatuses: string[] = Object.keys(UserStatus);
   userRoles: string[] = Object.keys(UserRole);
-  previewImgUrl: string = '/assets/images/default_profile_image.png';
+  defaultImgUrl: string = '/assets/images/default_profile_image.png';
+  previewImgUrl: string = this.defaultImgUrl;
   confirm_password: string = '';
+
+  constructor(
+    private adminService: AdminService,
+    private snackbar: MatSnackBar,
+    private router: ActivatedRoute
+  ) {
+    this.router.params.subscribe((res) => {
+      this.adminService.getOne(res['id']).subscribe({
+        next: (resp: IApiResponse<Admin>) => {
+          if (resp.status === 200) {
+            this.user = resp.data;
+            // manually set user role beacause it isn't sent from the API
+            this.user.role = UserRole.ADMIN;
+
+            // set user mage preview
+            this.previewImgUrl = `http://localhost:5000/${this.user.profile_image?.replaceAll(
+              '\\',
+              '/'
+            )}`;
+
+            // Update reactive form values using data pulled from the database
+            for (const formControl in this.updateForm.controls) {
+              this.updateForm.controls[formControl].setValue(
+                (this.user as any)[formControl]
+              );
+            }
+          } else {
+            console.error(resp.error);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 404)
+            this.snackbar.open('User not found!', 'ok', { duration: 3000 });
+          console.error('Error Getting One Admin', error.message);
+        },
+      });
+    });
+  }
 
   previewImage(event: any) {
     if (event.target.files) {
       const file = event.target.files[0];
-      this.createForm.patchValue({ profile_image: file });
+      this.updateForm.patchValue({ profile_image: file });
 
-      var check = new FileReader();
+      const check = new FileReader();
       check.readAsDataURL(file);
       check.onload = (change: any) => {
         this.previewImgUrl = change.target.result;
@@ -124,35 +140,45 @@ export class AdminUserUpdateComponent {
     }
   }
 
-  createAdmin() {
-    const form = new FormData();
+  updateAdmin() {
+    this.adminService
+      .updateOne(this.user._id, this.reactiveFormToFormData(this.updateForm))
+      .subscribe({
+        next: (resp: IApiResponse<Admin>) => {
+          const timeout: number = 2500; // timeout in milliseconds
+          if (resp.status === 200) {
+            this.snackbar.open('Updated successfully', undefined, {
+              duration: timeout,
+              panelClass: ['success-snackbar'],
+            });
+          } else {
+            this.snackbar.open('There was an error updating admin', undefined, {
+              duration: timeout,
+            });
 
-    // append all data to the Form Data object from the Reactive form
-    // this was done for file upload because reactive forms doesn't natively support file upload
-    Object.keys(this.createForm.controls).forEach((key) => {
-      form.append(key, this.createForm.controls[key].value);
-    });
+            console.error(resp.error);
+          }
+        },
+        error: (error: HttpErrorResponse) =>
+          console.error('Update One Admin Error', error.message),
+      });
+  }
 
-    this.adminService.createOne(form).subscribe({
-      next: (resp: IApiResponse<Admin>) => {
-        const timeout: number = 2500; // timeout in milliseconds
-        if (resp.status === 201) {
-          // clear form data
-          this.createForm.reset();
-          this.snackbar.open('Admin created successfully', undefined, {
-            duration: timeout,
-            panelClass: ['success-snackbar'],
-          });
-        } else {
-          this.snackbar.open('There was an error creating admin', undefined, {
-            duration: timeout,
-          });
+  /**
+   * Transform a reactive form to form data
+   * @param reactiveForm Reactive form that will be transformed to form data
+   * @returns { FormData }
+   */
+  reactiveFormToFormData(reactiveForm: FormGroup): FormData {
+    const formData = new FormData();
+    const formControls = Object.keys(reactiveForm.controls);
 
-          console.error(resp.error);
-        }
-      },
-      error: (error: HttpErrorResponse) =>
-        console.error('Create One Admin Error', error.message),
-    });
+    // used a for loop instead of a forEach for speedy implementation
+    for (let index = 0; index < formControls.length; index++) {
+      const key = formControls[index];
+      formData.append(key, reactiveForm.controls[key].value);
+    }
+
+    return formData;
   }
 }

@@ -9,6 +9,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { IApiResponse } from 'src/app/interfaces/api-response';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserStatus } from 'src/app/enums/user-status.enum';
 
 @Component({
   selector: 'app-admin',
@@ -16,11 +17,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  public admins: Admin[] = [];
-  public _admins: Admin[] = [];
-  public search: string = '';
-  public searchFields: string[] = [];
-  public searchForm: Partial<Admin> = <Admin>{
+  admins: Admin[] = [];
+  _admins: Admin[] = [];
+  search: string = '';
+  searchFields: string[] = [];
+  status = UserStatus;
+  searchForm: Partial<Admin> = <Admin>{
     first_name: '',
     last_name: '',
     email: '',
@@ -48,7 +50,6 @@ export class AdminComponent {
   }
 
   onPageChange(event: PageEvent) {
-    // console.log(event);
     const startIndex = event.pageIndex * event.pageSize;
     let endIndex = startIndex + event.pageSize;
     if (endIndex > this.admins.length) endIndex = this.admins.length;

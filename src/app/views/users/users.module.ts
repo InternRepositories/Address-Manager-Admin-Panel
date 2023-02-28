@@ -24,7 +24,7 @@ import { WidgetsModule } from '../widgets/widgets.module';
 import { UserCreateComponent } from './user-create/user-create.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({

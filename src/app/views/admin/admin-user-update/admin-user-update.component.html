@@ -1,7 +1,7 @@
 <c-card class="mb-4">
-  <c-card-header>Create New Admin User</c-card-header>
+  <c-card-header>Update Admin User</c-card-header>
   <c-card-body>
-    <form [formGroup]="createForm" (ngSubmit)="createAdmin()">
+    <form [formGroup]="updateForm" (ngSubmit)="updateAdmin()">
       <div class="mb-4">
         <div
           class="col d-flex flex-column justify-content-center align-items-center"
@@ -104,63 +104,41 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-3">
         <div class="col">
-          <div class="mb-3">
-            <label cLabel for="password">Password</label>
-            <input
-              formControlName="password"
-              cFormControl
-              id="password"
-              placeholder="Enter password"
-              type="password"
-            />
+          <div>
+            <label cLabel for="floatingSelect">User Status</label>
+            <select formControlName="status" cSelect id="floatingSelect">
+              <option value="" disabled>-- Select User Status --</option>
+              <option *ngFor="let status of userStatuses" [value]="status">
+                {{ status }}
+              </option>
+            </select>
             <p
               class="text-danger my-2"
-              *ngIf="password?.errors?.['required'] && password?.dirty && password?.touched"
+              *ngIf="status?.errors?.['required'] && status?.dirty && status?.touched"
             >
-              Password is a required field
-            </p>
-            <p
-              class="text-danger my-2"
-              *ngIf="password?.errors?.['minLength'] && password?.dirty && password?.touched"
-            >
-              Password must be atleast x characters long
-            </p>
-            <p
-              class="text-danger my-2"
-              *ngIf="password?.errors?.['maxLength'] && password?.dirty && password?.touched"
-            >
-              Password must be no longer that x characters long
-            </p>
-            <p class="text-danger my-2" *ngIf="password?.errors?.['match']">
-              Passwords don't match
+              Status is a required field
             </p>
           </div>
         </div>
-        <!-- <div class="col">
-            <div class="mb-3">
-              <label cLabel for="confirm_password">Confirm Password</label>
-              <input
-                [(ngModel)]="confirm_password"
-                [ngModelOptions]="{ standalone: true }"
-                cFormControl
-                id="confirm_password"
-                placeholder="Confirm your password"
-                type="password"
-              />
-              TODO Create validation to confirm password 
-              <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['required'] && confirm_password?.dirty && confirm_password?.touched">
-                Confirm password is a required field
-              </p>
-              <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['minLength'] && confirm_password?.dirty && confirm_password?.touched">
-                Confirm password must be atleast x characters long
-              </p>
-              <p class="text-danger my-2" *ngIf="password?.errors?.['match']">
-                Passwords don't match
-              </p> 
-            </div>
-          </div> -->
+        <div class="col">
+          <div>
+            <label cLabel for="floatingSelect">User Role</label>
+            <select formControlName="role" cSelect id="floatingSelect">
+              <option value="" disabled>-- Select User Role --</option>
+              <option *ngFor="let role of userRoles" [value]="role">
+                {{ role }}
+              </option>
+            </select>
+            <p
+              class="text-danger my-2"
+              *ngIf="role?.errors?.['required'] && role?.dirty && role?.touched"
+            >
+              Role is a required field
+            </p>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col">
@@ -223,23 +201,6 @@
             </p>
           </div>
         </div>
-        <div class="col">
-          <div>
-            <label cLabel for="floatingSelect">User Status</label>
-            <select formControlName="status" cSelect id="floatingSelect">
-              <option value="default" disabled>-- Select User Status --</option>
-              <option *ngFor="let status of userStatuses" [value]="status">
-                {{ status }}
-              </option>
-            </select>
-            <p
-              class="text-danger my-2"
-              *ngIf="status?.errors?.['required'] && status?.dirty && status?.touched"
-            >
-              Status is a required field
-            </p>
-          </div>
-        </div>
       </div>
       <div class="row mt-3">
         <div class="col">
@@ -253,14 +214,8 @@
             >
               Cancel
             </button>
-            <button
-              [disabled]="createForm.invalid"
-              type="submit"
-              cButton
-              color="primary"
-              class="me-md-2"
-            >
-              Create Admin
+            <button type="submit" cButton color="warning" class="me-md-2">
+              Save Admin
             </button>
           </div>
         </div>

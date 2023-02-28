@@ -21,7 +21,7 @@ import { AdminComponent } from './admin.component';
 import { AdminUserCreateComponent } from './admin-user-create/admin-user-create.component';
 import { AdminUserUpdateComponent } from './admin-user-update/admin-user-update.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { PipesModule } from 'src/app/modules/pipes/pipes.module';
     GridModule,
     MatSnackBarModule,
     MatPaginatorModule,
-    // PipesModule,
+    PipesModule,
   ],
 })
 export class AdminModule {}
