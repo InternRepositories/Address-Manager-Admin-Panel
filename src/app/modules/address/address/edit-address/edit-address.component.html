@@ -46,11 +46,11 @@
 
           <div>
             <label class="select-label" cLabel for="">Select User for address</label>
-            <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="parish" cSelect>
+            <select class="parish-select" formControlName="user_id" aria-label="Default select example" name="user_id" cSelect>
               <option *ngFor="let user of users" value="{{user._id}}">{{user.first_name}} {{user.last_name}}</option>
             </select>
             <div class="error-con" *ngIf="addressForm.get('user_id')?.touched || submitted">
-              <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select A parish</span>
+              <span *ngIf="addressForm.get('user_id')?.hasError('required')" class="error">Please Select status</span>
             </div>
           </div>
           <div>

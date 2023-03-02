@@ -15,6 +15,8 @@ export const environment = {
     usersRoute: '/users/',
     loginRoute: '/login/',
     addressRoute: '/addresses',
+    resetRoute: '/resetPassword',
+    requestRoute: '/requestPasswordReset',
     parishRoute: '/parishes',
     commonUrl: `${_baseUrl}/common`,
     webUrl: `${_baseUrl}/web`,

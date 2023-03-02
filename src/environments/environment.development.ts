@@ -13,8 +13,11 @@ export const environment = {
     loginRoute: '/login/',
     addressRoute: '/addresses',
     parishRoute: '/parishes',
+    resetRoute: '/resetPassword',
+    requestRoute: '/requestPasswordReset',
     commonUrl: `${_baseUrl}/common`,
     webUrl: `${_baseUrl}/web`,
     adminUrl: `${_baseUrl}/admin`,
+
   },
 };

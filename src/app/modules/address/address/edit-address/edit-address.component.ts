@@ -41,12 +41,15 @@ export class EditAddressComponent implements OnInit {
     this.parishService.getAllParishes().subscribe(res => {
       this.parishes = res.data
 
+
     })
 
   }
   getAllUsers() {
     this.userService.getAll().subscribe(res => {
       this.users = res.data.users;
+
+
 
 
     })
@@ -73,6 +76,10 @@ export class EditAddressComponent implements OnInit {
     this.getAllUsers()
     this.addressService.getAddressById(this.route.snapshot.params['id']).subscribe(res => {
       this.address = res.data
+
+
+
+
       this.addressForm = new FormGroup({
         'address_1': new FormControl(res.data.address_1, [Validators.required]),
         'address_2': new FormControl(res.data.address_2,),
@@ -82,16 +89,31 @@ export class EditAddressComponent implements OnInit {
         'status': new FormControl(res.data.status, [Validators.required])
 
       })
+      this.parishService.getAllParishes().subscribe(_results => {
+        const parishes = _results.data;
+        const parish = parishes.filter((parish: {
+          parishName: any; _id: any;
+        }) => parish.parishName == res.data.parish)[0];
+
+        this.addressForm.controls['parish'].setValue(parish._id);
+
+      })
+
+      this.userService.getAll().subscribe(_results => {
+        const users = _results.data.users
+        console.log(_results.data.users);
+
+        const user = users.filter((user: {
+          email: any; _id: any;
+        }) => user.email == res.data.user_id)[0]
+
+        console.log(user);
+        this.addressForm.controls['user_id'].setValue(user._id);
+
+      })
 
 
 
-
-      // this.parishService.getAllParishes().subscribe(res => {
-      //   const parishes = res.data
-      //   const parish = parishes.filter((parish: { _id: any; }) => parish._id == res.data._id)[0];
-      //   // this.addressForm.controls['parish'].setValue(parish._id);
-
-      // })
 
     })
 

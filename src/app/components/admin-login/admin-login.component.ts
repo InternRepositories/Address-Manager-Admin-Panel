@@ -16,10 +16,20 @@ export class AdminLoginComponent implements OnInit {
   public captchaResolved: boolean = false;
   token: string | undefined;
   submitted = false;
-  loginForm!: FormGroup;
+
+  attempts: number = 3
 
   isLoggedIn: boolean = false;
   authToken: string = ''
+
+
+  loginForm = new FormGroup({
+    'email': new FormControl('', [Validators.required, Validators.email]),
+    'password': new FormControl('', [Validators.required]),
+    'recaptchaReactive': new FormControl('',),
+  })
+  timeout!: number;
+  countdown: any
 
 
   constructor(private router: Router, private authService: AuthService) {
@@ -53,6 +63,24 @@ export class AdminLoginComponent implements OnInit {
               setTimeout(() => {
                 location.href = "/dashboard";
               }, 1000)
+            } else {
+              this.attempts--
+              console.log(this.attempts);
+              console.log(`You have ${this.attempts} attempts remaining `);
+              if (this.attempts == 0) {
+                this.loginForm.controls['email'].disable();
+                this.loginForm.controls['password'].disable();
+                this.loginForm.controls['recaptchaReactive'].disable();
+                this.timeout = setTimeout(() => {
+                  this.loginForm.controls['email'].enable();
+                  this.loginForm.controls['password'].enable();
+                  this.loginForm.controls['recaptchaReactive'].enable();
+                  this.attempts = 3
+                }, 22000);
+                this.startCountdown()
+                console.log('in this');
+              }
+
             }
           },
           error: (err) => console.error(err),
@@ -69,13 +97,19 @@ export class AdminLoginComponent implements OnInit {
 
   }
 
+  startCountdown() {
+    const intervalId = setInterval(() => {
+      if (this.timeout > 0) {
+        this.timeout--;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 980);
+  }
+
   ngOnInit(): void {
     this.authService.decodeToken()
-    this.loginForm = new FormGroup({
-      'email': new FormControl('', [Validators.required, Validators.email]),
-      'password': new FormControl('', [Validators.required]),
-      'recaptchaReactive': new FormControl('',),
-    })
+
   }
 
 }

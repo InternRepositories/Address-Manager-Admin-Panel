@@ -14,10 +14,14 @@ import { Users } from '../models/userModel';
 })
 export class AuthService {
   private API_URL = environment.api.commonBaseUrl + environment.api.loginRoute;
+  private RESET_URL = environment.api.commonBaseUrl + environment.api.resetRoute;
+  private REQUEST_URL = environment.api.commonBaseUrl + environment.api.requestRoute;
   isLoggedIn: boolean = false;
   authToken!: string
   decodedToken: any
   expiresAt?: Date
+
+
 
 
   private _handleHttpErrors(retVal: any) {
@@ -112,11 +116,17 @@ export class AuthService {
 
   }
 
+  // createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
+  //   return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  // }
 
-
-  createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  resetPassword(user: Partial<Users>, email: any): Observable<IApiResponse<Users>> {
+    return this.http.post<IApiResponse<Users>>(`${this.RESET_URL}?platform=admin&email=${email}`, user).pipe(catchError(this.getErrorHandler))
   }
 
+
+  requestPasswordReset(user: Partial<Users>): Observable<IApiResponse<Users>> {
+    return this.http.post<IApiResponse<Users>>(`${this.REQUEST_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  }
 
 }

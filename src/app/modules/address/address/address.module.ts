@@ -26,12 +26,16 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { AddressPipePipe } from '../../../address-pipe.pipe';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 
 @NgModule({
   declarations: [
     AddressComponent,
     AddAddressComponent,
-    EditAddressComponent
+    EditAddressComponent,
+    AddressPipePipe
   ],
   imports: [
     CommonModule,
@@ -57,7 +61,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     WidgetModule,
     FormsModule,
     NgxPaginationModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    Ng2SearchPipeModule
+
 
 
 

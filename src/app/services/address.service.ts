@@ -42,7 +42,7 @@ export class AddressService {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   getAllAddresses(page = 1, limit = 10): Observable<IApiResponse<Address[]>> {
-    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&${limit}`).pipe(catchError(this._tokenHandler));
+    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&limit=${limit}`).pipe(catchError(this._tokenHandler));
   }
 
   getAddressById(_id: string): Observable<IApiResponse<Address>> {
@@ -60,6 +60,12 @@ export class AddressService {
   deleteAddress(_id: string): Observable<IApiResponse<Address>> {
     return this.http.delete<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}/destroy?platform=admin`).pipe(catchError(this._tokenHandler));
   }
+
+  filterAddresses(formData: Partial<Address>, page = 1, limit = 10): Observable<IApiResponse<Address[]>> {
+    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&limit=${limit}&status=${formData.status}&address_1=${formData.address_1}&city=${formData.address_1}&parish=${formData.parish}=${formData}`).pipe(catchError(this._tokenHandler));
+  }
+
+
 
 
 

@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 export class AddressComponent implements OnInit {
   addresses: Address[] = []
   _addresses: any[] = []
+  searchText = ''
 
   limit: number | undefined
   page!: number;
@@ -22,20 +23,46 @@ export class AddressComponent implements OnInit {
   allAddresses: number = 0
   pagination: number = 1
   totalAddresses: number = 0
+  filteredAddresses: Address[] = []
 
 
 
   filteredItems: Address[] = []
   approved: boolean = true
-  address_1!: string;
-  city!: string;
-  parish!: string;
-  status!: string;
+
+
+
+  fields: any = {
+    address_1: '',
+    city: '',
+    status: '',
+    parish: ''
+
+
+  }
+
+  filterForm = new FormGroup({
+    'address_1': new FormControl('',),
+    'parish': new FormControl('',),
+    'city': new FormControl('',),
+    'status': new FormControl('',),
+  })
+
   parishes: IParish[] = []
 
   public searchFields: string[] = [];
 
   // public addresses: Address[] = Addresses;
+
+  filterData() {
+    const formData = this.filterForm.value as Partial<Address>
+    this.addressService.filterAddresses(formData).subscribe(res => {
+      this.filteredAddresses = res.data.addresses
+      this.addresses = this.filteredAddresses
+      console.log(this.addresses)
+    })
+  }
+
 
 
   constructor(private addressService: AddressService, private ParishService: ParishService) { }
@@ -44,11 +71,40 @@ export class AddressComponent implements OnInit {
     // TODO implement logic to search
   }
 
+  filter = {};
+
+  updateFilters() {
+
+    Object.keys(this.fields).forEach(key => this.fields[key] === '' ? delete this.fields[key] : key);
+    this.filter = Object.assign({}, this.fields);
+    console.log(this.filter)
+  }
+
+  restFilter() {
+    this.filterForm.controls['status'].setValue('');
+    this.filterForm.controls['parish'].setValue('');
+    this.filterForm.controls['city'].setValue('');
+    this.filterForm.controls['address_1'].setValue('');
+    this.addressService.getAllAddresses().subscribe(res => {
+      this.addresses = res.data.addresses
+    })
+
+  }
+
+
 
   renderPage(event: number) {
     this.page = event
-    this.getAllAddress();
+    console.log(this.page);
+    const formData = this.filterForm.value as Partial<Address>
+    this.addressService.filterAddresses(formData, this.page).subscribe(res => {
+      this.filteredAddresses = res.data.addresses
+      this.addresses = this.filteredAddresses
 
+      console.log();
+
+
+    })
 
   }
 
@@ -58,20 +114,18 @@ export class AddressComponent implements OnInit {
     // })
     this.addressService.getAllAddresses(this.page).subscribe(res => {
       this.addresses = res.data.addresses
-      this.limit = res.data.limit
-      this.page = res.data.page
-      console.log(this.limit);
-      console.log(this.page);
       console.log(this.addresses);
 
+      this.limit = res.data.limit
+      this.page = res.data.page
+      this.allAddresses = res.data.addressCount
 
+      // for (let i = 0; i < this.addresses.length; i++) {
+      //   const parishName = this.parishes.find((parish) => this.addresses[i].parish === parish._id)?.parishName || 'Parish not found'
 
-      for (let i = 0; i < this.addresses.length; i++) {
-        const parishName = this.parishes.find((parish) => this.addresses[i].parish === parish._id)?.parishName || 'Parish not found'
+      //   this.addresses[i]['parish'] = parishName;
 
-        this.addresses[i]['parish'] = parishName;
-
-      }
+      // }
     })
   }
 
@@ -134,16 +188,6 @@ export class AddressComponent implements OnInit {
 
   }
 
-  searchedItems() {
-    this.filteredItems = this.addresses.filter(address => {
-      address.address_1.toLocaleLowerCase().includes(this.address_1.toLocaleLowerCase()) ||
-        address.city.toLocaleLowerCase().includes(this.city.toLocaleLowerCase()) ||
-        address.parish.toLocaleLowerCase().includes(this.parish.toLocaleLowerCase()) ||
-        address.status.toLocaleLowerCase().includes(this.status.toLocaleLowerCase())
-
-    })
-
-  }
 
 
   // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous

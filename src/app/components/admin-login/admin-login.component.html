@@ -25,10 +25,15 @@
             <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
           </mat-error>
         </mat-form-field>
+
         <re-captcha formControlName="recaptchaReactive" (resolved)="checkCaptcha($event)" siteKey="6LflY4AkAAAAAAvaLdJjmsALUBvp0pDT6peWYtM0">
         </re-captcha>
         <button class="submit-btn bg-amber text-white p-3">Login</button>
-        <a class="forget" href="">Forget Password?</a>
+
+        <div class="time">
+          <p><a class="forget" [routerLink]="['/requestReset']">Forget Password?</a></p>
+          <p style="color: rgb(244, 91, 91);"><a>{{timeout}}</a></p>
+        </div>
 
       </form>
     </div>

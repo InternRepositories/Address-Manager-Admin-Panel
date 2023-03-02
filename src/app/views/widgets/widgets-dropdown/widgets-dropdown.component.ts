@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils/src';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { UserService } from 'src/app/services/user.service';
+import { AddressService } from 'src/app/services/address.service';
+import { ParishService } from 'src/app/services/parish.service';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -17,10 +20,16 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
+  parishLength: any;
+  addressLength: any;
+  userLength: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef,
+    private userService: UserService,
+    private addressService: AddressService,
+    private parishService: ParishService
+  ) { }
 
   data: any[] = [];
   options: any[] = [];
@@ -115,7 +124,46 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     }
   };
 
+  getallParishes() {
+    this.parishService.getAllParishes().subscribe(res => {
+      this.parishLength = res.data.length
+      console.log(this.parishLength);
+
+    })
+
+  }
+
+  getallAllAddress() {
+    this.addressService.getAllAddresses().subscribe(res => {
+      this.addressLength = res.data.addresses.length
+      console.log(this.addressLength);
+
+    })
+
+  }
+
+  getallAllUsers() {
+    this.userService.getAll().subscribe(res => {
+      this.userLength = res.data.users.length
+      console.log(this.userLength);
+
+
+    })
+
+
+  }
+
+
+
+
+
+
   ngOnInit(): void {
+    this.getallAllAddress()
+    this.getallParishes()
+    this.getallAllUsers()
+
+
     this.setData();
   }
 
@@ -176,7 +224,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 })
 export class ChartSample implements AfterViewInit {
 
-  constructor() {}
+  constructor() { }
 
   @ViewChild('chart') chartComponent!: ChartjsComponent;
 
@@ -251,4 +299,17 @@ export class ChartSample implements AfterViewInit {
       });
     }, 5000);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

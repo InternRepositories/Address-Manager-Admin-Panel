@@ -43,7 +43,7 @@ export class AddAddressComponent implements OnInit {
     'parish': new FormControl('', [Validators.required]),
     'city': new FormControl('', [Validators.required]),
     'user_id': new FormControl('', [Validators.required]),
-    'status': new FormControl(''),
+    'status': new FormControl('', [Validators.required]),
 
 
   })
@@ -75,21 +75,29 @@ export class AddAddressComponent implements OnInit {
     console.log(formData);
 
     this.submitted = true
-    this.addressService.createAddress(formData).subscribe({
-      next: (res) => {
-        console.log(res);
-        Swal.fire('address Submitted Successfully'),
-          this.router.navigate(['/address/view'])
-      },
-      error: (err) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: err,
-        })
+    if (this.addressForm.valid) {
+      this.addressService.createAddress(formData).subscribe({
+        next: (res) => {
+          console.log(res);
+          Swal.fire('Address Submitted Successfully'),
+            this.router.navigate(['/address/view'])
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err,
+          })
+        }
       }
+      )
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid Form Submission  '
+      })
     }
-    )
 
 
 
