@@ -25,15 +25,13 @@
 }
 
 .pending{
-    color: red;
+    color: rgb(242, 78, 78);
 
 }
 
 .approved{
-    background-color: rgb(20, 240, 159);
-    color: white;
-    padding: 12px;
-    width: 8rem
+    color: rgb(2, 173, 148);
+  
 
 }
 
@@ -48,5 +46,21 @@
 
     button{
         margin-left: 1rem;
+    }
+}
+
+.check-btn{
+    width: 20px;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+.view-more{
+    width: 30px;
+}
+table{
+    td{
+        padding: 13px 0px 13px 8px;
     }
 }

@@ -12,7 +12,10 @@ import {
   GridModule,
   NavModule,
   ProgressModule,
+  DropdownModule,
   TableModule,
+  AccordionModule,
+  SharedModule,
   TabsModule,
   WidgetModule,
   PaginationModule,
@@ -23,12 +26,21 @@ import { WidgetsModule } from '../../../views/widgets/widgets.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { AddressPipePipe } from '../../../address-pipe.pipe';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ViewAddressDetailsComponent } from './view-address-details/view-address-details.component';
+
 
 @NgModule({
   declarations: [
     AddressComponent,
     AddAddressComponent,
-    EditAddressComponent
+    EditAddressComponent,
+    AddressPipePipe,
+    ViewAddressDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -52,10 +64,19 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
     PaginationModule,
     ReactiveFormsModule,
     WidgetModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule,
+    MatPaginatorModule,
+    Ng2SearchPipeModule,
+    DropdownModule,
+    AccordionModule,
+    SharedModule
 
 
 
-  ]
+
+
+  ],
+  providers: [AuthService]
 })
 export class AddressModule { }

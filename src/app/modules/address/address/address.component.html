@@ -4,28 +4,41 @@
     <c-card class="mb-4">
       <c-card-header>Search filter</c-card-header>
       <c-card-body>
-        <div class="form-group mb-4">
+        <form action="" [formGroup]="filterForm" class="form-group mb-4">
           <div class="form-field">
-            <label cLabel for="first_name">Address Name</label>
-            <input cFormControl id="address" [(ngModel)]="Address_1" placeholder="Filter by name of address" type="text" />
+            <label cLabel for="address_1">Address Name</label>
+            <input cFormControl id="address" formControlName="address_1" name="address_1" placeholder="Filter by name of address" type="text" />
           </div>
-          <div class="form-field">
+          <div class=" form-field">
             <label cLabel for="first_name">City</label>
-            <input cFormControl id="address" [(ngModel)]="city" placeholder="Filter by city" type="text" />
+            <input cFormControl id="city" formControlName="city" placeholder="Filter by city" type="text" />
           </div>
           <div class="form-field">
-            <label cLabel for="first_name">Parish</label>
-            <input cFormControl id="address" [(ngModel)]="parish" placeholder="Filter by parish" type="text" />
+            <label cLabel for="parish">Parish</label>
+            <select aria-label="Default select example" name="parish" formControlName="parish" cSelect>
+              <option value="" selected disabled>--Select Parish--</option>
+              <option *ngFor="let parish of parishes" value="{{parish.parishName}}">{{parish.parishName}}</option>
+            </select>
+
+            <!-- <label cLabel for="first_name">Parish</label>
+            <input cFormControl id="first_name" [(ngModel)]="fields.parish" placeholder="Filter by parish" type="text" /> -->
           </div>
           <div class="form-field">
             <label cLabel for="first_name">Status</label>
-            <input cFormControl id="address" [(ngModel)]="status" placeholder="Filter by status" type="text" />
+
+            <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
+              <option value="" selected disabled>--Select Status--</option>
+              <option value="APPROVED">APPROVED</option>
+              <option value="PENDING">PENDING</option>
+            </select>
+            <!-- <label cLabel for="first_name">Status</label>
+            <input cFormControl id="last_name" [(ngModel)]="fields.status" placeholder="Filter by status" type="text" /> -->
           </div>
-        </div>
+        </form>
 
         <div class="filter-flex">
-          <button (click)="searchedItems()" cButton color="success">Filter Search</button>
-          <button cButton color="secondary">Reset</button>
+          <button (click)="filterData()" cButton color="success">Filter Search</button>
+          <button type="reset" (click)="restFilter()" cButton color="secondary">Reset</button>
         </div>
 
 
@@ -43,6 +56,7 @@
         <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead cTableColor="light">
             <tr>
+              <th>Name</th>
               <th>Address</th>
               <th>City</th>
               <th>Parish</th>
@@ -50,12 +64,27 @@
               <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr *ngFor="let address of addresses; index as i">
+            <td colspan="5" *ngIf="!addresses.length">
+              <div>Addresses Not Found</div>
+            </td>
+
+            <tr *ngFor="let address of addresses | addressPipe:filter | paginate: {
+              id: 'npxpaginate',
+            itemsPerPage:limit,
+            currentPage:page,
+            totalItems: allAddresses
+            } ">
               <td>
                 <div>
-                  {{ address.Address_1 }}
-                  {{ address.Address_2 }}
+                  {{ address.user_id }}
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{ address.address_1 }}
+                  {{ address.address_2 }}
                 </div>
               </td>
               <td>
@@ -65,28 +94,55 @@
                   </span>
                 </div>
               </td>
-              <td class="text-left">
-                {{ address.parish }}
+              <td class=" text-left">
+                {{ address.parish}}
               </td>
               <td>
-                <div [ngClass]="approved ? 'pending' : 'approved'">
+                <div [ngClass]="address.status == 'PENDING'? 'pending' : 'approved'">
                   {{ address.status }}
                 </div>
 
               </td>
+
+
+
               <td>
+                <div style="color: black;">
+                  <c-dropdown alignment="end" variant="btn-group">
+                    <button [caret]="false" cButton cDropdownToggle class="p-0" color="transaprent">
+                      <img class="view-more" src='../../../../assets/images/more.png' alt="">
+                    </button>
+                    <ul cDropdownMenu>
+                      <li style="cursor: pointer;"><a routerLink="/address/detail/{{address._id}}" cDropdownItem>View More</a></li>
+                      <li style="cursor: pointer;">
+                        <a cDropdownItem (click)="approveAddress(address._id)">Approve
+                          <form [formGroup]="statusChange">
+                            <input type="hidden" name="status" formControlName="status">
+                          </form>
+                        </a>
+                      </li>
+                      <li style="cursor: pointer;"><a routerLink="/address/edit/{{address._id}}" cDropdownItem>Edit</a></li>
+                      <li style="cursor: pointer;"><a (click)="deleteAddress(address._id)" cDropdownItem>Delete</a></li>
+                    </ul>
+                  </c-dropdown>
+                </div>
+
+
+
+
+
+                <!-- <td>
                 <div class="manage-icon">
-                  <p>
-                    <img src='../../../../assets/images/check.png' alt="">
-                  </p>
+                
+
                   <p class="">
-                    <a routerLink="/address/edit"><img src='../../../../assets/images/edit.png' alt=""></a>
+                    <a "><img src='../../../../assets/images/edit.png' alt=""></a>
                   </p>
-                  <p class="">
+                  <p (click)="deleteAddress(address._id)" class="">
                     <img src="../../../../assets/images/delete.png" alt="">
                   </p>
                 </div>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -96,20 +152,11 @@
 </c-row>
 
 
-<c-pagination aria-label="Page navigation example">
-  <li cPageItem>
-    <a cPageLink aria-label="Previous" [routerLink]><span aria-hidden="true">&laquo;</span></a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>1</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>2</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink [routerLink]>3</a>
-  </li>
-  <li cPageItem>
-    <a cPageLink aria-label="Next" [routerLink]><span aria-hidden="true">&raquo;</span></a>
-  </li>
-</c-pagination>
+<div class="d-flex justify-content-end mb-4">
+  <c-card style="height: 4rem; ">
+    <c-card-body>
+      <pagination-controls id="npxpaginate" (pageChange)="renderPage($event)"></pagination-controls>
+    </c-card-body>
+
+  </c-card>
+</div>

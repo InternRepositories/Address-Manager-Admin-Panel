@@ -31,7 +31,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+// import { PipesModule } from 'src/app/modules/pipes/pipes.module';
 
 // Import containers
 import {
@@ -67,6 +67,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { RequestPasswordResetComponent } from './components/request-password-reset/request-password-reset.component';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -84,6 +87,9 @@ const APP_CONTAINERS = [
     AdminLoginComponent,
     ConfirmDialogComponent,
     ...APP_CONTAINERS,
+    ResetPasswordComponent,
+    RequestPasswordResetComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -123,6 +129,7 @@ const APP_CONTAINERS = [
     MatButtonModule,
   ],
   providers: [
+    AuthService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

@@ -9,6 +9,10 @@ import {
 } from '@angular/core';
 import { getStyle } from '@coreui/utils/src';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { UserService } from 'src/app/services/user.service';
+import { AddressService } from 'src/app/services/address.service';
+import { ParishService } from 'src/app/services/parish.service';
+import { LogarithmicScale } from 'chart.js';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -17,10 +21,17 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
+  parishLength: any;
+  addressLength: any;
+  userLength: any;
+  pendingLength: any;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    private changeDetectorRef: ChangeDetectorRef,
+    private userService: UserService,
+    private addressService: AddressService,
+    private parishService: ParishService
+  ) { }
 
   data: any[] = [];
   options: any[] = [];
@@ -115,7 +126,64 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     }
   };
 
+  getallParishes() {
+    this.parishService.getAllParishes().subscribe(res => {
+      this.parishLength = res.data.length
+
+
+    })
+
+  }
+
+  getPending() {
+    this.addressService.getAllAddresses().subscribe(res => {
+      console.log(res.data.addresses);
+
+      const pendingData = res.data.addresses.map((mapItems: { status: any; }) => {
+        return mapItems.status
+      })
+
+      console.log(pendingData);
+      const pending = pendingData.filter((pendingLength: string) => pendingLength == 'PENDING')
+      this.pendingLength = pending.length
+
+
+
+    })
+
+  }
+
+  getallAllAddress() {
+    this.addressService.getAllAddresses().subscribe(res => {
+      this.addressLength = res.data.addressCount
+
+
+    })
+
+  }
+
+  getallAllUsers() {
+    this.userService.getAll().subscribe(res => {
+      this.userLength = res.data.users.length
+
+
+    })
+
+
+  }
+
+
+
+
+
+
   ngOnInit(): void {
+    this.getallAllAddress()
+    this.getallParishes()
+    this.getallAllUsers()
+    this.getPending()
+
+
     this.setData();
   }
 
@@ -176,7 +244,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 })
 export class ChartSample implements AfterViewInit {
 
-  constructor() {}
+  constructor() { }
 
   @ViewChild('chart') chartComponent!: ChartjsComponent;
 
@@ -251,4 +319,17 @@ export class ChartSample implements AfterViewInit {
       });
     }, 5000);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

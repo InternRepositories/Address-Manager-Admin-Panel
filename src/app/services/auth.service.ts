@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { IApiResponse } from '../interfaces/apiResponse';
 import { IAuthResponse } from '../interfaces/authResponse';
 import { User } from '../interfaces/user.interface';
+import Swal from 'sweetalert2';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Users } from '../models/userModel';
@@ -13,9 +14,14 @@ import { Users } from '../models/userModel';
 })
 export class AuthService {
   private API_URL = environment.api.commonBaseUrl + environment.api.loginRoute;
+  private RESET_URL = environment.api.commonBaseUrl + environment.api.resetRoute;
+  private REQUEST_URL = environment.api.commonBaseUrl + environment.api.requestRoute;
   isLoggedIn: boolean = false;
-  authToken!: string;
-  decodedToken: any;
+  authToken!: string
+  decodedToken: any
+  expiresAt?: Date
+
+
 
   private _handleHttpErrors(retVal: any) {
     return (err: any) => {
@@ -26,13 +32,34 @@ export class AuthService {
 
   getErrorHandler(res: HttpErrorResponse): Observable<IAuthResponse> {
     if (res.error.error === 'Invalid password') {
-      window.alert(res.error.error);
-      console.log(res.error.error);
-    } else if (res.error.error === 'No user matches this email') {
-      window.alert(res.error.error);
-      console.log(res.error.error);
-    } else {
-      window.alert(res.error.error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
+      console.log(res.error.error)
+    }
+    else if (res.error.error === 'No user matches this email') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
+      console.log(res.error.error)
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: res.error.error,
+
+      })
+      // window.alert(res.error.error)
+
       console.log(res.error.error);
     }
     return of(res.error.error);
@@ -42,12 +69,20 @@ export class AuthService {
     this.isLoggedIn = false;
     this.authToken = '';
     localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'User Sccessfully logged Out',
+      showConfirmButton: false,
+      timer: 1500
+    })
+    this.router.navigate(['/login'])
+
   }
 
   private autoLogin(): void {
     let authToken = localStorage.getItem('authToken');
-    console.log(authToken);
+
 
     if (authToken) {
       this.isLoggedIn = true;
@@ -68,23 +103,30 @@ export class AuthService {
   }
 
   loginUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    console.log('inside auth login');
-    return this.http
-      .post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user)
-      .pipe(catchError(this.getErrorHandler));
+    return this.http.post<IAuthResponse<Users>>(`${this.API_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
   }
 
-  decodeToken() {
-    let authToken: string | null = localStorage.getItem('authToken');
-    if (authToken) {
-      this.decodeToken = JSON.parse(atob(authToken.split('.')[1]));
+
+  getProfile() {
+    let token: string | null = localStorage.getItem("authToken")
+    if (token) {
+      this.decodedToken = JSON.parse(atob(token.split(".")[1]))
+      console.log("decoded token", this.decodedToken)
     }
-    console.log(authToken);
   }
 
-  createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
-    return this.http
-      .post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user)
-      .pipe(catchError(this.getErrorHandler));
+  // createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
+  //   return this.http.post<IAuthResponse<Users>>(`${this.API_URL}/users?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  // }
+
+  resetPassword(user: Partial<Users>, email: any): Observable<IApiResponse<Users>> {
+    return this.http.post<IApiResponse<Users>>(`${this.RESET_URL}?platform=admin&email=${email}`, user).pipe(catchError(this.getErrorHandler))
   }
+
+
+  requestPasswordReset(user: Partial<Users>): Observable<IApiResponse<Users>> {
+    return this.http.post<IApiResponse<Users>>(`${this.REQUEST_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
+  }
+
+
 }

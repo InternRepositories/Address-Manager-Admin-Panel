@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { AddressComponent } from './address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { ViewAddressDetailsComponent } from './view-address-details/view-address-details.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,6 @@ const routes: Routes = [
           title: 'All addresses',
         },
       },
-      { path: '', pathMatch: 'full', redirectTo: 'view' },
       {
         path: 'add',
         component: AddAddressComponent,
@@ -27,12 +27,18 @@ const routes: Routes = [
           title: 'create address',
         },
       },
-      { path: '', pathMatch: 'full', redirectTo: 'view' },
       {
-        path: 'edit',
+        path: 'edit/:id',
         component: EditAddressComponent,
         data: {
           title: 'edit address',
+        },
+      },
+      {
+        path: 'detail/:id',
+        component: ViewAddressDetailsComponent,
+        data: {
+          title: 'Address detail',
         },
       },
     ],
