@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
+import { User } from 'src/app/interfaces/user.interface';
 import { Users } from 'src/app/models/userModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -15,7 +16,7 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
 
   @Input() sidebarId: string = "sidebar";
 
-  user!: Users
+  user!: User
   userImage: string = ""
 
   public newMessages = new Array(4)
@@ -31,7 +32,6 @@ export class DefaultHeaderComponent extends HeaderComponent implements OnInit {
     this.authService.getProfile()
     this.userService.getOne(this.authService.decodedToken.id).subscribe(res => {
       this.user = res.data
-      console.log(this.user)
       this.userImage = "http://localhost:5000/" + res.data.profile_image
     })
   }

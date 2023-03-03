@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/services/user.service';
 import { Users } from 'src/app/models/userModel';
+import { User } from 'src/app/interfaces/user.interface';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { Users } from 'src/app/models/userModel';
 })
 export class AddressComponent implements OnInit {
   addresses: Address[] = []
-  users: Users[] = []
+  users: User[] = []
   _addresses: any[] = []
   searchText = ''
 

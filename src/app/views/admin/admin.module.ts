@@ -23,8 +23,8 @@ import { AdminUserCreateComponent } from './admin-user-create/admin-user-create.
 import { AdminUserUpdateComponent } from './admin-user-update/admin-user-update.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatListModule } from '@angular/material/list';
-import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.component';
+import { PipesModule } from 'src/app/modules/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -55,4 +55,4 @@ import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.
     PipesModule,
   ],
 })
-export class AdminModule { }
+export class AdminModule {}
