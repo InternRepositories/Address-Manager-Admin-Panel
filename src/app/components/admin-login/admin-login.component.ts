@@ -25,8 +25,8 @@ export class AdminLoginComponent implements OnInit {
 
   loginForm = new FormGroup({
     'email': new FormControl('', [Validators.required, Validators.email]),
-    'password': new FormControl('', [Validators.required]),
-    'recaptchaReactive': new FormControl('',),
+    'password': new FormControl('', [Validators.required, Validators.minLength(8)]),
+    'recaptchaReactive': new FormControl('', [Validators.required]),
   })
   timeout!: number;
   countdown: any
@@ -108,7 +108,7 @@ export class AdminLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.decodeToken()
+    // this.authService.getProfile()
 
   }
 

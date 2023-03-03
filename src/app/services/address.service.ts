@@ -62,7 +62,7 @@ export class AddressService {
   }
 
   filterAddresses(formData: Partial<Address>, page = 1, limit = 10): Observable<IApiResponse<Address[]>> {
-    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&limit=${limit}&status=${formData.status}&address_1=${formData.address_1}&city=${formData.address_1}&parish=${formData.parish}=${formData}`).pipe(catchError(this._tokenHandler));
+    return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&limit=${limit}&status=${formData.status}&address_1=${formData.address_1}&city=${formData.city}&parish=${formData.parish}=${formData}`).pipe(catchError(this._tokenHandler));
   }
 
 

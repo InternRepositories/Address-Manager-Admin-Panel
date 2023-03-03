@@ -14,6 +14,7 @@
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
         <span>{{addressLength}}</span>
 
+
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
 
@@ -24,6 +25,14 @@
     <c-widget-stat-a [title]="'Parishes'" class="mb-4" color="danger">
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
         <span>{{parishLength}}</span>
+
+      </ng-template>
+    </c-widget-stat-a>
+  </c-col>
+  <c-col sm="6" xl="3">
+    <c-widget-stat-a [title]="'Pending Addresses'" class="mb-4" color="info">
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <span>{{pendingLength}}</span>
 
       </ng-template>
     </c-widget-stat-a>

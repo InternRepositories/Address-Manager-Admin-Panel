@@ -12,6 +12,7 @@ import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { UserService } from 'src/app/services/user.service';
 import { AddressService } from 'src/app/services/address.service';
 import { ParishService } from 'src/app/services/parish.service';
+import { LogarithmicScale } from 'chart.js';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -23,6 +24,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   parishLength: any;
   addressLength: any;
   userLength: any;
+  pendingLength: any;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -127,7 +129,25 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   getallParishes() {
     this.parishService.getAllParishes().subscribe(res => {
       this.parishLength = res.data.length
-      console.log(this.parishLength);
+
+
+    })
+
+  }
+
+  getPending() {
+    this.addressService.getAllAddresses().subscribe(res => {
+      console.log(res.data.addresses);
+
+      const pendingData = res.data.addresses.map((mapItems: { status: any; }) => {
+        return mapItems.status
+      })
+
+      console.log(pendingData);
+      const pending = pendingData.filter((pendingLength: string) => pendingLength == 'PENDING')
+      this.pendingLength = pending.length
+
+
 
     })
 
@@ -135,8 +155,8 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   getallAllAddress() {
     this.addressService.getAllAddresses().subscribe(res => {
-      this.addressLength = res.data.addresses.length
-      console.log(this.addressLength);
+      this.addressLength = res.data.addressCount
+
 
     })
 
@@ -145,7 +165,6 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   getallAllUsers() {
     this.userService.getAll().subscribe(res => {
       this.userLength = res.data.users.length
-      console.log(this.userLength);
 
 
     })
@@ -162,6 +181,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
     this.getallAllAddress()
     this.getallParishes()
     this.getallAllUsers()
+    this.getPending()
 
 
     this.setData();

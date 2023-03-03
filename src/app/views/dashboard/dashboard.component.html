@@ -22,7 +22,7 @@
           <tbody>
             <tr *ngFor="let user of _users">
               <td class="text-center">
-                <c-avatar size="md" src="{{ user.profile_image }}"></c-avatar>
+                <c-avatar size="md" src="http://localhost:5000/{{ user.profile_image }}"></c-avatar>
               </td>
               <td>
                 {{ user.first_name }}

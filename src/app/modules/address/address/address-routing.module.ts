@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddAddressComponent } from './add-address/add-address.component';
 import { AddressComponent } from './address.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { ViewAddressDetailsComponent } from './view-address-details/view-address-details.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,13 @@ const routes: Routes = [
         component: EditAddressComponent,
         data: {
           title: 'edit address',
+        },
+      },
+      {
+        path: 'detail/:id',
+        component: ViewAddressDetailsComponent,
+        data: {
+          title: 'Address detail',
         },
       },
     ],

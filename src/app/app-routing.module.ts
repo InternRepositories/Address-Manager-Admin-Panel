@@ -50,6 +50,11 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'profile',
+        loadChildren: () =>
+          import('./modules/admin-profile/admin-profile.module').then(m => m.AdminProfileModule)
+      },
+      {
         path: 'theme',
         loadChildren: () =>
           import('./views/theme/theme.module').then((m) => m.ThemeModule),
@@ -144,6 +149,7 @@ const routes: Routes = [
       title: 'Register Page',
     },
   },
+
   { path: '**', redirectTo: 'dashboard' },
 ];
 

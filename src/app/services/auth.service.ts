@@ -107,13 +107,12 @@ export class AuthService {
   }
 
 
-  decodeToken() {
-    let authToken: string | null = localStorage.getItem('authToken');
-    if (authToken) {
-      this.decodeToken = JSON.parse(atob(authToken.split('.')[1]));
+  getProfile() {
+    let token: string | null = localStorage.getItem("authToken")
+    if (token) {
+      this.decodedToken = JSON.parse(atob(token.split(".")[1]))
+      console.log("decoded token", this.decodedToken)
     }
-    console.log(authToken);
-
   }
 
   // createUser(user: Partial<Users>): Observable<IAuthResponse<Users>> {
@@ -128,5 +127,7 @@ export class AuthService {
   requestPasswordReset(user: Partial<Users>): Observable<IApiResponse<Users>> {
     return this.http.post<IApiResponse<Users>>(`${this.REQUEST_URL}?platform=admin`, user).pipe(catchError(this.getErrorHandler))
   }
+
+
 
 }

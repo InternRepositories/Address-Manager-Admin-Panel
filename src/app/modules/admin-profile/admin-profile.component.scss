@@ -1,0 +1,52 @@
+.profile-con{
+    display: flex;
+    justify-content: space-between;
+
+
+    .profile-img{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+      
+        img{
+            border-radius: 50%;
+            width: 320px;
+            height: 320px;
+        }
+        p{
+            margin-top: 1rem;
+            font-size: 20px;
+            color: #777 ;
+
+        }
+    }
+
+    .profile-form{
+      
+        h2{
+            font-size: 20px;
+            margin-bottom: .8rem;
+        }
+        .row_1{
+            display: flex;
+            justify-content: space-around;
+
+
+            .form-field{
+                width:13.5rem
+            }
+
+        }
+
+        .form-field{
+            margin-bottom: .8rem;
+        }
+        .button-flex{
+            display: flex;
+            justify-content: flex-end ;
+        }
+
+       
+    }
+}

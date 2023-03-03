@@ -38,10 +38,10 @@ export class AddAddressComponent implements OnInit {
   ]
 
   addressForm = new FormGroup({
-    'address_1': new FormControl('', [Validators.required]),
-    'address_2': new FormControl('',),
+    'address_1': new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
+    'address_2': new FormControl('', [Validators.minLength(10), Validators.maxLength(25,)]),
     'parish': new FormControl('', [Validators.required]),
-    'city': new FormControl('', [Validators.required]),
+    'city': new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(25,)]),
     'user_id': new FormControl('', [Validators.required]),
     'status': new FormControl('', [Validators.required]),
 

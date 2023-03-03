@@ -6,6 +6,9 @@ import { IParish } from './../../../interfaces/parish.interface'
 import { ParishService } from './../../../services/parish.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/services/user.service';
+import { Users } from 'src/app/models/userModel';
+
 
 @Component({
   selector: 'app-address',
@@ -14,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class AddressComponent implements OnInit {
   addresses: Address[] = []
+  users: Users[] = []
   _addresses: any[] = []
   searchText = ''
 
@@ -57,15 +61,28 @@ export class AddressComponent implements OnInit {
   filterData() {
     const formData = this.filterForm.value as Partial<Address>
     this.addressService.filterAddresses(formData).subscribe(res => {
-      this.filteredAddresses = res.data.addresses
-      this.addresses = this.filteredAddresses
-      console.log(this.addresses)
+      this.addresses = res.data.addresses
+      console.log(this.addresses);
+
+      this.limit = res.data.limit
+      this.page = res.data.page
+      this.allAddresses = res.data.count
+
+
+      for (let i = 0; i < this.addresses.length; i++) {
+        const firstname = this.users.find((user) => this.addresses[i].user_id === user.email)?.first_name || 'username not found'
+        const lastname = this.users.find((user) => this.addresses[i].user_id === user.email)?.last_name
+        const fullname = firstname + ' ' + lastname
+
+        this.addresses[i]['user_id'] = fullname;
+
+      }
     })
   }
 
 
 
-  constructor(private addressService: AddressService, private ParishService: ParishService) { }
+  constructor(private addressService: AddressService, private ParishService: ParishService, private userService: UserService) { }
   searchUserHandler(): void {
     this.searchFields = [];
     // TODO implement logic to search
@@ -85,8 +102,22 @@ export class AddressComponent implements OnInit {
     this.filterForm.controls['parish'].setValue('');
     this.filterForm.controls['city'].setValue('');
     this.filterForm.controls['address_1'].setValue('');
-    this.addressService.getAllAddresses().subscribe(res => {
+    this.addressService.getAllAddresses(this.page).subscribe(res => {
       this.addresses = res.data.addresses
+      console.log(this.addresses);
+
+      this.limit = res.data.limit
+      this.page = res.data.page
+      this.allAddresses = res.data.count
+
+      for (let i = 0; i < this.addresses.length; i++) {
+        const firstname = this.users.find((user) => this.addresses[i].user_id === user.email)?.first_name || 'username not found'
+        const lastname = this.users.find((user) => this.addresses[i].user_id === user.email)?.last_name
+        const fullname = firstname + ' ' + lastname
+
+        this.addresses[i]['user_id'] = fullname;
+
+      }
     })
 
   }
@@ -98,12 +129,21 @@ export class AddressComponent implements OnInit {
     console.log(this.page);
     const formData = this.filterForm.value as Partial<Address>
     this.addressService.filterAddresses(formData, this.page).subscribe(res => {
-      this.filteredAddresses = res.data.addresses
-      this.addresses = this.filteredAddresses
+      this.addresses = res.data.addresses
+      console.log(this.addresses);
 
-      console.log();
+      this.limit = res.data.limit
+      this.page = res.data.page
+      this.allAddresses = res.data.count
 
+      for (let i = 0; i < this.addresses.length; i++) {
+        const firstname = this.users.find((user) => this.addresses[i].user_id === user.email)?.first_name || 'username not found'
+        const lastname = this.users.find((user) => this.addresses[i].user_id === user.email)?.last_name
+        const fullname = firstname + ' ' + lastname
 
+        this.addresses[i]['user_id'] = fullname;
+
+      }
     })
 
   }
@@ -118,14 +158,17 @@ export class AddressComponent implements OnInit {
 
       this.limit = res.data.limit
       this.page = res.data.page
-      this.allAddresses = res.data.addressCount
+      this.allAddresses = res.data.count
+      console.log('Address count ' + this.allAddresses)
 
-      // for (let i = 0; i < this.addresses.length; i++) {
-      //   const parishName = this.parishes.find((parish) => this.addresses[i].parish === parish._id)?.parishName || 'Parish not found'
+      for (let i = 0; i < this.addresses.length; i++) {
+        const firstname = this.users.find((user) => this.addresses[i].user_id === user.email)?.first_name || 'username not found'
+        const lastname = this.users.find((user) => this.addresses[i].user_id === user.email)?.last_name
+        const fullname = firstname + ' ' + lastname
 
-      //   this.addresses[i]['parish'] = parishName;
+        this.addresses[i]['user_id'] = fullname;
 
-      // }
+      }
     })
   }
 
@@ -137,6 +180,16 @@ export class AddressComponent implements OnInit {
 
 
     })
+  }
+
+  getAllUsers() {
+    this.userService.getAll().subscribe(res => {
+      this.users = res.data.users
+      console.log(this.users);
+
+
+    })
+
   }
 
   mapParishes(id: string | undefined) {
@@ -180,11 +233,27 @@ export class AddressComponent implements OnInit {
   approveAddress(id: any): void {
     const formData = this.statusChange.value as Partial<Address>
     console.log(formData);
+    Swal.fire({
+      title: 'Do you want Approve Address?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Approve',
+      denyButtonText: `Don't approve`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.addressService.updateAddress(id, formData).subscribe(res => {
+          this.getAllAddress()
+          Swal.fire('Address Succesfully Approved!', '', 'success')
 
-    this.addressService.updateAddress(id, formData).subscribe(res => {
-      this.getAllAddress()
-      Swal.fire('check Successful')
+        })
+
+      } else if (result.isDenied) {
+        Swal.fire('Address not Aprove', '', 'info')
+      }
     })
+
+
 
   }
 
@@ -193,6 +262,7 @@ export class AddressComponent implements OnInit {
   // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous
 
   ngOnInit() {
+    this.getAllUsers()
     this.getAllParish()
     this.getAllAddress()
 

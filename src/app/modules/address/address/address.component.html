@@ -56,6 +56,7 @@
         <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead cTableColor="light">
             <tr>
+              <th>Name</th>
               <th>Address</th>
               <th>City</th>
               <th>Parish</th>
@@ -75,6 +76,11 @@
             currentPage:page,
             totalItems: allAddresses
             } ">
+              <td>
+                <div>
+                  {{ address.user_id }}
+                </div>
+              </td>
               <td>
                 <div>
                   {{ address.address_1 }}
@@ -97,27 +103,46 @@
                 </div>
 
               </td>
+
+
+
               <td>
-                <div class="manage-icon">
-                  <form [formGroup]="statusChange">
-                    <button (click)="approveAddress(address._id)" type="submit" class="check-btn">
-                      <input type="hidden" name="status" formControlName="status">
-                      <p>
-                        <img src='../../../../assets/images/check.png' alt="">
-                      </p>
+                <div style="color: black;">
+                  <c-dropdown alignment="end" variant="btn-group">
+                    <button [caret]="false" cButton cDropdownToggle class="p-0" color="transaprent">
+                      <img class="view-more" src='../../../../assets/images/more.png' alt="">
                     </button>
+                    <ul cDropdownMenu>
+                      <li style="cursor: pointer;"><a routerLink="/address/detail/{{address._id}}" cDropdownItem>View More</a></li>
+                      <li style="cursor: pointer;">
+                        <a cDropdownItem (click)="approveAddress(address._id)">Approve
+                          <form [formGroup]="statusChange">
+                            <input type="hidden" name="status" formControlName="status">
+                          </form>
+                        </a>
+                      </li>
+                      <li style="cursor: pointer;"><a routerLink="/address/edit/{{address._id}}" cDropdownItem>Edit</a></li>
+                      <li style="cursor: pointer;"><a (click)="deleteAddress(address._id)" cDropdownItem>Delete</a></li>
+                    </ul>
+                  </c-dropdown>
+                </div>
 
 
-                  </form>
+
+
+
+                <!-- <td>
+                <div class="manage-icon">
+                
 
                   <p class="">
-                    <a routerLink="/address/edit/{{address._id}}"><img src='../../../../assets/images/edit.png' alt=""></a>
+                    <a "><img src='../../../../assets/images/edit.png' alt=""></a>
                   </p>
                   <p (click)="deleteAddress(address._id)" class="">
                     <img src="../../../../assets/images/delete.png" alt="">
                   </p>
                 </div>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>

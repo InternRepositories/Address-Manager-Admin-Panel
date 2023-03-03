@@ -12,7 +12,10 @@ import {
   GridModule,
   NavModule,
   ProgressModule,
+  DropdownModule,
   TableModule,
+  AccordionModule,
+  SharedModule,
   TabsModule,
   WidgetModule,
   PaginationModule,
@@ -28,6 +31,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AddressPipePipe } from '../../../address-pipe.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ViewAddressDetailsComponent } from './view-address-details/view-address-details.component';
 
 
 @NgModule({
@@ -35,7 +39,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     AddressComponent,
     AddAddressComponent,
     EditAddressComponent,
-    AddressPipePipe
+    AddressPipePipe,
+    ViewAddressDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +67,10 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     FormsModule,
     NgxPaginationModule,
     MatPaginatorModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    DropdownModule,
+    AccordionModule,
+    SharedModule
 
 
 
