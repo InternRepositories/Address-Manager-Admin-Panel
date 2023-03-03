@@ -17,6 +17,11 @@ import { User as Admin } from '../../../interfaces/user.interface';
 })
 export class AdminUserUpdateComponent {
   user: Admin = <Admin>{};
+  userStatuses: string[] = Object.keys(UserStatus);
+  userRoles: string[] = Object.keys(UserRole);
+  defaultImgUrl: string = '/assets/images/default_profile_image.png';
+  previewImgUrl: string = this.defaultImgUrl;
+  confirm_password: string = '';
 
   updateForm: FormGroup = new FormGroup({
     first_name: new FormControl(this.user.first_name, [
@@ -50,44 +55,30 @@ export class AdminUserUpdateComponent {
   get first_name() {
     return this.updateForm.get('first_name');
   }
-
   get last_name() {
     return this.updateForm.get('last_name');
   }
-
   get email() {
     return this.updateForm.get('email');
   }
-
   get password() {
     return this.updateForm.get('password');
   }
-
   get profile_image() {
     return this.updateForm.get('profile_image');
   }
-
   get mobile_number() {
     return this.updateForm.get('mobile_number');
   }
-
   get home_number() {
     return this.updateForm.get('home_number');
   }
-
   get status() {
     return this.updateForm.get('status');
   }
-
   get role() {
     return this.updateForm.get('role');
   }
-
-  userStatuses: string[] = Object.keys(UserStatus);
-  userRoles: string[] = Object.keys(UserRole);
-  defaultImgUrl: string = '/assets/images/default_profile_image.png';
-  previewImgUrl: string = this.defaultImgUrl;
-  confirm_password: string = '';
 
   constructor(
     private adminService: AdminService,
@@ -99,29 +90,24 @@ export class AdminUserUpdateComponent {
         next: (resp: IApiResponse<Admin>) => {
           if (resp.status === 200) {
             this.user = resp.data;
-            // manually set user role beacause it isn't sent from the API
+            // set user role beacause it isn't sent from the api
             this.user.role = UserRole.ADMIN;
-
-            // set user mage preview
-            this.previewImgUrl = `http://localhost:5000/${this.user.profile_image?.replaceAll(
-              '\\',
-              '/'
-            )}`;
-
-            // Update reactive form values using data pulled from the database
+            // set user image for preview
+            this.previewImgUrl = `http://localhost:5000/${this.user.profile_image}`;
+            // update reactive form values using data pulled from the api
             for (const formControl in this.updateForm.controls) {
               this.updateForm.controls[formControl].setValue(
                 (this.user as any)[formControl]
               );
             }
           } else {
-            console.error(resp.error);
+            console.error('Error getting admin', resp.error);
           }
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 404)
             this.snackbar.open('User not found!', 'ok', { duration: 3000 });
-          console.error('Error Getting One Admin', error.message);
+          console.error('Error getting admin', error.message);
         },
       });
     });

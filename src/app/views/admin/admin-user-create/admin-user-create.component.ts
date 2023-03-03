@@ -39,9 +39,17 @@ export class AdminUserCreateComponent {
       Validators.maxLength(18),
     ]),
     profile_image: new FormControl('', []),
-    mobile_number: new FormControl('', [Validators.required]),
-    home_number: new FormControl('', [Validators.required]),
-    status: new FormControl('', []),
+    mobile_number: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.pattern('^((\\+1-?)|0)?[0-9]{10}$'),
+    ]),
+    home_number: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.pattern('^((\\+1-?)|0)?[0-9]{10}$'),
+    ]),
+    status: new FormControl('PENDING', []),
     role: new FormControl('ADMIN', []),
   });
 
@@ -97,6 +105,11 @@ export class AdminUserCreateComponent {
         this.previewImgUrl = change.target.result;
       };
     }
+  }
+
+  numberChanged(event: any) {
+    console.log(event);
+    console.log(this.mobile_number?.errors);
   }
 
   createAdmin() {

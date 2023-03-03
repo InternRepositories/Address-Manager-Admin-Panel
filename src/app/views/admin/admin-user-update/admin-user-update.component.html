@@ -1,5 +1,15 @@
+<div class="d-flex justify-content-end align-items-end my-3">
+  <button
+    cButton
+    onclick="history.back()"
+    class="btn-primary d-flex align-items-center"
+  >
+    <svg cIcon name="cilChevronLeft" size="lg" title="Numbered List Icon"></svg>
+    <span class="ms-1">Go Back</span>
+  </button>
+</div>
 <c-card class="mb-4">
-  <c-card-header>Update Admin User</c-card-header>
+  <c-card-header>Edit Admin User</c-card-header>
   <c-card-body>
     <form [formGroup]="updateForm" (ngSubmit)="updateAdmin()">
       <div class="mb-4">
@@ -212,7 +222,7 @@
               class="me-md-2 text-light"
               [routerLink]="['/admins']"
             >
-              Cancel
+              Return to List
             </button>
             <button type="submit" cButton color="warning" class="me-md-2">
               Save Admin

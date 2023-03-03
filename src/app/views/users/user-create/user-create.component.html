@@ -1,3 +1,13 @@
+<div class="d-flex justify-content-end align-items-end my-3">
+  <button
+    cButton
+    onclick="history.back()"
+    class="btn-primary d-flex align-items-center"
+  >
+    <svg cIcon name="cilChevronLeft" size="lg" title="Numbered List Icon"></svg>
+    <span class="ms-1">Go Back</span>
+  </button>
+</div>
 <c-card class="mb-4">
   <c-card-header>Create New User</c-card-header>
   <c-card-body>
@@ -38,16 +48,23 @@
               id="first_name"
               placeholder="Enter first name"
               type="text"
+              [valid]="
+                first_name?.touched && first_name?.valid
+                  ? true
+                  : first_name?.touched && first_name?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="first_name?.errors?.['required'] && first_name?.dirty && first_name?.touched"
+              *ngIf="first_name?.errors?.['required']  && first_name?.touched"
             >
               First name is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="first_name?.errors?.['minLength'] && first_name?.dirty && first_name?.touched"
+              *ngIf="first_name?.errors?.['minLength']  && first_name?.touched"
             >
               First name must be atleast x characters long
             </p>
@@ -62,16 +79,23 @@
               id="lastName"
               placeholder="Enter last name"
               type="text"
+              [valid]="
+                last_name?.touched && last_name?.valid
+                  ? true
+                  : last_name?.touched && last_name?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="last_name?.errors?.['required'] && last_name?.dirty && last_name?.touched"
+              *ngIf="last_name?.errors?.['required']  && last_name?.touched"
             >
               Last name is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="last_name?.errors?.['minLength'] && last_name?.dirty && last_name?.touched"
+              *ngIf="last_name?.errors?.['minLength']  && last_name?.touched"
             >
               Last name must be atleast x characters long
             </p>
@@ -88,16 +112,23 @@
               id="email"
               placeholder="Enter email address"
               type="email"
+              [valid]="
+                email?.touched && email?.valid
+                  ? true
+                  : email?.touched && email?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="email?.errors?.['required'] && email?.dirty && email?.touched"
+              *ngIf="email?.errors?.['required']  && email?.touched"
             >
               Email is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="email?.errors?.['minLength'] && email?.dirty && email?.touched"
+              *ngIf="email?.errors?.['minLength']  && email?.touched"
             >
               Email must be atleast x characters long
             </p>
@@ -114,22 +145,29 @@
               id="password"
               placeholder="Enter password"
               type="password"
+              [valid]="
+                password?.touched && password?.valid
+                  ? true
+                  : password?.touched && password?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="password?.errors?.['required'] && password?.dirty && password?.touched"
+              *ngIf="password?.errors?.['required']  && password?.touched"
             >
               Password is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="password?.errors?.['minLength'] && password?.dirty && password?.touched"
+              *ngIf="password?.errors?.['minLength']  && password?.touched"
             >
               Password must be atleast x characters long
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="password?.errors?.['maxLength'] && password?.dirty && password?.touched"
+              *ngIf="password?.errors?.['maxLength']  && password?.touched"
             >
               Password must be no longer that x characters long
             </p>
@@ -150,10 +188,10 @@
               type="password"
             />
             TODO Create validation to confirm password 
-            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['required'] && confirm_password?.dirty && confirm_password?.touched">
+            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['required']  && confirm_password?.touched">
               Confirm password is a required field
             </p>
-            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['minLength'] && confirm_password?.dirty && confirm_password?.touched">
+            <p class="text-danger my-2" *ngIf="confirm_password?.errors?.['minLength']  && confirm_password?.touched">
               Confirm password must be atleast x characters long
             </p>
             <p class="text-danger my-2" *ngIf="password?.errors?.['match']">
@@ -172,22 +210,29 @@
               id="home_number"
               placeholder="Enter home number"
               type="text"
+              [valid]="
+                home_number?.touched && home_number?.valid
+                  ? true
+                  : home_number?.touched && home_number?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="home_number?.errors?.['required'] && home_number?.dirty && home_number?.touched"
+              *ngIf="home_number?.errors?.['required']  && home_number?.touched"
             >
               Home Number is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="home_number?.errors?.['minLength'] && home_number?.dirty && home_number?.touched"
+              *ngIf="home_number?.errors?.['minLength']  && home_number?.touched"
             >
               Home Number must be atleast x characters long
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="home_number?.errors?.['maxLength'] && home_number?.dirty && home_number?.touched"
+              *ngIf="home_number?.errors?.['maxLength']  && home_number?.touched"
             >
               Home Number must be no longer that x characters long
             </p>
@@ -202,22 +247,29 @@
               id="mobile_number"
               placeholder="Enter mobile number"
               type="text"
+              [valid]="
+                mobile_number?.touched && mobile_number?.valid
+                  ? true
+                  : mobile_number?.touched && mobile_number?.invalid
+                  ? false
+                  : undefined
+              "
             />
             <p
               class="text-danger my-2"
-              *ngIf="mobile_number?.errors?.['required'] && mobile_number?.dirty && mobile_number?.touched"
+              *ngIf="mobile_number?.errors?.['required']  && mobile_number?.touched"
             >
               Mobile Number is a required field
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="mobile_number?.errors?.['minLength'] && mobile_number?.dirty && mobile_number?.touched"
+              *ngIf="mobile_number?.errors?.['minLength']  && mobile_number?.touched"
             >
               Mobile Number must be atleast x characters long
             </p>
             <p
               class="text-danger my-2"
-              *ngIf="mobile_number?.errors?.['maxLength'] && mobile_number?.dirty && mobile_number?.touched"
+              *ngIf="mobile_number?.errors?.['maxLength']  && mobile_number?.touched"
             >
               Mobile Number must be no longer that x characters long
             </p>
@@ -226,15 +278,26 @@
         <div class="col">
           <div>
             <label cLabel for="floatingSelect">User Status</label>
-            <select formControlName="status" cSelect id="floatingSelect">
-              <option value="default" disabled>-- Select User Status --</option>
+            <select
+              formControlName="status"
+              cSelect
+              id="floatingSelect"
+              [valid]="
+                status?.touched && status?.valid
+                  ? true
+                  : status?.touched && status?.invalid
+                  ? false
+                  : undefined
+              "
+            >
+              <option value="" disabled>-- Select User Status --</option>
               <option *ngFor="let status of userStatuses" [value]="status">
                 {{ status }}
               </option>
             </select>
             <p
               class="text-danger my-2"
-              *ngIf="status?.errors?.['required'] && status?.dirty && status?.touched"
+              *ngIf="status?.errors?.['required']  && status?.touched"
             >
               Status is a required field
             </p>

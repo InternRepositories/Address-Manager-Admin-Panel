@@ -1,0 +1,113 @@
+<!-- <c-container>
+  <c-row>
+    <c-col xs="3" class="h-100 text-light">
+      <c-card class="text-center" *ngIf="admin">
+        <c-card-body>
+          <c-row>
+            <div class="d-flex justify-content-center mb-3">
+              <img
+                *ngIf="admin.profile_image"
+                class="rounded-circle"
+                style="width: 150px; height: 150px"
+                [src]="admin.profile_image"
+              />
+              <c-avatar
+                *ngIf="!admin.profile_image"
+                color="primary"
+                textColor="white"
+              >
+                {{ admin.first_name?.[0] + " " + admin.last_name?.[0] }}
+              </c-avatar>
+            </div>
+            <p cCardTitle class="text-dark font-weight-bold mb-1">
+              {{ admin.first_name + " " + admin.last_name }}
+            </p>
+            <small cCardSubtitle class="text-dark">{{ admin.email }}</small>
+          </c-row>
+          <c-row class="mt-3">
+            <div class="d-flex">
+              <button
+                cButton
+                class="flex-grow-1"
+                [routerLink]="['/admins', 'update', admin._id]"
+                size="sm"
+                color="primary"
+              >
+                Edit
+              </button>
+              <button
+                cButton
+                class="flex-grow-1 ms-1"
+                (click)="deleteAdminHandler(admin._id)"
+                size="sm"
+                color="danger"
+                variant="outline"
+              >
+                Delete
+              </button>
+            </div>
+          </c-row>
+        </c-card-body>
+      </c-card>
+    </c-col>
+    <c-col xs="9" class="h-100 text-light">
+      <c-col class="mb-4">
+        <c-card>
+          <ul cListGroup flush class="p-3">
+            <li
+              class="py-3 text-dark"
+              cListGroupItem
+              *ngFor="let key of adminUserKeys"
+            >
+              <c-row>
+                <div class="col-sm-3">
+                  {{ key.replaceAll("_", " ") | titlecase }}
+                </div>
+                <div class="col-sm-9">{{ admin[key] }}</div>
+              </c-row>
+            </li>
+          </ul>
+        </c-card>
+      </c-col>
+
+
+      <c-row [gutter]="4" class="mb-3" [md]="2" [xs]="1">
+        <c-col *ngFor="let address of addresses; let i = index">
+          <c-card>
+            <c-card-body>
+              <h5 cCardTitle>Address {{ i }}</h5>
+              <p cCardText *ngFor="let addressField of addressFields">
+                {{ addressField.replaceAll("_", " ") | titlecase }}
+                {{ address[addressField] }}
+              </p>
+            </c-card-body>
+            <c-card-footer class="d-flex justify-content-between">
+              <small class="text-medium-emphasis">
+                {{ address.createdAt | date }}
+              </small>
+              <div class="d-flex justify-content-between">
+                <button
+                  cButton
+                  class="text-light"
+                  [routerLink]="['/address', 'update', address._id]"
+                  color="primary"
+                >
+                  Edit
+                </button>
+                <button
+                  cButton
+                  class="text-light"
+                  (click)="deleteAddressHandler(address._id)"
+                  color="danger"
+                  variant="outline"
+                >
+                  Delete
+                </button>
+              </div>
+            </c-card-footer>
+          </c-card>
+        </c-col>
+      </c-row>
+    </c-col>
+  </c-row>
+</c-container> -->

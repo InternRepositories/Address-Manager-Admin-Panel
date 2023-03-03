@@ -57,7 +57,7 @@ export class AdminService {
 
   deleteOne(id: string): Observable<IApiResponse<User>> {
     return this.http.delete<IApiResponse<User>>(
-      this.apiUrl + id + this.urlQueries
+      this.commonUsersUrl + id + this.urlQueries
     );
   }
 }

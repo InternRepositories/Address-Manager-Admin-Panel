@@ -1,42 +1,62 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
 import { IApiResponse } from '../interfaces/api-response';
 import { environment } from '../../environments/environment';
+import { IAddress } from '../interfaces/address.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private currentRoute = '/users/';
+  private apiUrl = environment.api.adminUrl + this.currentRoute;
+  private commonUsersUrl = environment.api.commonUrl + this.currentRoute;
+  private urlQueries = '?platform=admin&role=USER';
+
   users: User[] = [];
-  private apiUrl = environment.api.adminUrl + '/users/';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<IApiResponse<{ users: User[] }>> {
-    return this.http.get<IApiResponse<{ users: User[] }>>(this.apiUrl);
+  parseAddressUrl = (id: string) =>
+    `${environment.api.webUrl}/users/${id}/addresses?platform=admn`;
+
+  getAddressesByUserId(id: string): Observable<IApiResponse<IAddress[]>> {
+    return this.http.get<IApiResponse<IAddress[]>>(this.parseAddressUrl(id));
   }
 
-  getOne(id: string): Observable<IApiResponse<{ user: User }>> {
-    return this.http.get<IApiResponse<{ user: User }>>(this.apiUrl + id);
+  getAll(): Observable<
+    IApiResponse<{ limit: number; page: number; users: User[] }>
+  > {
+    return this.http.get<
+      IApiResponse<{ limit: number; page: number; users: User[] }>
+    >(this.apiUrl + this.urlQueries);
   }
 
-  createOne(userData: any): Observable<IApiResponse<{ user: User }>> {
-    return this.http.post<IApiResponse<{ user: User }>>(this.apiUrl, userData);
+  getOne(id: string): Observable<IApiResponse<User>> {
+    return this.http.get<IApiResponse<User>>(
+      this.commonUsersUrl + id + this.urlQueries
+    );
   }
 
-  updateOne(
-    id: string,
-    userData: Partial<User>
-  ): Observable<IApiResponse<{ user: User }>> {
-    return this.http.patch<IApiResponse<{ user: User }>>(
-      this.apiUrl + id,
+  createOne(userData: any): Observable<IApiResponse<User>> {
+    return this.http.post<IApiResponse<User>>(
+      this.commonUsersUrl + this.urlQueries,
       userData
     );
   }
 
-  deleteOne(id: string): Observable<IApiResponse<{ user: User }>> {
-    return this.http.delete<IApiResponse<{ user: User }>>(this.apiUrl + id);
+  updateOne(id: string, userData: any): Observable<IApiResponse<User>> {
+    return this.http.patch<IApiResponse<User>>(
+      this.commonUsersUrl + id + this.urlQueries,
+      userData
+    );
+  }
+
+  deleteOne(id: string): Observable<IApiResponse<User>> {
+    return this.http.delete<IApiResponse<User>>(
+      this.commonUsersUrl + id + this.urlQueries
+    );
   }
 }
