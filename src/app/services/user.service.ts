@@ -28,6 +28,7 @@ export class UserService {
 
   createOne(userData: Partial<User>): Observable<IApiResponse<{ user: User }>> {
     return this.http.post<IApiResponse<{ user: User }>>(this.apiUrl, userData + '?platform=admin');
+
   }
 
   updateOne(id: string, userData: Partial<User>): Observable<IApiResponse<{ user: User }>> {

@@ -6,6 +6,8 @@ import { User as Admin } from '../../interfaces/user.interface';
 import { ConfirmDialogConfig } from '../../interfaces/confirm-dialog-config';
 import { PageEvent } from '@angular/material/paginator';
 import { AdminService } from 'src/app/services/admin.service';
+import { IApiResponse } from 'src/app/interfaces/api-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -32,9 +34,13 @@ export class AdminComponent {
     private adminService: AdminService
   ) {
     this.adminService.getAll().subscribe({
-      next: (resp) => {
+      next: (
+        resp: IApiResponse<{ limit: number; page: number; users: Admin[] }>
+      ) => {
         this.admins = resp.data.users;
       },
+      error: (error: HttpErrorResponse) => console.error(error),
+      complete: () => {},
     });
   }
 

@@ -10,8 +10,8 @@ import { User } from 'src/app/interfaces/user.interface';
 })
 export class UserUpdateComponent implements OnInit {
   updateForm = <User>{};
-  userStatuses: string[] = Object.values(UserStatus);
-  userRoles: string[] = Object.values(UserRole);
+  userStatuses: string[] = Object.keys(UserStatus);
+  userRoles: string[] = Object.keys(UserRole);
 
   ngOnInit(): void {
     //
