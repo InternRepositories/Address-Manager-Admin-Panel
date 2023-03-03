@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from '../users/users.component';
 import { UserCreateComponent } from './user-create/user-create.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
           title: 'All Users',
         },
       },
+
       {
         path: 'create',
         component: UserCreateComponent,
@@ -31,6 +33,13 @@ const routes: Routes = [
         component: UserUpdateComponent,
         data: {
           title: 'Update User',
+        },
+      },
+      {
+        path: ':id',
+        component: UserDetailComponent,
+        data: {
+          title: 'View User',
         },
       },
     ],

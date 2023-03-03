@@ -9,6 +9,7 @@ import {
   DropdownModule,
   FormModule,
   GridModule,
+  ListGroupModule,
   NavModule,
   ProgressModule,
   TableModule,
@@ -26,11 +27,17 @@ import { WidgetsModule } from '../widgets/widgets.module';
 import { UserCreateComponent } from './user-create/user-create.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserCreateComponent, UserUpdateComponent],
+  declarations: [
+    UsersComponent,
+    UserCreateComponent,
+    UserUpdateComponent,
+    UserDetailComponent,
+  ],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -51,6 +58,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AvatarModule,
     TableModule,
     WidgetsModule,
+    ListGroupModule,
     DropdownModule,
     MatPaginatorModule,
   ],

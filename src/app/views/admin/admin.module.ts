@@ -11,6 +11,7 @@ import {
   DropdownModule,
   FormModule,
   GridModule,
+  ListGroupModule,
   NavModule,
   TableModule,
 } from '@coreui/angular';
@@ -21,13 +22,16 @@ import { AdminComponent } from './admin.component';
 import { AdminUserCreateComponent } from './admin-user-create/admin-user-create.component';
 import { AdminUserUpdateComponent } from './admin-user-update/admin-user-update.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-// import { PipesModule } from 'src/app/modules/pipes/pipes.module';
+import { MatListModule } from '@angular/material/list';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminUserCreateComponent,
     AdminUserUpdateComponent,
+    AdminUserDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -44,9 +48,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TableModule,
     IconModule,
     GridModule,
+    ListGroupModule,
     MatSnackBarModule,
     MatPaginatorModule,
-    // PipesModule,
+    MatListModule,
+    PipesModule,
   ],
 })
 export class AdminModule { }

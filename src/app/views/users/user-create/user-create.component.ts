@@ -39,46 +39,54 @@ export class UserCreateComponent {
       Validators.maxLength(18),
     ]),
     profile_image: new FormControl('', []),
-    mobile_number: new FormControl('', [Validators.required]),
-    home_number: new FormControl('', [Validators.required]),
-    status: new FormControl('', []),
-    role: new FormControl(UserRole.USER, []),
+    mobile_number: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.pattern('^((\\+1-?)|0)?[0-9]{10}$'),
+    ]),
+    home_number: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.pattern('^((\\+1-?)|0)?[0-9]{10}$'),
+    ]),
+    status: new FormControl('PENDING', []),
+    role: new FormControl('USER', []),
   });
 
   get first_name() {
-    return this.createForm.controls['first_name'];
+    return this.createForm.get('first_name');
   }
 
   get last_name() {
-    return this.createForm.controls['last_name'];
+    return this.createForm.get('last_name');
   }
 
   get email() {
-    return this.createForm.controls['email'];
+    return this.createForm.get('email');
   }
 
   get password() {
-    return this.createForm.controls['password'];
+    return this.createForm.get('password');
   }
 
   get profile_image() {
-    return this.createForm.controls['profile_image'];
+    return this.createForm.get('profile_image');
   }
 
   get mobile_number() {
-    return this.createForm.controls['mobile_number'];
+    return this.createForm.get('mobile_number');
   }
 
   get home_number() {
-    return this.createForm.controls['home_number'];
+    return this.createForm.get('home_number');
   }
 
   get status() {
-    return this.createForm.controls['status'];
+    return this.createForm.get('status');
   }
 
   get role() {
-    return this.createForm.controls['role'];
+    return this.createForm.get('role');
   }
 
   userStatuses: string[] = Object.keys(UserStatus);
@@ -100,26 +108,34 @@ export class UserCreateComponent {
   }
 
   createUser() {
-    this.userService.createOne(this.createForm).subscribe({
-      next: (resp: IApiResponse<any>) => {
-        const timeout: number = 2000; // timeout in milliseconds
+    const form = new FormData();
+
+    // append all data to the Form Data object from the Reactive form
+    // this was done for file upload because reactive forms doesn't natively support file upload
+    Object.keys(this.createForm.controls).forEach((key) => {
+      form.append(key, this.createForm.controls[key].value);
+    });
+
+    this.userService.createOne(form).subscribe({
+      next: (resp: IApiResponse<User>) => {
+        const timeout: number = 2500; // timeout in milliseconds
         if (resp.status === 201) {
+          // clear form data
+          this.createForm.reset();
           this.snackbar.open('User created successfully', undefined, {
             duration: timeout,
-            panelClass: ['text-light', 'bg-success'],
+            panelClass: ['success-snackbar'],
           });
-
-          setTimeout(() => {
-            this.router.navigate(['/users']);
-          }, timeout);
         } else {
           this.snackbar.open('There was an error creating user', undefined, {
-            duration: timeout * 1.5,
+            duration: timeout,
           });
+
           console.error(resp.error);
         }
       },
-      error: (error: HttpErrorResponse) => console.error(error),
+      error: (error: HttpErrorResponse) =>
+        console.error('Create One User Error', error.message),
     });
   }
 }
