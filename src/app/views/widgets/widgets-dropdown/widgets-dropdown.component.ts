@@ -155,7 +155,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
 
   getallAllAddress() {
     this.addressService.getAllAddresses().subscribe(res => {
-      this.addressLength = res.data.addressCount
+      this.addressLength = res.data.count
 
 
     })

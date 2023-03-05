@@ -24,6 +24,7 @@ export class AddressComponent implements OnInit {
 
   limit: number | undefined
   page!: number;
+  status: any
 
   allAddresses: number = 0
   pagination: number = 1
@@ -54,6 +55,7 @@ export class AddressComponent implements OnInit {
   })
 
   parishes: IParish[] = []
+  statuses: any[] = []
 
   public searchFields: string[] = [];
 
@@ -80,6 +82,8 @@ export class AddressComponent implements OnInit {
       }
     })
   }
+
+
 
 
 
@@ -149,6 +153,8 @@ export class AddressComponent implements OnInit {
 
   }
 
+
+
   getAllAddress() {
     // this.ParishService.getAllParishes().subscribe(res => {
     //   this.parishes = res.data
@@ -160,6 +166,7 @@ export class AddressComponent implements OnInit {
       this.limit = res.data.limit
       this.page = res.data.page
       this.allAddresses = res.data.count
+
       console.log('Address count ' + this.allAddresses)
 
       for (let i = 0; i < this.addresses.length; i++) {
@@ -184,7 +191,7 @@ export class AddressComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.userService.getAll().subscribe(res => {
+    this.addressService.getLimitedUsers().subscribe(res => {
       this.users = res.data.users
       console.log(this.users);
 
@@ -227,9 +234,15 @@ export class AddressComponent implements OnInit {
 
   }
 
-  statusChange = new FormGroup({
-    'status': new FormControl('APPROVED', [Validators.required]),
-  })
+
+
+
+
+
+
+
+
+
 
   approveAddress(id: any): void {
     const formData = this.statusChange.value as Partial<Address>
@@ -243,7 +256,9 @@ export class AddressComponent implements OnInit {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.addressService.updateAddress(id, formData).subscribe(res => {
+        this.addressService.changeStatus(id, formData).subscribe(res => {
+          console.log(res);
+
           this.getAllAddress()
           Swal.fire('Address Succesfully Approved!', '', 'success')
 
@@ -258,11 +273,40 @@ export class AddressComponent implements OnInit {
 
   }
 
+  getStatuses() {
+    // this.addressService.getAddressById(id).subscribe(res => {
+    //   this.status = res.data
+
+
+    // })
+
+
+
+    this.addressService.getAllStatus().subscribe(res => {
+      this.statuses = res.data.status_list
+      // console.log(this.statuses);
+
+
+    })
+  }
+  statusChange = new FormGroup({
+    'status': new FormControl([Validators.required]),
+  })
+
+  getClass(value: string) {
+    if (value == 'PENDING') return 'pending'
+    else if (value == 'APPROVED') return 'approved'
+    else if (value == 'ACTIVE') return 'active'
+    else if (value == 'INACTIVE') return 'inactive'
+    return 'default'
+  }
+
 
 
   // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous
 
   ngOnInit() {
+    this.getStatuses()
     this.getAllUsers()
     this.getAllParish()
     this.getAllAddress()
