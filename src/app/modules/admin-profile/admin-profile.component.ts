@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user.interface';
+import { AddressService } from 'src/app/services/address.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -16,14 +17,16 @@ export class AdminProfileComponent implements OnInit {
   userImage: String = '';
   selectedPic: String = '';
   name: String = '';
+  statuses: any[] = []
 
   profileForm!: FormGroup;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private addressService: AddressService,
     private router: Router
-  ) {}
+  ) { }
 
   updateUserDetails() {
     const form: any = new FormData();
@@ -48,7 +51,19 @@ export class AdminProfileComponent implements OnInit {
       });
   }
 
+  getStatuses() {
+    this.addressService.getAllStatus().subscribe(res => {
+      this.statuses = res.data.status_list
+    })
+  }
+
+
+
+
+
+
   ngOnInit(): void {
+    this.getStatuses()
     this.authService.getProfile();
 
     this.userService
