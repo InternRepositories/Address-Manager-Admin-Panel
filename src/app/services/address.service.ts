@@ -7,6 +7,7 @@ import { Address } from '../../app/models/addressModel'
 import { IApiResponse } from '../interfaces/apiResponse'
 import { AuthService } from './auth.service';
 import Swal from 'sweetalert2';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class AddressService {
 
   private API_URL = environment.api.adminBaseUrl + environment.api.addressRoute;
   private COMMON_URL = environment.api.commonBaseUrl + environment.api.addressRoute;
+  private BaseUrl = environment.api.commonBaseUrl
+  private AdminUrl = environment.api.adminBaseUrl
 
   private _handleHttpErrors(retVal: any) {
     return (err: any) => {
@@ -57,12 +60,23 @@ export class AddressService {
     return this.http.put<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}?platform=admin`, address).pipe(catchError(this._tokenHandler));
   }
 
+  changeStatus(_id: any, address: Partial<Address>): Observable<IApiResponse<Address>> {
+    return this.http.patch<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}?platform=admin`, address).pipe(catchError(this._tokenHandler));
+  }
+
   deleteAddress(_id: string): Observable<IApiResponse<Address>> {
     return this.http.delete<IApiResponse<Address>>(`${this.COMMON_URL}/${_id}/destroy?platform=admin`).pipe(catchError(this._tokenHandler));
   }
 
   filterAddresses(formData: Partial<Address>, page = 1, limit = 10): Observable<IApiResponse<Address[]>> {
     return this.http.get<IApiResponse<Address[]>>(`${this.API_URL}?platform=admin&page=${page}&limit=${limit}&status=${formData.status}&address_1=${formData.address_1}&city=${formData.city}&parish=${formData.parish}=${formData}`).pipe(catchError(this._tokenHandler));
+  }
+
+  getAllStatus(): Observable<IApiResponse<Address[]>> {
+    return this.http.get<IApiResponse<Address[]>>(`${this.BaseUrl}/getRoleAndStatus?platform=admin`).pipe(catchError(this._tokenHandler));
+  }
+  getLimitedUsers(page = 1, limit = 10000): Observable<IApiResponse<User[]>> {
+    return this.http.get<IApiResponse<User[]>>(`${this.AdminUrl}/users?platform=admin&page=${page}&limit=${limit}`).pipe(catchError(this._tokenHandler));
   }
 
 

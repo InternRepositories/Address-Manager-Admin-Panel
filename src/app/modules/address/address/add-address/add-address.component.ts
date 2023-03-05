@@ -24,18 +24,8 @@ export class AddAddressComponent implements OnInit {
   parishes: IParish[] = []
   users: any;
   cities: ICity[] = Cities
-  statuses: any[] = [
-    {
-      _id: 0,
-      statusName: "PENDING"
+  statuses: any[] = []
 
-    },
-    {
-      _id: 1,
-      statusName: "APPROVED"
-
-    },
-  ]
 
   addressForm = new FormGroup({
     'address_1': new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]),
@@ -52,8 +42,8 @@ export class AddAddressComponent implements OnInit {
 
 
 
-  getAllUSers() {
-    this.userService.getAll().subscribe(res => {
+  getAllUsers() {
+    this.addressService.getLimitedUsers().subscribe(res => {
       this.users = res.data.users
       console.log(this.users);
 
@@ -68,11 +58,20 @@ export class AddAddressComponent implements OnInit {
   }
 
 
+  getStatuses() {
+    this.addressService.getAllStatus().subscribe(res => {
+      this.statuses = res.data.status_list
+      // console.log(this.statuses);
+
+
+    })
+  }
+
 
 
   onSubmit() {
     const formData = this.addressForm.value as Partial<Address>
-    console.log(formData);
+    // console.log(formData);
 
     this.submitted = true
     if (this.addressForm.valid) {
@@ -105,7 +104,8 @@ export class AddAddressComponent implements OnInit {
 
   ngOnInit() {
     this.getAllParishes()
-    this.getAllUSers()
+    this.getAllUsers()
+    this.getStatuses()
   }
 
 

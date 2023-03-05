@@ -22,18 +22,7 @@ export class EditAddressComponent implements OnInit {
   users: any;
   address!: Address
   addressForm!: FormGroup;
-  statuses: any[] = [
-    {
-      _id: 0,
-      statusName: "PENDING"
-
-    },
-    {
-      _id: 1,
-      statusName: "APPROVED"
-
-    },
-  ]
+  statuses: any[] = []
 
   constructor(private addressService: AddressService, private parishService: ParishService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
 
@@ -46,14 +35,17 @@ export class EditAddressComponent implements OnInit {
 
   }
   getAllUsers() {
-    this.userService.getAll().subscribe(res => {
+    this.addressService.getLimitedUsers().subscribe(res => {
       this.users = res.data.users;
-
-
-
 
     })
 
+  }
+
+  getStatuses() {
+    this.addressService.getAllStatus().subscribe(res => {
+      this.statuses = res.data.status_list
+    })
   }
 
   updateAddress() {
@@ -62,6 +54,7 @@ export class EditAddressComponent implements OnInit {
 
     this.addressService.updateAddress(this.address._id, this.addressForm.value).subscribe(res => {
       Swal.fire('address updated successfully')
+      console.log(res);
       this.router.navigate(['/address/view'])
 
 
@@ -72,8 +65,9 @@ export class EditAddressComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAllParishes()
     this.getAllUsers()
+    this.getAllParishes()
+    this.getStatuses()
     this.addressService.getAddressById(this.route.snapshot.params['id']).subscribe(res => {
       this.address = res.data
 
@@ -99,7 +93,7 @@ export class EditAddressComponent implements OnInit {
 
       })
 
-      this.userService.getAll().subscribe(_results => {
+      this.addressService.getLimitedUsers().subscribe(_results => {
         const users = _results.data.users
         console.log(_results.data.users);
 

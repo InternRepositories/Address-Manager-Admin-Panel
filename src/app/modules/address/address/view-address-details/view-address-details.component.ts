@@ -22,16 +22,7 @@ export class ViewAddressDetailsComponent implements OnInit {
   parishes: IParish[] = [];
   submitted = false;
 
-  statuses: any[] = [
-    {
-      _id: 0,
-      statusName: 'PENDING',
-    },
-    {
-      _id: 1,
-      statusName: 'APPROVED',
-    },
-  ];
+  statuses: any[] = [];
 
   colors = [
     { color: 'primary', textColor: 'primary' },
@@ -50,7 +41,7 @@ export class ViewAddressDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private parishService: ParishService
-  ) {}
+  ) { }
 
   getAddressById(id: string) {
     this.addressService.getAddressById(id).subscribe((res) => {
@@ -86,7 +77,7 @@ export class ViewAddressDetailsComponent implements OnInit {
   });
 
   getAllUsers() {
-    this.userService.getAll().subscribe((_results) => {
+    this.addressService.getLimitedUsers().subscribe((_results) => {
       this.users = _results.data.users;
     });
   }
@@ -95,6 +86,12 @@ export class ViewAddressDetailsComponent implements OnInit {
     this.parishService.getAllParishes().subscribe((res) => {
       this.parishes = res.data;
     });
+  }
+
+  getStatuses() {
+    this.addressService.getAllStatus().subscribe(res => {
+      this.statuses = res.data.status_list
+    })
   }
 
   onSubmit() {
@@ -127,6 +124,7 @@ export class ViewAddressDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
+    this.getStatuses()
     this.route.params.subscribe((params: Params) => {
       this.addressId = params['id'];
       this.getAddressById(this.addressId);

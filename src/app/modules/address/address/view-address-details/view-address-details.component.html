@@ -110,7 +110,7 @@
                       <label class="select-label" cLabel for="">Select Status</label>
                       <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
                         <option value="" selected disabled>--Select Status--</option>
-                        <option *ngFor="let status of statuses" value="{{status._id}}">{{status.statusName}}</option>
+                        <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
                       </select>
                       <div class="error-con" *ngIf="addressForm.get('status')?.touched || submitted">
                         <span *ngIf="addressForm.get('status')?.hasError('required')" class="error">Please Select A Status</span>
