@@ -163,7 +163,7 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
   }
 
   getallAllUsers() {
-    this.userService.getAll().subscribe(res => {
+    this.addressService.getLimitedUsers().subscribe(res => {
       this.userLength = res.data.users.length
 
 

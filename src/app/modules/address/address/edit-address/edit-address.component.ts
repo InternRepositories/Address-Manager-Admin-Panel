@@ -24,7 +24,9 @@ export class EditAddressComponent implements OnInit {
   addressForm!: FormGroup;
   statuses: any[] = []
 
-  constructor(private addressService: AddressService, private parishService: ParishService, private userService: UserService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private addressService: AddressService, private parishService: ParishService, private userService: UserService, private route: ActivatedRoute, private router: Router) {
+    this.getAllUsers()
+  }
 
   getAllParishes() {
     this.parishService.getAllParishes().subscribe(res => {
@@ -65,7 +67,7 @@ export class EditAddressComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getAllUsers()
+
     this.getAllParishes()
     this.getStatuses()
     this.addressService.getAddressById(this.route.snapshot.params['id']).subscribe(res => {

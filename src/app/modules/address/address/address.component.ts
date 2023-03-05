@@ -87,7 +87,11 @@ export class AddressComponent implements OnInit {
 
 
 
-  constructor(private addressService: AddressService, private ParishService: ParishService, private userService: UserService) { }
+  constructor(private addressService: AddressService, private ParishService: ParishService, private userService: UserService) {
+    console.log('constructor');
+
+    this.getAllUsers()
+  }
   searchUserHandler(): void {
     this.searchFields = [];
     // TODO implement logic to search
@@ -290,7 +294,7 @@ export class AddressComponent implements OnInit {
     })
   }
   statusChange = new FormGroup({
-    'status': new FormControl([Validators.required]),
+    'status': new FormControl('APPROVED', [Validators.required]),
   })
 
   getClass(value: string) {
@@ -306,8 +310,10 @@ export class AddressComponent implements OnInit {
   // TODO Error fix, parish and get all addresses are being ran at seperate tmes due to thme being asynchronous
 
   ngOnInit() {
+
+
+
     this.getStatuses()
-    this.getAllUsers()
     this.getAllParish()
     this.getAllAddress()
 
