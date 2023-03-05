@@ -41,7 +41,9 @@ export class ViewAddressDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private parishService: ParishService
-  ) { }
+  ) {
+    this.getAllUsers();
+  }
 
   getAddressById(id: string) {
     this.addressService.getAddressById(id).subscribe((res) => {
@@ -123,7 +125,7 @@ export class ViewAddressDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllUsers();
+
     this.getStatuses()
     this.route.params.subscribe((params: Params) => {
       this.addressId = params['id'];
