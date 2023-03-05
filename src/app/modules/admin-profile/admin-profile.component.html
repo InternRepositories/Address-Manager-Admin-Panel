@@ -40,9 +40,7 @@
               <label cLabel>Status</label>
 
               <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
-                <option value="" selected disabled>--Select Status--</option>
-                <option value="APPROVED">APPROVED</option>
-                <option value="PENDING">PENDING</option>
+                <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
               </select>
               <!-- <label cLabel for="first_name">Status</label>
                 <input cFormControl id="last_name" [(ngModel)]="fields.status" placeholder="Filter by status" type="text" /> -->
