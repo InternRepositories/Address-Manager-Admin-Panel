@@ -68,6 +68,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from './services/auth.service';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { RequestPasswordResetComponent } from './components/request-password-reset/request-password-reset.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -124,6 +125,7 @@ const APP_CONTAINERS = [
     RecaptchaModule,
     MatDialogModule,
     MatButtonModule,
+    MatSnackBarModule,
   ],
   providers: [
     AuthService,

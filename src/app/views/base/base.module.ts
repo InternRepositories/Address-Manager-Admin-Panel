@@ -25,7 +25,7 @@ import {
   TableModule,
   TabsModule,
   TooltipModule,
-  UtilitiesModule
+  UtilitiesModule,
 } from '@coreui/angular';
 
 import { IconModule } from '@coreui/icons-angular';
@@ -52,6 +52,7 @@ import { TabsComponent } from './tabs/tabs.component';
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import { BaseRoutingModule } from './base-routing.module';
     PopoverModule,
     TableModule,
     DocsComponentsModule,
+    MatDialogModule,
   ],
   declarations: [
     AccordionsComponent,

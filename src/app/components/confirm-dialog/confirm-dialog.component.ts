@@ -4,7 +4,7 @@ import { ConfirmDialogConfig } from 'src/app/interfaces/confirm-dialog-config.in
 
 @Component({
   template: `
-    <h1 mat-dialog-title>{{ data.title }}</h1>
+    <h1 mat-dialog-title>{{ data.title | titlecase }}</h1>
     <div mat-dialog-content>
       {{ data.message }}
     </div>
@@ -21,6 +21,13 @@ import { ConfirmDialogConfig } from 'src/app/interfaces/confirm-dialog-config.in
         Yes
       </button>
     </div>
+    <!-- <h1 mat-dialog-title>Dialog with elements</h1>
+    <div mat-dialog-content>
+      This dialog showcases the title, close, content and actions elements.
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button mat-dialog-close>Close</button>
+    </div> -->
   `,
   styleUrls: [],
 })
@@ -34,6 +41,7 @@ export class ConfirmDialogComponent {
 
   cancelHandler() {
     this.confirm = false;
+    this.dialogRef.close({ confirmed: this.confirm });
   }
 
   confirmHandler() {

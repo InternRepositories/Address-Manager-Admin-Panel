@@ -20,7 +20,6 @@ import { UserRole } from 'src/app/enums/user-role.enum';
 })
 export class UsersComponent {
   users: User[] = [];
-  _users: User[] = [];
   search: string = '';
   searchFields: string[] = [];
   status = UserStatus;
@@ -31,6 +30,8 @@ export class UsersComponent {
     email: '',
     status: '',
   };
+  totalUsers = 0;
+  searchParams = { page: 1, limit: 5, role: UserRole.USER };
 
   private userIndexForDelete: number = 0;
   private dialogConfig: ConfirmDialogConfig = <ConfirmDialogConfig>{};
@@ -41,12 +42,17 @@ export class UsersComponent {
     private userService: UserService,
     private snackbar: MatSnackBar
   ) {
-    this.userService.getAll().subscribe({
+    this.userService.getAll(this.searchParams).subscribe({
       next: (
-        resp: IApiResponse<{ limit: number; page: number; users: User[] }>
+        resp: IApiResponse<{
+          limit: number;
+          page: number;
+          count: number;
+          users: User[];
+        }>
       ) => {
         this.users = resp.data.users;
-        this._users = this.users.slice(0, 5);
+        this.totalUsers = resp.data.count;
       },
       error: (error: HttpErrorResponse) => console.error(error),
       complete: () => {},
@@ -54,53 +60,41 @@ export class UsersComponent {
   }
 
   onPaginatorChange(event: PageEvent) {
-    const startIndex = event.pageIndex * event.pageSize;
-    let endIndex = startIndex + event.pageSize;
-    if (endIndex > this.users.length) endIndex = this.users.length;
-    this._users = this.users.slice(startIndex, endIndex);
-  }
+    this.searchParams.limit = event.pageSize;
+    this.searchParams.page = event.pageIndex + 1;
 
-  searchUserHandler(): void {
-    this._users = this._users.filter((item: any) => {
-      for (let prop in item) {
-        if (Object.prototype.hasOwnProperty.call(item, prop)) {
-          if (
-            item[prop]
-              .toString()
-              .toLowerCase()
-              .includes(this.search.toLocaleLowerCase())
-          ) {
-            return true;
-          }
-        }
-      }
-      return false;
-    });
-
-    // this.searchFields = [];
-    // for (let field in this.searchForm) {
-    //   const value = this.searchForm[field];
-    //   if (value != '' && value != undefined && value != null) {
-    //     this.searchFields.push(field);
-    //   }
-    // }
-  }
-
-  resetSearchHandler() {
-    this.searchFields = [];
-    this.userService.getAll().subscribe({
+    this.userService.getAll(this.searchParams).subscribe({
       next: (
-        resp: IApiResponse<{ limit: number; page: number; users: User[] }>
+        resp: IApiResponse<{
+          limit: number;
+          page: number;
+          count: number;
+          users: User[];
+        }>
       ) => {
         this.users = resp.data.users;
-        this._users = this.users;
       },
       error: (error: HttpErrorResponse) => console.error(error.message),
     });
   }
 
-  updateUserHandler(id: string) {
-    this.router.navigate(['users', 'update', id]);
+  searchUserHandler(): void {}
+
+  resetSearchHandler() {
+    this.searchFields = [];
+    this.userService.getAll(this.searchParams).subscribe({
+      next: (
+        resp: IApiResponse<{
+          limit: number;
+          page: number;
+          count: number;
+          users: User[];
+        }>
+      ) => {
+        this.users = resp.data.users;
+      },
+      error: (error: HttpErrorResponse) => console.error(error.message),
+    });
   }
 
   deleteUserHandler(id: string) {
@@ -140,16 +134,8 @@ export class UsersComponent {
           this.snackbar.open('User Deleted!', 'ok', { duration: 2500 });
 
           // Remove deleted user from the array
-          this._users.splice(
-            this._users.findIndex((user) => user._id === id),
-            1
-          );
-
-          // Remove deleted user from the array
-          this.users.splice(
-            this.users.findIndex((user) => user._id === id),
-            1
-          );
+          const userIndex = this.users.findIndex((user) => user._id === id);
+          this.users.splice(userIndex, 1);
         } else {
           this.snackbar.open('Error Deleting User!', 'ok', {
             duration: 2500,
