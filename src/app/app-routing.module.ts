@@ -6,6 +6,10 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { AuthGuard } from './guards/auth.guard';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { RequestPasswordResetComponent } from './components/request-password-reset/request-password-reset.component';
 
 const routes: Routes = [
   {
@@ -16,6 +20,7 @@ const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Home',
     },
@@ -31,6 +36,23 @@ const routes: Routes = [
         path: 'users',
         loadChildren: () =>
           import('./views/users/users.module').then((m) => m.UsersModule),
+      },
+      {
+        path: 'admins',
+        loadChildren: () =>
+          import('./views/admin/admin.module').then((m) => m.AdminModule),
+      },
+      {
+        path: 'address',
+        loadChildren: () =>
+          import('./modules/address/address/address.module').then(
+            (m) => m.AddressModule
+          ),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('./modules/admin-profile/admin-profile.module').then(m => m.AdminProfileModule)
       },
       {
         path: 'theme',
@@ -97,11 +119,29 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    component: AdminLoginComponent,
     data: {
       title: 'Login Page',
     },
+
   },
+  {
+    path: 'resetPassword',
+    component: ResetPasswordComponent,
+    data: {
+      title: 'Reset Password',
+    },
+
+  },
+  {
+    path: 'requestReset',
+    component: RequestPasswordResetComponent,
+    data: {
+      title: 'request Reset',
+    },
+
+  },
+
   {
     path: 'register',
     component: RegisterComponent,
@@ -109,6 +149,7 @@ const routes: Routes = [
       title: 'Register Page',
     },
   },
+
   { path: '**', redirectTo: 'dashboard' },
 ];
 
@@ -123,4 +164,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

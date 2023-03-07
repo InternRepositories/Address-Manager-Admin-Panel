@@ -1,0 +1,62 @@
+<div class="login-background">
+  <div class="login-container">
+    <div class="login-form">
+      <div class="logo">
+        <img class="logo-img" src="../assets/images/amberlogo.svg" alt="">
+      </div>
+      <h2>Login</h2>
+      <form action="" *ngIf="loginForm" [formGroup]="loginForm" (submit)="onSubmit()">
+        <mat-form-field hideRequiredMarker class="form-field" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input type="email" formControlName="email" name="email" matInput>
+          <!-- <mat-hint>Enter Email Address</mat-hint> -->
+          <mat-error class="error" *ngIf=" loginForm.get('email')?.touched || submitted">
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+              Please Enter your Email Address</mat-error>
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+              Invalid Email Address</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field hideRequiredMarker appearance="outline" class="form-field">
+          <mat-label>Password</mat-label>
+          <input formControlName="password" class="input" type="password" matInput>
+          <mat-error class="error" *ngIf="loginForm.get('password')?.touched || submitted">
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be atleast 8 characters</mat-error>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-feild">
+          <re-captcha formControlName="recaptchaReactive" (resolved)="checkCaptcha($event)" siteKey="6LflY4AkAAAAAAvaLdJjmsALUBvp0pDT6peWYtM0">
+          </re-captcha>
+          <div style="position: relative; left: 6px;" class="error" *ngIf="loginForm.get('recaptchaReactive')?.touched || submitted">
+            <mat-error *ngIf="loginForm.get('recaptchaReactive')?.hasError('required')">please check recaptcha</mat-error>
+          </div>
+        </div>
+
+
+
+
+        <button class="submit-btn bg-amber text-white p-3">Login</button>
+
+        <div class="time">
+          <p><a class="forget" [routerLink]="['/requestReset']">Forget Password?</a></p>
+          <p style="color: rgb(244, 91, 91);"><a>{{timeout}}</a></p>
+        </div>
+
+      </form>
+    </div>
+    <div class="address-con">
+      <div class="blueline"></div>
+      <div class="address-book">
+        <h2>Address Book</h2>
+        <div class="img-background">
+
+        </div>
+        <p>Locate addresses you added with ease with our address book</p>
+
+      </div>
+    </div>
+  </div>
+</div>

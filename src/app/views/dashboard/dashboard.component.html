@@ -5,76 +5,43 @@
     <c-card class="mb-4">
       <c-card-header>Users</c-card-header>
       <c-card-body>
-        <table
-          [hover]="true"
-          [responsive]="true"
-          [striped]="true"
-          align="middle"
-          cTable
-          class="mb-0 border"
-        >
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
           <thead cTableColor="light">
             <tr>
               <th class="text-center">
                 <svg cIcon name="cilPeople"></svg>
               </th>
-              <th>User</th>
-              <th class="text-center">Country</th>
-              <th>Usage</th>
-              <th class="text-center">Payment Method</th>
-              <th>Activity</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile Number</th>
+              <th>Home Number</th>
+              <!-- <th>Role</th> -->
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of users; index as i">
+            <tr *ngFor="let user of _users">
               <td class="text-center">
-                <c-avatar
-                  size="md"
-                  src="{{ user.avatar }}"
-                  status="{{ user.status }}"
-                ></c-avatar>
+                <c-avatar size="md" src="http://localhost:5000/{{ user.profile_image }}"></c-avatar>
               </td>
               <td>
-                <div>{{ user.name }}</div>
-                <div class="small text-medium-emphasis text-nowrap">
-                  <span>
-                    {{ user.state }} | Registered: {{ user.registered }}
-                  </span>
-                </div>
+                {{ user.first_name }}
+                {{ user.last_name }}
               </td>
-              <td class="text-center">
-                <svg
-                  cIcon
-                  id="{{ user.country + user.name }}"
-                  name="cif{{ user.country }}"
-                  size="xl"
-                  title="{{ user.country }}"
-                ></svg>
+              <td class="text-left">
+                {{ user.email }}
               </td>
-              <td>
-                <div class="d-flex justify-content-between">
-                  <div class="float-start">
-                    <strong>{{ user.usage }}%</strong>
-                  </div>
-                  <div class="float-end ms-1 text-nowrap">
-                    <small class="text-medium-emphasis">
-                      {{ user.period }}
-                    </small>
-                  </div>
-                </div>
-                <c-progress thin>
-                  <c-progress-bar
-                    [value]="user.usage"
-                    color="{{ user.color }}"
-                  ></c-progress-bar>
-                </c-progress>
+              <td class="text-left">
+                {{ user.mobile_number }}
               </td>
-              <td class="text-center">
-                <svg cIcon name="cibCc{{ user.payment }}" size="xl"></svg>
+              <td class="text-left">
+                {{ user.home_number }}
               </td>
-              <td>
-                <div class="small text-medium-emphasis">Last login</div>
-                <div class="fw-semibold text-nowrap">{{ user.activity }}</div>
+              <!-- <td class="text-left">
+                {{ user.role }}
+              </td> -->
+              <td class="text-left">
+                {{ user.status }}
               </td>
             </tr>
           </tbody>

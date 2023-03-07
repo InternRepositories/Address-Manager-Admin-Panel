@@ -1,0 +1,167 @@
+<c-row>
+  <c-col xs>
+
+    <c-card class="mb-4">
+      <c-card-header>Search filter</c-card-header>
+      <c-card-body>
+        <form action="" [formGroup]="filterForm" class="form-group mb-4">
+          <div class="form-field">
+            <label cLabel for="address_1">Address Name</label>
+            <input cFormControl id="address" formControlName="address_1" name="address_1" placeholder="Filter by name of address" type="text" />
+          </div>
+          <div class=" form-field">
+            <label cLabel for="first_name">City</label>
+            <input cFormControl id="city" formControlName="city" placeholder="Filter by city" type="text" />
+          </div>
+          <div class="form-field">
+            <label cLabel for="parish">Parish</label>
+            <select aria-label="Default select example" name="parish" formControlName="parish" cSelect>
+              <option value="" selected disabled>--Select Parish--</option>
+              <option *ngFor="let parish of parishes" value="{{parish.parishName}}">{{parish.parishName}}</option>
+            </select>
+
+            <!-- <label cLabel for="first_name">Parish</label>
+            <input cFormControl id="first_name" [(ngModel)]="fields.parish" placeholder="Filter by parish" type="text" /> -->
+          </div>
+          <div class="form-field">
+            <label cLabel for="first_name">Status</label>
+
+            <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
+              <option value="" selected disabled>--Select Status--</option>
+              <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
+            </select>
+            <!-- <label cLabel for="first_name">Status</label>
+            <input cFormControl id="last_name" [(ngModel)]="fields.status" placeholder="Filter by status" type="text" /> -->
+          </div>
+        </form>
+
+        <div class="filter-flex">
+          <button (click)="filterData()" cButton color="success">Filter Search</button>
+          <button type="reset" (click)="restFilter()" cButton color="secondary">Reset</button>
+        </div>
+
+
+      </c-card-body>
+
+
+
+    </c-card>
+
+    <div class="button-flex"><button cButton color="primary" routerLink="/address/add" class="mb-2">Add Address</button></div>
+
+    <c-card class=" mb-4">
+      <c-card-header>Addresses</c-card-header>
+      <c-card-body>
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="light">
+            <tr>
+              <th>Name</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Parish</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <td colspan="5" *ngIf="!addresses.length">
+              <div>Addresses Not Found</div>
+            </td>
+
+            <tr *ngFor="let address of addresses | addressPipe:filter | paginate: {
+              id: 'npxpaginate',
+            itemsPerPage:limit,
+            currentPage:page,
+            totalItems: allAddresses
+            } ">
+              <td>
+                <div>
+                  {{ address.user_id }}
+                </div>
+              </td>
+              <td>
+                <div>
+                  {{ address.address_1 }}
+                  {{ address.address_2 }}
+                </div>
+              </td>
+              <td>
+                <div>
+                  <span>
+                    {{ address.city }}
+                  </span>
+                </div>
+              </td>
+              <td class=" text-left">
+                {{ address.parish}}
+              </td>
+              <td>
+                <div [ngClass]="getClass(address.status)">
+                  {{address.status}}
+                  <form [formGroup]="statusChange">
+                    <input type="hidden" name="status" formControlName="status">
+                    <!-- <select aria-label="Default select example" name="status" formControlName="status" cSelect>
+                      <option *ngFor="let status of statuses" value="{{address.status}}">{{address.status}}</option>
+                    </select> -->
+                  </form>
+                </div>
+
+              </td>
+
+
+
+              <td>
+                <div style="color: black;">
+                  <c-dropdown alignment="end" variant="btn-group">
+                    <button [caret]="false" cButton cDropdownToggle class="p-0" color="transaprent">
+                      <img class="view-more" src='../../../../assets/images/more.png' alt="">
+                    </button>
+                    <ul cDropdownMenu>
+                      <li style="cursor: pointer;"><a routerLink="/address/detail/{{address._id}}" cDropdownItem>View More</a></li>
+                      <li style="cursor: pointer;">
+                        <a cDropdownItem (click)="approveAddress(address._id)">Approve
+                          <form [formGroup]="statusChange">
+                            <input type="hidden" name="status" formControlName="status">
+                          </form>
+                        </a>
+                      </li>
+                      <li style="cursor: pointer;"><a routerLink="/address/edit/{{address._id}}" cDropdownItem>Edit</a></li>
+                      <li style="cursor: pointer;"><a (click)="deleteAddress(address._id)" cDropdownItem>Delete</a></li>
+                    </ul>
+                  </c-dropdown>
+                </div>
+
+
+
+
+
+                <!-- <td>
+                <div class="manage-icon">
+                
+
+                  <p class="">
+                    <a "><img src='../../../../assets/images/edit.png' alt=""></a>
+                  </p>
+                  <p (click)="deleteAddress(address._id)" class="">
+                    <img src="../../../../assets/images/delete.png" alt="">
+                  </p>
+                </div>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+
+<div class="d-flex justify-content-end mb-4">
+  <c-card style="height: 4rem; ">
+    <c-card-body>
+      <pagination-controls id="npxpaginate" (pageChange)="renderPage($event)"></pagination-controls>
+    </c-card-body>
+
+  </c-card>
+</div>

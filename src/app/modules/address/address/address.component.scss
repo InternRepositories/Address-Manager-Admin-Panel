@@ -1,0 +1,83 @@
+.manage-icon{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: baseline;
+    margin-top: .3rem;
+
+    img{
+        width: 25px;
+    }
+}
+.button-flex{
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.add-btn{
+    background-color: rgb(3, 97, 197);
+    border-radius: .3rem;
+    width: 8rem;
+    color: white;
+    border: none;
+    padding: 10px;
+   
+}
+
+.pending{
+    color: rgb(242, 78, 78);
+
+}
+
+.approved{
+    color: rgb(2, 173, 148);
+  
+
+}
+
+.active{
+    color: rgb(119, 78, 242);
+
+}
+
+.inactive{
+    color: rgb(248, 232, 0);
+  
+
+}
+
+.default{
+    color: rgb(190, 190, 188);
+  
+
+}
+
+.form-group{
+    display: flex;
+    justify-content: space-around;
+}
+
+.filter-flex{
+    display: flex;
+    justify-content: center;
+
+    button{
+        margin-left: 1rem;
+    }
+}
+
+.check-btn{
+    width: 20px;
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+.view-more{
+    width: 30px;
+}
+table{
+    td{
+        padding: 13px 0px 13px 8px;
+    }
+}

@@ -1,0 +1,68 @@
+<c-row>
+  <c-col xs>
+
+    <c-card class="mb-4">
+      <c-card-header>Update Profile</c-card-header>
+      <c-card-body>
+        <div class="profile-con">
+          <div class="profile-img">
+            <img [src]="userImage" alt="">
+            <p>Hi
+              {{name}}
+            </p>
+          </div>
+          <form class="profile-form" *ngIf="profileForm" [formGroup]="profileForm" (submit)="updateUserDetails()">
+            <h2>User Deatils</h2>
+            <div class="row_1">
+              <div style="margin-right: .8rem;" class=" form-field">
+                <label cLabel>home Number</label>
+                <input cFormControl id="first_name" formControlName="first_name" type="text" />
+              </div>
+              <div style="margin-right: .8rem;" class=" form-field">
+                <label cLabel>Last Name</label>
+                <input cFormControl formControlName="last_name" name="last_name" type="text" />
+              </div>
+              <div class=" form-field">
+                <label cLabel>Email</label>
+                <input cFormControl formControlName="email" name="email" type="text" />
+              </div>
+            </div>
+            <div class=" form-field">
+              <label cLabel>Mobile Number</label>
+              <input cFormControl formControlName="mobile_number" name="mobile_number" type="text" />
+            </div>
+            <div class=" form-field">
+              <label cLabel>home Number</label>
+              <input cFormControl id="home_number" formControlName="home_number" type="text" />
+            </div>
+
+            <div class="form-field">
+              <label cLabel>Status</label>
+
+              <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
+                <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
+              </select>
+              <!-- <label cLabel for="first_name">Status</label>
+                <input cFormControl id="last_name" [(ngModel)]="fields.status" placeholder="Filter by status" type="text" /> -->
+            </div>
+
+            <div class="form-field">
+              <label cLabel>Profile Image</label>
+              <input cFormControl type="file" name="profile_image" id="upload" (change)="onselectFile($event)" accept="image/*">
+
+            </div>
+
+            <div class="button-flex"><button type="submit" cButton color="primary" class="mt-2">Save</button></div>
+          </form>
+        </div>
+
+
+
+      </c-card-body>
+    </c-card>
+
+
+
+
+  </c-col>
+</c-row>

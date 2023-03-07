@@ -5,8 +5,6 @@ import {
   PathLocationStrategy,
 } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -19,6 +17,20 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Import app component
 import { AppComponent } from './app.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  RECAPTCHA_SETTINGS,
+  RecaptchaFormsModule,
+  RecaptchaModule,
+  RecaptchaSettings,
+} from 'ng-recaptcha';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 // Import containers
 import {
@@ -49,6 +61,13 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from './services/auth.service';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { RequestPasswordResetComponent } from './components/request-password-reset/request-password-reset.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -61,11 +80,19 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [
+    AppComponent,
+    AdminLoginComponent,
+    ConfirmDialogComponent,
+    ...APP_CONTAINERS,
+    ResetPasswordComponent,
+    RequestPasswordResetComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     AvatarModule,
     BreadcrumbModule,
     FooterModule,
@@ -89,8 +116,17 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    RecaptchaFormsModule,
+    RecaptchaModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
+    AuthService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
@@ -98,6 +134,17 @@ const APP_CONTAINERS = [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
     },
     IconSetService,
     Title,

@@ -6,33 +6,22 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
   },
-  { title: true, name: 'User Management' },
   {
-    name: 'Normal User',
-    url: '/users',
+    name: 'User Management',
     iconComponent: { name: 'cil-user' },
     children: [
-      { name: 'View', url: '/users/view' },
-      { name: 'Create', url: '/users/create' },
+      { name: 'Portal Users', url: '/users/' },
+      { name: 'Admin Users', url: '/admins/' },
     ],
   },
   {
-    name: 'Admin',
-    url: '/admin/users',
-    iconComponent: { name: 'cil-user' },
-    children: [
-      { name: 'View', url: '/admin/users/view' },
-      { name: 'Create', url: '/admin/users/create' },
-    ],
-  },
-  { title: true, name: 'Address Management' },
-  {
-    name: 'Address',
-    url: '/adresses',
-    children: [
-      { name: 'View', url: '/address/view' },
-      { name: 'Create', url: '/address/create' },
-    ],
+    name: 'Address Management',
+    url: '/address/view',
+    iconComponent: { name: 'cil-pencil' },
+    // children: [
+    //   { name: 'View', url: '/address/view' },
+    //   { name: 'Create', url: '/address/create' },
+    // ],
   },
   // {
   //   name: 'Dashboard',

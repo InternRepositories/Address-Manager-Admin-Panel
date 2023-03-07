@@ -1,0 +1,150 @@
+<c-row>
+  <c-col xs>
+
+
+    <div class="manage-con">
+      <c-card style="width: 30rem;" cBorder="primary" textColor="" class="mb-3">
+        <c-card-header>Address Detail View</c-card-header>
+        <c-card-body>
+          <div *ngIf="address" class="address-con">
+            <h2 class="person_address"> {{user.first_name}} {{user.last_name}}</h2>
+            <h2>Address</h2>
+
+            <div class="address-img">
+              <img src="../../../../../assets/images/map.jpg" alt="">
+            </div>
+            <div class="address-info">
+
+              <h2>Address Info</h2>
+              <div class="line">
+                <p style="margin-right: .5rem;">Address Line 1:</p>
+                <p>{{address.address_1}}</p>
+
+              </div>
+              <div class="line">
+                <p style="margin-right: .5rem;">Address Line 2:</p>
+                <p>{{address.address_2}}</p>
+
+              </div>
+              <div class="line">
+                <p style="margin-right: .5rem;">City:</p>
+                <p>{{address.city}}</p>
+
+              </div>
+              <div class="line">
+                <p style="margin-right: .5rem;">Parish:</p>
+                <p>{{address.parish}}</p>
+
+              </div>
+
+              <div class="line">
+                <p style="margin-right: .5rem;">Status:</p>
+                <p>{{address.status}}</p>
+
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+
+
+
+        </c-card-body>
+      </c-card>
+
+
+      <c-accordion *ngIf="user" style="width: 33rem;">
+        <c-accordion-item #item0="cAccordionItem" [visible]="false">
+          <ng-template cTemplateId="accordionHeaderTemplate">
+            <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
+              Add New Address
+            </button>
+          </ng-template>
+          <ng-template cTemplateId="accordionBodyTemplate">
+            <div class="accordion-body">
+              <c-card class=" mb-4">
+                <c-card-header>address Form</c-card-header>
+                <c-card-body>
+                  <form cForm [formGroup]="addressForm" (submit)="onSubmit()">
+                    <div class="field-con">
+                      <div class="form-field" style="margin-right: 2rem;">
+                        <label cLabel for="">address Line 1</label>
+                        <input cFormControl formControlName="address_1" name="address_1" placeholder="123 Riverdale Ave" type="text" />
+                        <div class="error-con" *ngIf="addressForm.get('address_1')?.touched || submitted">
+                          <span *ngIf="addressForm.get('address_1')?.hasError('required')" class="error">address 1 required</span>
+                          <span *ngIf="addressForm.get('address_1')?.hasError('minlength')" class="error">min length of 10 required</span>
+                          <span *ngIf="addressForm.get('address_1')?.hasError('maxlength')" class="error">max length of 25 exceeded</span>
+                          <!-- <span *ngIf="addressForm.get('address_1')?.hasError('pattern')" class="error">only letters or digits permitted</span> -->
+                        </div>
+                      </div>
+                      <div class="form-field">
+                        <label cLabel for="">address Line 2</label>
+                        <input cFormControl name="address_2" formControlName="address_2" placeholder="Kingston 12" type="text" />
+                        <div class="error-con" *ngIf="addressForm.get('address_2')?.touched || submitted">
+                          <span *ngIf="addressForm.get('address_2')?.hasError('minlength')" class="error">min length of 10 required</span>
+                          <span *ngIf="addressForm.get('address_2')?.hasError('maxlength')" class="error">max length of 25 exceeded</span>
+                          <!-- <span *ngIf="addressForm.get('address_1')?.hasError('pattern')" class="error">only letters or digits permitted</span> -->
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+                    <input type="hidden" name="user_id" [(ngModel)]="user._id" formControlName="user_id">
+                    <div class="form-field">
+                      <label cLabel for="">Select City</label>
+                      <input cFormControl name="city" formControlName="city" placeholder="example city" type="text" />
+
+                      <div class="error-con" *ngIf="addressForm.get('city')?.touched || submitted ">
+                        <span *ngIf="addressForm.get('city')?.hasError('required')" class="error">Please Select a city</span>
+                        <span *ngIf="addressForm.get('city')?.hasError('minlength')" class="error">min length of 10 required</span>
+                        <span *ngIf="addressForm.get('city')?.hasError('maxlength')" class="error">max length of 25 exceeded</span>
+                        <!-- <span *ngIf="addressForm.get('address_1')?.hasError('pattern')" class="error">only letters or digits permitted</span> -->
+                      </div>
+                    </div>
+                    <div>
+                      <label class="select-label" cLabel for="">Select Status</label>
+                      <select class="parish-select" formControlName="status" aria-label="Default select example" name="status" cSelect>
+                        <option value="" selected disabled>--Select Status--</option>
+                        <option *ngFor="let status of statuses" value="{{status}}">{{status}}</option>
+                      </select>
+                      <div class="error-con" *ngIf="addressForm.get('status')?.touched || submitted">
+                        <span *ngIf="addressForm.get('status')?.hasError('required')" class="error">Please Select A Status</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="select-label" cLabel for="">Select Parish</label>
+                      <select class="parish-select" formControlName="parish" aria-label="Default select example" name="parish" cSelect>
+                        <option value="" selected disabled>--Select Parish--</option>
+                        <option *ngFor="let parish of parishes" value="{{parish._id}}">{{parish.parishName}}</option>
+                      </select>
+                      <div class="error-con" *ngIf="addressForm.get('parish')?.touched || submitted ">
+                        <span *ngIf="addressForm.get('parish')?.hasError('required')" class="error">Please Select A parish</span>
+                      </div>
+                    </div>
+
+
+                    <div class="button-flex">
+
+                      <button style="width: 8rem;" type="submit" class="mb-2 add-btn" cButton color="primary">save</button>
+                    </div>
+                  </form>
+
+                </c-card-body>
+              </c-card>
+
+            </div>
+          </ng-template>
+        </c-accordion-item>
+
+      </c-accordion>
+
+
+    </div>
+
+  </c-col>
+</c-row>
